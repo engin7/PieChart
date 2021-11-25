@@ -48,9 +48,9 @@ class PieChartView: UIView {
             
             let c = CGPoint(x: 0.5*frame.width, y: 0.5*frame.height)
             
-            let angle = c.angle(to: location)
+            touchAngle = c.angle(to: location)
 
-            highlight(angle)
+            highlight(touchAngle)
             
         }
     }
@@ -96,13 +96,14 @@ class PieChartView: UIView {
     var strokeWidth: CGFloat = 0
     var borderColor = UIColor.black
     var radius: CGFloat = 0
+    var touchAngle: CGFloat = 90
+    var flag = false
     
     override func draw(_ rect: CGRect) {
         guard let context = UIGraphicsGetCurrentContext() else { return }
          
         
         let center = CGPoint(x: 0.5*rect.width, y: 0.5*rect.height)
-        radius = min(0.5*rect.width - 20, 0.5*rect.height - 20) - 0.5 * strokeWidth
         
         var accumulatedAngle: CGFloat = -0.5 * CGFloat.pi
         var i: Int = 0
@@ -112,14 +113,26 @@ class PieChartView: UIView {
         
         data.forEach { (key, value) in
             let angle = value * 2 * CGFloat.pi
+            
+            let startAngle =  -accumulatedAngle
+            let endAngle =  (startAngle - angle)
+            print("###")
+            print(startAngle.degreesPositive)
+            print(endAngle.degreesPositive)
+            print("#touch#")
+            print(touchAngle)
+            
             // create path
             let path = CGMutablePath()
             path.move(to: CGPoint())
             
+            let inBeetween: Bool = (touchAngle > startAngle.degreesPositive && touchAngle < endAngle.degreesPositive) || (touchAngle < startAngle.degreesPositive && touchAngle > endAngle.degreesPositive)
             
-                      if i == 4 {
-                          radius += 15
-                      }
+              if inBeetween {
+                  radius = min(0.5*rect.width - 5, 0.5*rect.height - 5) - 0.5 * strokeWidth
+              } else {
+                  radius = min(0.5*rect.width - 20, 0.5*rect.height - 20) - 0.5 * strokeWidth
+              }
             
             path.addLine(to: CGPoint(x: radius, y: 0))
             path.addRelativeArc(
@@ -142,14 +155,14 @@ class PieChartView: UIView {
 
             context.strokePath()
                
-            let startAngle =  -accumulatedAngle
-            let endAngle =  (startAngle - angle)
-            
-            let midPointAngle = ((startAngle + endAngle) / 2.0)
-            let midPoint = CGPoint(x: center.x + 0.7 * radius * cos(midPointAngle), y: center.y - 0.7 * radius * sin(midPointAngle))
+        
+            if !flag {
+                let midPointAngle = ((startAngle + endAngle) / 2.0)
+                let midPoint = CGPoint(x: center.x + 0.7 * radius * cos(midPointAngle), y: center.y - 0.7 * radius * sin(midPointAngle))
+                
+                addLabel(midPoint, key)
+            }
            
-            addLabel(midPoint, key)
-   
             context.restoreGState()
  
             accumulatedAngle += angle
@@ -157,19 +170,12 @@ class PieChartView: UIView {
         }
         let _tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(tapGestureRecognized(_:)))
         self.addGestureRecognizer(_tapGestureRecognizer)
+        flag = true
     }
     
     func highlight(_ touch: CGFloat) {
-         
         print(touch)
-        
         setNeedsDisplay()
-       
-        
-        guard let context = UIGraphicsGetCurrentContext() else { return }
-        
-         
-        
     }
     
     
@@ -221,6 +227,17 @@ extension CGFloat {
     var degrees: CGFloat {
         return self * CGFloat(180) / .pi
     }
+    
+    var degreesPositive: CGFloat {
+        
+        var d = self * CGFloat(180) / .pi
+        while d < 0 {
+            d += 360
+        }
+        
+        return d
+    }
+    
 }
 
 extension CGPoint {
