@@ -53,7 +53,7 @@ class PieChartView: UIView {
         
         data.forEach { (key, value) in
             let angle = value * 2 * CGFloat.pi
-            
+            // create path
             let path = CGMutablePath()
             path.move(to: CGPoint())
             path.addLine(to: CGPoint(x: radius, y: 0))
@@ -68,17 +68,40 @@ class PieChartView: UIView {
             
             context.translateBy(x: center.x, y: center.y)
             context.rotate(by: accumulatedAngle)
-            
+            // draw
+
             context.addPath(path)
             colors[i].setFill()
             context.fillPath()
             context.addPath(path)
+
             context.strokePath()
+              
+            let startAngle =  -accumulatedAngle
+            let endAngle =  (startAngle - angle)
             
+            let midPointAngle = ((startAngle + endAngle) / 2.0)
+            let midPoint = CGPoint(x: center.x + 0.7 * radius * cos(midPointAngle), y: center.y - 0.7 * radius * sin(midPointAngle))
+           
+            addLabel(midPoint, key)
+  
             context.restoreGState()
-            
+ 
             accumulatedAngle += angle
             i = i >= colors.count ? 0 : i + 1
         }
     }
+    
+    
+    func addLabel(_ midPoint: CGPoint, _ title: String) {
+            let label = UILabel()
+            label.text = title
+            label.translatesAutoresizingMaskIntoConstraints = false
+            addSubview(label)
+        
+            label.centerXAnchor.constraint(equalTo: leadingAnchor, constant: midPoint.x).isActive = true
+            label.centerYAnchor.constraint(equalTo: topAnchor, constant: midPoint.y).isActive = true
+    }
+    
+    
 }
