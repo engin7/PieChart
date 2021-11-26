@@ -12,9 +12,12 @@ class PieChartView: UIView {
     
     private var data: [(String, CGFloat)] = []
         
-    func set(data: [String:Float]) {
-        let sum = data.compactMap{ $0.value }.reduce(0, +)
-        self.data = sum == 0 ? data.map{ ($0.0, CGFloat($0.1)) } : data.map{ ($0.0, CGFloat($0.1 / sum)) }.sorted(by: { $0.1 > $1.1 })
+    func set(data: SeriesDataSet) {
+         
+        let series = data.seriesPoints
+        let sum = series.compactMap{ $0.value }.reduce(0, +)
+        
+        self.data = sum == 0 ? series.map{ ($0.label, CGFloat($0.value)) } : series.map{ ($0.label, CGFloat($0.value / sum)) } 
     }
     
     // MARK: - Initializers
