@@ -113,19 +113,18 @@ class PieChartView: UIView {
             let angle = value * 2 * CGFloat.pi
             radius = min(0.5*rect.width - 10, 0.5*rect.height - 10) - 0.5 * strokeWidth
 
-            let startAngle =  accumulatedAngle
-            let endAngle =  -(startAngle - angle)
+            let startAngle = -accumulatedAngle
+            let endAngle =  startAngle - angle
       
-            let convertedStartAngle =  accumulatedAngle
-            let convertedEndAngle = -(startAngle - angle)
+            let convertedStartAngle =  accumulatedAngle + 0.5 * CGFloat.pi
+            let convertedEndAngle = 0.5 * CGFloat.pi + accumulatedAngle + angle
 
-           print(angle)
-//
-//            print("### \(i)")
-//            print(startAngle.degrees)
-//            print(endAngle.degrees)
-//            print("#touch#")
-//
+            
+            print("### \(i)")
+            print(convertedStartAngle.degrees)
+            print(convertedEndAngle.degrees)
+            print("#touch#")
+
             // create path
             let path = CGMutablePath()
             path.move(to: CGPoint())
@@ -133,11 +132,11 @@ class PieChartView: UIView {
             
             var inBeetween: Bool = false
             
-            print("#anlges## \(i)")
+//            print("#anlges## \(i)")
             
             let touchAngle =  atan2(center.y - touchPoint.y, touchPoint.x - center.x).degrees
             
-            print(touchAngle)
+//            print(touchAngle)
             
             if touchPoint != CGPoint.zero {
                 if (touchAngle > startAngle.degrees && touchAngle < endAngle.degrees) || (touchAngle < startAngle.degrees && touchAngle > endAngle.degrees) {
