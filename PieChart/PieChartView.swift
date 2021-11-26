@@ -48,10 +48,8 @@ class PieChartView: UIView {
             
             let c = CGPoint(x: 0.5*frame.width, y: 0.5*frame.height)
             
-            touchAngle = c.angle(to: location)
-
-            highlight(touchAngle)
-            
+            touchPoint = location
+            setNeedsDisplay()
         }
     }
     
@@ -96,7 +94,7 @@ class PieChartView: UIView {
     var strokeWidth: CGFloat = 0
     var borderColor = UIColor.black
     var radius: CGFloat = 0
-    var touchAngle: CGFloat = 90
+    var touchPoint: CGPoint = CGPoint.zero
     var flag = false
     
     override func draw(_ rect: CGRect) {
@@ -113,25 +111,45 @@ class PieChartView: UIView {
         
         data.forEach { (key, value) in
             let angle = value * 2 * CGFloat.pi
-            
-            let startAngle =  -accumulatedAngle
-            let endAngle =  (startAngle - angle)
-            print("###")
-            print(startAngle.degreesPositive)
-            print(endAngle.degreesPositive)
-            print("#touch#")
-            print(touchAngle)
-            
+            radius = min(0.5*rect.width - 10, 0.5*rect.height - 10) - 0.5 * strokeWidth
+
+            let startAngle =  accumulatedAngle
+            let endAngle =  -(startAngle - angle)
+      
+            let convertedStartAngle =  accumulatedAngle
+            let convertedEndAngle = -(startAngle - angle)
+
+           print(angle)
+//
+//            print("### \(i)")
+//            print(startAngle.degrees)
+//            print(endAngle.degrees)
+//            print("#touch#")
+//
             // create path
             let path = CGMutablePath()
             path.move(to: CGPoint())
             
-            let inBeetween: Bool = (touchAngle > startAngle.degreesPositive && touchAngle < endAngle.degreesPositive) || (touchAngle < startAngle.degreesPositive && touchAngle > endAngle.degreesPositive)
             
+            var inBeetween: Bool = false
+            
+            print("#anlges## \(i)")
+            
+            let touchAngle =  atan2(center.y - touchPoint.y, touchPoint.x - center.x).degrees
+            
+            print(touchAngle)
+            
+            if touchPoint != CGPoint.zero {
+                if (touchAngle > startAngle.degrees && touchAngle < endAngle.degrees) || (touchAngle < startAngle.degrees && touchAngle > endAngle.degrees) {
+                    inBeetween = true
+                }
+            }
+          
+       
               if inBeetween {
-                  radius = min(0.5*rect.width - 5, 0.5*rect.height - 5) - 0.5 * strokeWidth
+                  radius = min(0.5*rect.width, 0.5*rect.height) - 0.5 * strokeWidth
               } else {
-                  radius = min(0.5*rect.width - 20, 0.5*rect.height - 20) - 0.5 * strokeWidth
+                  radius = min(0.5*rect.width - 10, 0.5*rect.height - 10) - 0.5 * strokeWidth
               }
             
             path.addLine(to: CGPoint(x: radius, y: 0))
@@ -172,14 +190,7 @@ class PieChartView: UIView {
         self.addGestureRecognizer(_tapGestureRecognizer)
         flag = true
     }
-    
-    func highlight(_ touch: CGFloat) {
-        print(touch)
-        setNeedsDisplay()
-    }
-    
-    
-    
+     
     func addLabel(_ midPoint: CGPoint, _ title: String) {
             let label = UILabel()
             label.text = title
@@ -221,36 +232,16 @@ class PieChartView: UIView {
             return scaledPath!
         }
 }
-
+ 
 
 extension CGFloat {
     var degrees: CGFloat {
-        return self * CGFloat(180) / .pi
-    }
-    
-    var degreesPositive: CGFloat {
-        
-        var d = self * CGFloat(180) / .pi
+        var d =  self * CGFloat(180) / .pi
         while d < 0 {
             d += 360
         }
-        
+
         return d
     }
-    
 }
-
-extension CGPoint {
-    func angle(to comparisonPoint: CGPoint) -> CGFloat {
-        let originX = comparisonPoint.x - x
-        let originY = y - comparisonPoint.y
-        let bearingRadians = atan2f(Float(originY), Float(originX))
-        var bearingDegrees = CGFloat(bearingRadians).degrees
-
-        while bearingDegrees < 0 {
-            bearingDegrees += 360
-        }
-
-        return bearingDegrees
-    }
-}
+ 
