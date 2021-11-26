@@ -55,10 +55,24 @@ required init?(coder aDecoder: NSCoder) {
         borderColor.setStroke()
         context.setLineWidth(strokeWidth)
         
+        // draw axis
+        let path = UIBezierPath()
+        path.move(to: CGPoint(x: 75.0, y: 0))
+        path.addLine(to: CGPoint(x: rect.width, y: 0))
+        path.move(to: CGPoint(x: 75.0, y: 0))
+        path.addLine(to: CGPoint(x: 75.0, y: rect.height))
+        
+        let shapeLayer = CAShapeLayer()
+        shapeLayer.path = path.cgPath
+        shapeLayer.strokeColor =  UIColor.lightGray.cgColor
+        shapeLayer.lineWidth = 1
+        
+        layer.addSublayer(shapeLayer)
+        
         data.forEach { (key, value) in
             
             let sectionWidth = value * maxWidth
-            let yValue: CGFloat = (CGFloat(i) * division) + 20.0
+            let yValue: CGFloat = (CGFloat(i) * division) + 30.0
 
             // create path
             let path = UIBezierPath()
@@ -93,7 +107,7 @@ required init?(coder aDecoder: NSCoder) {
             label.translatesAutoresizingMaskIntoConstraints = false
             addSubview(label)
         
-            label.leadingAnchor.constraint(equalTo: leadingAnchor, constant: leftPoint.x + 10).isActive = true
+            label.leadingAnchor.constraint(equalTo: leadingAnchor, constant: leftPoint.x + 5).isActive = true
             label.centerYAnchor.constraint(equalTo: topAnchor, constant: leftPoint.y).isActive = true
     }
 
