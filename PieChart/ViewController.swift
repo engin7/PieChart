@@ -9,7 +9,7 @@ import UIKit
 
 class ViewController: UIViewController
 {
-    let pieChart = PieChartView(
+    let pieChart = HorizontalChart(
         frame: CGRect(x: 0, y:0, width: 100, height: 15),
         colors: [.yellow, .red, .orange, .brown, .purple],
         strokeWidth: 0)
@@ -35,8 +35,8 @@ class ViewController: UIViewController
         pieChart.translatesAutoresizingMaskIntoConstraints = false
         pieChart.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
         pieChart.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
-        pieChart.widthAnchor.constraint(equalToConstant: 300).isActive = true
-        pieChart.heightAnchor.constraint(equalToConstant: 300).isActive = true
+        pieChart.widthAnchor.constraint(equalToConstant: 350).isActive = true
+        pieChart.heightAnchor.constraint(equalToConstant: 350).isActive = true
     }
 }
 

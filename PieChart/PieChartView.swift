@@ -208,37 +208,7 @@ class PieChartView: UIView {
             label.centerXAnchor.constraint(equalTo: leadingAnchor, constant: midPoint.x).isActive = true
             label.centerYAnchor.constraint(equalTo: topAnchor, constant: midPoint.y).isActive = true
     }
-    
-    func resizepath(_ frame: CGRect , _ path: CGPath) -> CGPath{
-
-
-                let boundingBox = path.boundingBox
-                let boundingBoxAspectRatio = boundingBox.width / boundingBox.height
-                let viewAspectRatio = frame.width  / frame.height
-                var scaleFactor : CGFloat = 1.5
-                if (boundingBoxAspectRatio > viewAspectRatio) {
-                    // Width is limiting factor
-
-                    scaleFactor = frame.width / boundingBox.width
-                } else {
-                    // Height is limiting factor
-                    scaleFactor = frame.height / boundingBox.height
-                }
-
-
-                var scaleTransform = CGAffineTransform.identity
-                scaleTransform = scaleTransform.scaledBy(x: scaleFactor, y: scaleFactor)
-                scaleTransform.translatedBy(x: -boundingBox.minX, y: -boundingBox.minY)
-
-            let scaledSize = boundingBox.size.applying(CGAffineTransform (scaleX: scaleFactor, y: scaleFactor))
-           let centerOffset = CGSize(width: (frame.width - scaledSize.width ) / scaleFactor * 2.0, height: (frame.height - scaledSize.height) /  scaleFactor * 2.0 )
-            scaleTransform = scaleTransform.translatedBy(x: centerOffset.width, y: centerOffset.height)
-            //CGPathCreateCopyByTransformingPath(path, &scaleTransform)
-            let  scaledPath = path.copy(using: &scaleTransform)
-
-
-            return scaledPath!
-        }
+ 
 }
  
 
