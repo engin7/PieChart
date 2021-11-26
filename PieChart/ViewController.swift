@@ -19,11 +19,12 @@ class ViewController: UIViewController
         
         let seriesPoints: [AxisData] = [
             AxisData(index: 0, label: "apples", value: 200),
-            AxisData(index: 0, label: "cherries", value: 100),
-            AxisData(index: 0, label: "oranges", value: 50),
-            AxisData(index: 0, label: "peaches", value: 120),
-            AxisData(index: 0, label: "pears", value: 10)
+            AxisData(index: 1, label: "cherries", value: 100),
+            AxisData(index: 2, label: "oranges", value: 50),
+            AxisData(index: 3, label: "peaches", value: 120),
+            AxisData(index: 4, label: "pears", value: 10)
         ]
+         
         let dataSet: SeriesDataSet = SeriesDataSet(seriesName: "Fruits in inventory", seriesPoints: seriesPoints)
         
        
