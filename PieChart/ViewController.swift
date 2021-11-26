@@ -12,7 +12,7 @@ class ViewController: UIViewController
     let pieChart = PieChartView(
         frame: CGRect(x: 0, y:0, width: 100, height: 15),
         colors: [.blue, .red, .green, .yellow, .purple],
-        strokeWidth: 0.5)
+        strokeWidth: 0)
     
     override func viewDidLoad() {
         super.viewDidLoad()

@@ -146,9 +146,9 @@ class PieChartView: UIView {
           
        
               if inBeetween {
-                  radius = min(0.5*rect.width, 0.5*rect.height) - 0.5 * strokeWidth
-              } else {
                   radius = min(0.5*rect.width - 10, 0.5*rect.height - 10) - 0.5 * strokeWidth
+              } else {
+                  radius = min(0.5*rect.width - 20, 0.5*rect.height - 20) - 0.5 * strokeWidth
               }
             
             path.addLine(to: CGPoint(x: radius, y: 0))
@@ -167,6 +167,14 @@ class PieChartView: UIView {
 
             context.addPath(path)
             colors[i].setFill()
+            
+            /// Shadow Declarations
+            let shadowOffset = CGSize(width: 1, height: 1)
+            let shadowBlurRadius: CGFloat = 5
+            
+            context.setShadow(offset: shadowOffset, blur: shadowBlurRadius,  color: UIColor.black.cgColor)
+ 
+            
             context.fillPath()
             context.addPath(path)
 
@@ -179,7 +187,7 @@ class PieChartView: UIView {
                 
                 addLabel(midPoint, key)
             }
-           
+            
             context.restoreGState()
  
             accumulatedAngle += angle
