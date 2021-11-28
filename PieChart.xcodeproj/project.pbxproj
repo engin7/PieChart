@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		10B49FA22753E582005D06EE /* VerticalChart.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10B49FA12753E582005D06EE /* VerticalChart.swift */; };
 		28C987D4274F906100AFE662 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28C987D3274F906100AFE662 /* AppDelegate.swift */; };
 		28C987D6274F906100AFE662 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28C987D5274F906100AFE662 /* SceneDelegate.swift */; };
 		28C987D8274F906100AFE662 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28C987D7274F906100AFE662 /* ViewController.swift */; };
@@ -18,6 +19,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		10B49FA12753E582005D06EE /* VerticalChart.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VerticalChart.swift; sourceTree = "<group>"; };
 		28C987D0274F906100AFE662 /* PieChart.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PieChart.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		28C987D3274F906100AFE662 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		28C987D5274F906100AFE662 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -65,6 +67,7 @@
 				28C987D7274F906100AFE662 /* ViewController.swift */,
 				28C987E7274F911000AFE662 /* PieChartView.swift */,
 				28F505F02751185C004F9637 /* HorizontalChart.swift */,
+				10B49FA12753E582005D06EE /* VerticalChart.swift */,
 				28C987D9274F906100AFE662 /* Main.storyboard */,
 				28C987DC274F906600AFE662 /* Assets.xcassets */,
 				28C987DE274F906600AFE662 /* LaunchScreen.storyboard */,
@@ -146,6 +149,7 @@
 			files = (
 				28C987E8274F911000AFE662 /* PieChartView.swift in Sources */,
 				28F505F12751185C004F9637 /* HorizontalChart.swift in Sources */,
+				10B49FA22753E582005D06EE /* VerticalChart.swift in Sources */,
 				28C987D8274F906100AFE662 /* ViewController.swift in Sources */,
 				28C987D4274F906100AFE662 /* AppDelegate.swift in Sources */,
 				28C987D6274F906100AFE662 /* SceneDelegate.swift in Sources */,
