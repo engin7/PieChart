@@ -92,8 +92,7 @@ class VerticalGroupedChart: UIView {
             mData.forEach { _, value in
 
                 let sectionHeight = value * maxHeight
-                let rate =  division / CGFloat(data.count)
-                let groupGap = CGFloat(j) * rate * 0.7
+                let groupGap = CGFloat(j) * division / CGFloat(mData.count) * 0.7
                 let itemGap = CGFloat(i) * division * 0.9
                 let xValue: CGFloat = itemGap + groupGap + 60
                 // create path
@@ -109,7 +108,7 @@ class VerticalGroupedChart: UIView {
 
                 shapeLayer.shadowColor = UIColor.black.cgColor
                 shapeLayer.shadowOpacity = 1
-                shapeLayer.shadowOffset = CGSize(width: 2.0, height: 0.0)
+                shapeLayer.shadowOffset = CGSize(width: 2.0, height: -2.0)
                 shapeLayer.shadowRadius = 4
 
                 layer.addSublayer(shapeLayer)
