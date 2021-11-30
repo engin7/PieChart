@@ -91,12 +91,22 @@ class VerticalStackedChart: ChartView {
                 
                 let xValue: CGFloat = itemGap + 30
                 // create path
-                let shapeBounds = CGRect(x: xValue - thickness / 2, y: rect.height - 50 - sectionHeight - heightOffset, width: thickness, height: sectionHeight)
-                let path = UIBezierPath(roundedRect: shapeBounds,
-                                        byRoundingCorners: [.topLeft, .topRight],
-                                        cornerRadii: CGSize(width: thickness / 2, height: thickness / 2))
-              
+                let path: UIBezierPath
                 let shapeLayer = CAShapeLayer()
+
+                if j == mData.count - 1 {
+                    let shapeBounds = CGRect(x: xValue - thickness / 2, y: rect.height - 50 - sectionHeight - heightOffset, width: thickness, height: sectionHeight)
+                    path = UIBezierPath(roundedRect: shapeBounds,
+                                            byRoundingCorners: [.topLeft, .topRight],
+                                            cornerRadii: CGSize(width: thickness / 2, height: thickness / 2))
+                } else {
+                    
+                    path = UIBezierPath()
+                    path.move(to: CGPoint(x: xValue, y: rect.height - 50 - sectionHeight - heightOffset))
+                    path.addLine(to: CGPoint(x: xValue, y: rect.height - 50 - heightOffset))
+                    shapeLayer.lineWidth = thickness
+                }
+                 
                 shapeLayer.path = path.cgPath
                 shapeLayer.strokeColor = colors[j].cgColor
                 shapeLayer.fillColor = colors[j].cgColor
