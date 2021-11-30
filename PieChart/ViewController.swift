@@ -57,7 +57,7 @@ class ViewController: UIViewController
         scrollView.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 50).isActive = true
         scrollView.topAnchor.constraint(equalTo: view.topAnchor, constant: 150.0).isActive = true
         scrollView.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -16.0).isActive = true
-        scrollView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -150.0).isActive = true
+        scrollView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -160.0).isActive = true
 
         // add labelOne to the scroll view
         scrollView.addSubview(chart)
