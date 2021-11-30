@@ -145,30 +145,3 @@ class VerticalGroupedChart: UIView {
 }
 
 
-
-// Global Methods
-
-func roundToNumber(_ x : Double, roundTo: Double) -> Int {
-    return Int(roundTo) * Int(round(x / roundTo))
-}
-
-func addValues(_ maxValue: Double, _ view: UIView) {
-    
-    let labelCount: Int =  UIDevice.current.userInterfaceIdiom == .pad ? 8 : 3
-    let rate: Int =  roundToNumber(maxValue / Double(labelCount + 1), roundTo: 5)
-    let startPoint = CGPoint(x:35.0, y: view.bounds.height - 50 )
-    let offSet = view.bounds.height / CGFloat(labelCount + 1)
-    
-    for i in 1...labelCount {
-        
-        let label = UILabel()
-        label.font = label.font.withSize(12)
-        label.text = String(rate * i) + " -"
-        label.translatesAutoresizingMaskIntoConstraints = false
-        view.addSubview(label)
-
-        label.trailingAnchor.constraint(equalTo: view.leadingAnchor, constant: startPoint.x).isActive = true
-        label.topAnchor.constraint(equalTo: view.topAnchor, constant: startPoint.y - (offSet * CGFloat(i))).isActive = true
-    }
-     
-}

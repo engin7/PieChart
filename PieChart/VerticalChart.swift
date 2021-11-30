@@ -12,9 +12,11 @@ class VerticalChart: UIView {
 
 private var data: [(String, CGFloat)] = []
 private var sum: Double = 0
+private var presentingVC: ViewController!
     
-func set(dataSet: [SeriesDataSet]) {
+func set(dataSet: [SeriesDataSet], presentingVC: ViewController) {
     guard let seriesData = dataSet.first else { return }
+    self.presentingVC = presentingVC
     let series = seriesData.seriesPoints.sorted(by: { $0.index <  $1.index })
     sum = series.compactMap{ $0.value }.reduce(0, +)
     self.data = sum == 0 ? series.map{ ($0.label, CGFloat($0.value)) } : series.map{ ($0.label, CGFloat($0.value / sum)) }
@@ -24,13 +26,10 @@ func set(dataSet: [SeriesDataSet]) {
 
 init(frame: CGRect, colors: [UIColor]? = nil, strokeWidth: CGFloat = 0, borderColor: UIColor = .black) {
     super.init(frame: frame)
-    
     self.colors = colors ?? self.colors
     self.strokeWidth = strokeWidth
     self.borderColor = borderColor
-    
     self.backgroundColor = .clear
-     
 }
 
 required init?(coder aDecoder: NSCoder) {
@@ -51,7 +50,7 @@ required init?(coder aDecoder: NSCoder) {
         let maxHeight = (rect.height / maxRatio) - 250
         
         let maxValue: Double = maxRatio * sum
-        addValues(maxValue, self)
+        addValues(maxValue, presentingVC.view)
         
         let division = (rect.width / CGFloat(data.count))
         let thickness = 0.4 * division
@@ -65,7 +64,7 @@ required init?(coder aDecoder: NSCoder) {
             
             let yMax = rect.height - 50
             let sectionHeight = value * maxHeight
-            let xValue: CGFloat = (CGFloat(i) * division * 0.9) + 70.0
+            let xValue: CGFloat = (CGFloat(i) * division * 0.9) + 30.0
 
             // create path
             let path = UIBezierPath()
@@ -80,8 +79,8 @@ required init?(coder aDecoder: NSCoder) {
             
             shapeLayer.shadowColor = UIColor.black.cgColor
             shapeLayer.shadowOpacity = 1
-            shapeLayer.shadowOffset = CGSize(width:1.0, height:-1.0)
-            shapeLayer.shadowRadius = 4
+            shapeLayer.shadowOffset = CGSize(width:1.0, height:-2.0)
+            shapeLayer.shadowRadius = 2
     
             
             layer.addSublayer(shapeLayer)
@@ -92,18 +91,18 @@ required init?(coder aDecoder: NSCoder) {
             i = i >= colors.count ? 0 : i + 1
         }
     
+        drawAxis(vc: presentingVC)
+        
         // draw axis
         let path = UIBezierPath()
-        path.move(to: CGPoint(x: 40.0, y: rect.height - 50))
+        path.move(to: CGPoint(x: 0, y: rect.height - 50))
         path.addLine(to: CGPoint(x: rect.width, y: rect.height - 50))
-        path.move(to: CGPoint(x: 40.0, y: 0))
-        path.addLine(to: CGPoint(x: 40.0, y: rect.height - 50))
-        
+ 
         let shapeLayer = CAShapeLayer()
         shapeLayer.path = path.cgPath
         shapeLayer.strokeColor =  UIColor.lightGray.cgColor
-        shapeLayer.lineWidth = 1
-        
+        shapeLayer.lineWidth = 2
+
         layer.addSublayer(shapeLayer)
     }
     
