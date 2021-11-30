@@ -47,9 +47,7 @@ class PieChartView: ChartView {
             
             let touchDistanceToCenter = distanceToCenter(location)
             guard touchDistanceToCenter <= radius else  { return } // outside the chart
-            
-            let c = CGPoint(x: 0.5*frame.width, y: 0.5*frame.height)
-            
+                        
             touchPoint = location
             setNeedsDisplay()
         }
@@ -121,11 +119,6 @@ class PieChartView: ChartView {
             let convertedStartAngle =  (accumulatedAngle + 0.5 * CGFloat.pi).degrees
             let convertedEndAngle = (0.5 * CGFloat.pi + accumulatedAngle + angle).degrees
  
-//            print("### \(i)")
-//            print(convertedStartAngle.degrees)
-//            print(convertedEndAngle.degrees)
-//            print("#touch#")
-
             // create path
             let path = CGMutablePath()
             path.move(to: CGPoint())
