@@ -61,7 +61,7 @@ class VerticalGroupedChart: UIView {
         let maxRatio = multiData.compactMap { $0.1 }.max() ?? 1.0
 
         let maxValue: Double = maxRatio * sum
-        addValues(maxValue)
+        addValues(maxValue, self)
         
         let maxHeight = (rect.height / maxRatio) - 350
         let division = (rect.width / CGFloat(multiData.count / data[0].1.count))
@@ -141,34 +141,34 @@ class VerticalGroupedChart: UIView {
         label.centerXAnchor.constraint(equalTo: leadingAnchor, constant: leftPoint.x).isActive = true
         label.topAnchor.constraint(equalTo: topAnchor, constant: leftPoint.y + 30).isActive = true
     }
-    
-    func roundToNumber(_ x : Double, roundTo: Double) -> Int {
-        return Int(roundTo) * Int(round(x / roundTo))
-    }
-    
-    func addValues(_ maxValue: Double) {
-        
-        let labelCount: Int =  UIDevice.current.userInterfaceIdiom == .pad ? 8 : 3
-        let rate: Int =  roundToNumber(maxValue / Double(labelCount + 1), roundTo: 5)
-        let startPoint = CGPoint(x:35.0, y: bounds.height - 50 )
-        let offSet = bounds.height / CGFloat(labelCount + 1)
-        
-        for i in 1...labelCount {
-            
-            let label = UILabel()
-            label.font = label.font.withSize(12)
-            label.text = String(rate * i) + " -"
-            label.translatesAutoresizingMaskIntoConstraints = false
-            addSubview(label)
+     
+}
 
-            label.trailingAnchor.constraint(equalTo: leadingAnchor, constant: startPoint.x).isActive = true
-            label.topAnchor.constraint(equalTo: topAnchor, constant: startPoint.y - (offSet * CGFloat(i))).isActive = true
-        }
+
+
+// Global Methods
+
+func roundToNumber(_ x : Double, roundTo: Double) -> Int {
+    return Int(roundTo) * Int(round(x / roundTo))
+}
+
+func addValues(_ maxValue: Double, _ view: UIView) {
+    
+    let labelCount: Int =  UIDevice.current.userInterfaceIdiom == .pad ? 8 : 3
+    let rate: Int =  roundToNumber(maxValue / Double(labelCount + 1), roundTo: 5)
+    let startPoint = CGPoint(x:35.0, y: view.bounds.height - 50 )
+    let offSet = view.bounds.height / CGFloat(labelCount + 1)
+    
+    for i in 1...labelCount {
         
-       
-        
+        let label = UILabel()
+        label.font = label.font.withSize(12)
+        label.text = String(rate * i) + " -"
+        label.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(label)
+
+        label.trailingAnchor.constraint(equalTo: view.leadingAnchor, constant: startPoint.x).isActive = true
+        label.topAnchor.constraint(equalTo: view.topAnchor, constant: startPoint.y - (offSet * CGFloat(i))).isActive = true
     }
-    
-    
-    
+     
 }

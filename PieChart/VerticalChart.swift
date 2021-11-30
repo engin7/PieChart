@@ -11,11 +11,12 @@ import UIKit
 class VerticalChart: UIView {
 
 private var data: [(String, CGFloat)] = []
+private var sum: Double = 0
     
 func set(dataSet: [SeriesDataSet]) {
     guard let seriesData = dataSet.first else { return }
     let series = seriesData.seriesPoints.sorted(by: { $0.index <  $1.index })
-    let sum = series.compactMap{ $0.value }.reduce(0, +)
+    sum = series.compactMap{ $0.value }.reduce(0, +)
     self.data = sum == 0 ? series.map{ ($0.label, CGFloat($0.value)) } : series.map{ ($0.label, CGFloat($0.value / sum)) }
 }
 
@@ -48,6 +49,10 @@ required init?(coder aDecoder: NSCoder) {
          
         let maxRatio = data.compactMap { $0.1 }.max() ?? 1.0
         let maxHeight = (rect.height / maxRatio) - 250
+        
+        let maxValue: Double = maxRatio * sum
+        addValues(maxValue, self)
+        
         let division = (rect.width / CGFloat(data.count))
         let thickness = 0.4 * division
         
@@ -113,4 +118,5 @@ required init?(coder aDecoder: NSCoder) {
             label.topAnchor.constraint(equalTo: topAnchor, constant: leftPoint.y + 30).isActive = true
     }
 
+    
 }
