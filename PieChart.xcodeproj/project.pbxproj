@@ -12,6 +12,7 @@
 		28B0281A27566BBA001AC958 /* Models.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28B0281927566BBA001AC958 /* Models.swift */; };
 		28B0281C27566BCF001AC958 /* GlobalMethods.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28B0281B27566BCF001AC958 /* GlobalMethods.swift */; };
 		28B0281E27568B90001AC958 /* HorizontalGroupedChart.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28B0281D27568B90001AC958 /* HorizontalGroupedChart.swift */; };
+		28B02820275693DF001AC958 /* VerticalStackedChart.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28B0281F275693DF001AC958 /* VerticalStackedChart.swift */; };
 		28B2640F2754BEB900ABEC74 /* VerticalGroupedChart.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28B2640E2754BEB900ABEC74 /* VerticalGroupedChart.swift */; };
 		28C987D4274F906100AFE662 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28C987D3274F906100AFE662 /* AppDelegate.swift */; };
 		28C987D6274F906100AFE662 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28C987D5274F906100AFE662 /* SceneDelegate.swift */; };
@@ -29,6 +30,7 @@
 		28B0281927566BBA001AC958 /* Models.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Models.swift; sourceTree = "<group>"; };
 		28B0281B27566BCF001AC958 /* GlobalMethods.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlobalMethods.swift; sourceTree = "<group>"; };
 		28B0281D27568B90001AC958 /* HorizontalGroupedChart.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HorizontalGroupedChart.swift; sourceTree = "<group>"; };
+		28B0281F275693DF001AC958 /* VerticalStackedChart.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerticalStackedChart.swift; sourceTree = "<group>"; };
 		28B2640E2754BEB900ABEC74 /* VerticalGroupedChart.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerticalGroupedChart.swift; sourceTree = "<group>"; };
 		28C987D0274F906100AFE662 /* PieChart.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PieChart.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		28C987D3274F906100AFE662 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -83,6 +85,7 @@
 				28B0281D27568B90001AC958 /* HorizontalGroupedChart.swift */,
 				10B49FA12753E582005D06EE /* VerticalChart.swift */,
 				28B2640E2754BEB900ABEC74 /* VerticalGroupedChart.swift */,
+				28B0281F275693DF001AC958 /* VerticalStackedChart.swift */,
 				28C987D9274F906100AFE662 /* Main.storyboard */,
 				28C987DC274F906600AFE662 /* Assets.xcassets */,
 				28C987DE274F906600AFE662 /* LaunchScreen.storyboard */,
@@ -166,6 +169,7 @@
 				28F505F12751185C004F9637 /* HorizontalChart.swift in Sources */,
 				28B0281827565734001AC958 /* ContainerViewController.swift in Sources */,
 				28B0281C27566BCF001AC958 /* GlobalMethods.swift in Sources */,
+				28B02820275693DF001AC958 /* VerticalStackedChart.swift in Sources */,
 				10B49FA22753E582005D06EE /* VerticalChart.swift in Sources */,
 				28C987D8274F906100AFE662 /* ViewController.swift in Sources */,
 				28C987D4274F906100AFE662 /* AppDelegate.swift in Sources */,

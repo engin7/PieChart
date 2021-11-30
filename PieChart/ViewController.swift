@@ -19,20 +19,17 @@ class ViewController: UIViewController {
     
     @IBAction func pieTouched(_ sender: Any) {
         let dataSet = ChartDataSet(ChartType: .Pie, data: globaChartData)
-        vc.chartDataSet = dataSet
-        self.navigationController?.pushViewController(vc, animated: true)
+        pushVC(with: dataSet)
     }
     
     @IBAction func horizontalTouched(_ sender: Any) {
         let dataSet = ChartDataSet(ChartType: .Horizontal, data: globaChartData)
-        vc.chartDataSet = dataSet
-        self.navigationController?.pushViewController(vc, animated: true)
+        pushVC(with: dataSet)
     }
     
     @IBAction func horizontalGroupedTouched(_ sender: Any) {
         let dataSet = ChartDataSet(ChartType: .HorizontalGrouped, data: globaChartData)
-        vc.chartDataSet = dataSet
-        self.navigationController?.pushViewController(vc, animated: true)
+        pushVC(with: dataSet)
     }
     
     @IBAction func horizontalStackedTouched(_ sender: Any) {
@@ -40,18 +37,23 @@ class ViewController: UIViewController {
     
     @IBAction func verticalTouched(_ sender: Any) {
         let dataSet = ChartDataSet(ChartType: .Vertical, data: globaChartData)
-        vc.chartDataSet = dataSet
-        self.navigationController?.pushViewController(vc, animated: true)
+        pushVC(with: dataSet)
     }
     
     
     @IBAction func verticalGroupedTouched(_ sender: Any) {
         let dataSet = ChartDataSet(ChartType: .VerticalGrouped, data: globaChartData)
-        vc.chartDataSet = dataSet
-        self.navigationController?.pushViewController(vc, animated: true)
+        pushVC(with: dataSet)
     }
     
     @IBAction func verticalStackedTouched(_ sender: Any) {
+        let dataSet = ChartDataSet(ChartType: .VerticalStacked, data: globaChartData)
+        pushVC(with: dataSet)
+    }
+    
+    func pushVC(with dataSet: ChartDataSet) {
+        vc.chartDataSet = dataSet
+        self.navigationController?.pushViewController(vc, animated: true)
     }
     
 }
