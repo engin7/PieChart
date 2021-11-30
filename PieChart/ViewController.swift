@@ -9,10 +9,17 @@ import UIKit
 
 class ViewController: UIViewController
 {
-    let pieChart = VerticalChart(
+    let chart = VerticalChart(
         frame: CGRect(x: 0, y:0, width: 100, height: 15),
-        colors: [.yellow, .red, .orange, .brown, .purple],
+        colors: [.yellow, .red, .orange, .brown, .purple, .gray, .lightGray, .blue],
         strokeWidth: 0)
+    
+    let scrollView: UIScrollView = {
+         let v = UIScrollView()
+         v.translatesAutoresizingMaskIntoConstraints = false
+        v.backgroundColor = .lightGray.withAlphaComponent(0.25)
+         return v
+     }()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -22,7 +29,10 @@ class ViewController: UIViewController
             AxisData(index: 1, label: "cherries", value: 45),
             AxisData(index: 2, label: "oranges", value: 40),
             AxisData(index: 3, label: "peaches", value: 25),
-            AxisData(index: 4, label: "pears", value: 50)
+            AxisData(index: 4, label: "pears", value: 50),
+            AxisData(index: 4, label: "banana", value: 70),
+            AxisData(index: 4, label: "nuts", value: 100),
+            AxisData(index: 4, label: "flowers", value: 50),
         ]
          
         let seriesPoints1: [AxisData] = [
@@ -36,16 +46,28 @@ class ViewController: UIViewController
         let dataSet0: SeriesDataSet = SeriesDataSet(seriesName: "Farm I", seriesPoints: seriesPoints0)
         let dataSet1: SeriesDataSet = SeriesDataSet(seriesName: "Farm II", seriesPoints: seriesPoints1)
  
+        chart.set(dataSet: [dataSet0])
+
         
-        pieChart.set(dataSet: [dataSet0])
-        
-        view.addSubview(pieChart)
-        
-        pieChart.translatesAutoresizingMaskIntoConstraints = false
-        pieChart.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-        pieChart.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
-        pieChart.widthAnchor.constraint(equalToConstant: 350).isActive = true
-        pieChart.heightAnchor.constraint(equalToConstant: 350).isActive = true
+        // add the scroll view to self.view
+        self.view.addSubview(scrollView)
+
+        // constrain the scroll view to 8-pts on each side
+        scrollView.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 8.0).isActive = true
+        scrollView.topAnchor.constraint(equalTo: view.topAnchor, constant: 150.0).isActive = true
+        scrollView.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -8.0).isActive = true
+        scrollView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -150.0).isActive = true
+
+        // add labelOne to the scroll view
+        scrollView.addSubview(chart)
+ 
+        chart.translatesAutoresizingMaskIntoConstraints = false
+        chart.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor, constant: 8.0).isActive = true
+        chart.topAnchor.constraint(equalTo: scrollView.topAnchor, constant: 8.0).isActive = true
+        chart.rightAnchor.constraint(equalTo: scrollView.rightAnchor, constant: -8.0).isActive = true
+        chart.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor, constant: -8.0).isActive = true
+        chart.widthAnchor.constraint(equalToConstant: 450).isActive = true
+        chart.heightAnchor.constraint(equalToConstant: 350).isActive = true
     }
 }
 
