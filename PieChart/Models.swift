@@ -33,7 +33,7 @@ let seriesPoints1: [AxisData] = [
    AxisData(index: 3, label: "peaches", value: 55),
    AxisData(index: 4, label: "pears", value: 50),
    AxisData(index: 5, label: "banana", value: 30),
-   AxisData(index: 6, label: "nuts", value: 10),
+   AxisData(index: 6, label: "nuts", value: 40),
    AxisData(index: 7, label: "pumpkin", value: 45),
    AxisData(index: 8, label: "rose", value: 35),
    AxisData(index: 9, label: "bread", value: 25),
