@@ -85,15 +85,15 @@ class VerticalGroupedChart: ChartView {
                 let itemGap = CGFloat(i) * division * 0.9
                 let xValue: CGFloat = itemGap + groupGap + 20
                 // create path
-                let path = UIBezierPath()
-                path.move(to: CGPoint(x: xValue, y: yMax))
-                path.addLine(to: CGPoint(x: xValue, y: yMax - sectionHeight))
-
+                let shapeBounds = CGRect(x: xValue - thickness / 2, y: rect.height - 50 - sectionHeight, width: thickness, height: sectionHeight)
+                let path = UIBezierPath(roundedRect: shapeBounds,
+                                        byRoundingCorners: [.topLeft, .topRight],
+                                        cornerRadii: CGSize(width: thickness / 2, height: thickness / 2))
+             
                 let shapeLayer = CAShapeLayer()
                 shapeLayer.path = path.cgPath
                 shapeLayer.strokeColor = colors[j].cgColor
                 shapeLayer.fillColor = colors[j].cgColor
-                shapeLayer.lineWidth = thickness
 
                 shapeLayer.shadowColor = UIColor.black.cgColor
                 shapeLayer.shadowOpacity = 1
