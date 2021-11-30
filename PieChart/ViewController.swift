@@ -9,7 +9,7 @@ import UIKit
 
 class ViewController: UIViewController
 {
-    let chart = VerticalChart(
+    let chart = HorizontalChart(
         frame: CGRect(x: 0, y:0, width: 100, height: 15),
         colors: [.yellow, .red, .orange, .brown, .purple, .cyan, .lightGray, .blue, .red, .orange, .brown, .purple],
         strokeWidth: 0)
@@ -74,8 +74,8 @@ class ViewController: UIViewController
         chart.topAnchor.constraint(equalTo: scrollView.topAnchor).isActive = true
         chart.rightAnchor.constraint(equalTo: scrollView.rightAnchor).isActive = true
         chart.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor).isActive = true
-        chart.widthAnchor.constraint(equalToConstant: 720).isActive = true
-        chart.heightAnchor.constraint(equalToConstant: 320).isActive = true
+        chart.widthAnchor.constraint(equalToConstant: 320).isActive = true
+        chart.heightAnchor.constraint(equalToConstant: 720).isActive = true
     }
   
 }
@@ -159,7 +159,7 @@ func drawYAxis(vc: ViewController) {
 
 func drawXAxis(vc: ViewController) {
     let xValue: CGFloat = 91.0
-    let yValue: CGFloat = vc.view.bounds.maxY - 200.0 + 3
+    let yValue: CGFloat = vc.view.bounds.maxY - 150.0  
     let xMax = vc.view.bounds.maxX - 16
     // draw axis
     let path = UIBezierPath()
