@@ -8,15 +8,13 @@
 import UIKit
 
 
-class VerticalChart: UIView {
+class VerticalChart: ChartView {
 
 private var data: [(String, CGFloat)] = []
 private var sum: Double = 0
-private var presentingVC: ContainerViewController!
     
-func set(dataSet: [SeriesDataSet], vc: ContainerViewController) {
-    guard let seriesData = dataSet.first else { return }
-    self.presentingVC = vc
+    func bind(dataSet: ChartDataSet) {
+    guard let seriesData = dataSet.data.first else { return }
     let series = seriesData.seriesPoints.sorted(by: { $0.index <  $1.index })
     sum = series.compactMap{ $0.value }.reduce(0, +)
     self.data = sum == 0 ? series.map{ ($0.label, CGFloat($0.value)) } : series.map{ ($0.label, CGFloat($0.value / sum)) }
@@ -45,12 +43,13 @@ required init?(coder aDecoder: NSCoder) {
     
     override func draw(_ rect: CGRect) {
         guard let context = UIGraphicsGetCurrentContext() else { return }
-         
+        guard let vc = masterVC else { return }
+
         let maxRatio = data.compactMap { $0.1 }.max() ?? 1.0
         let maxHeight = (rect.height / maxRatio) - 250
         
         let maxValue: Double = maxRatio * sum
-        addValuesYLabel(maxValue, presentingVC.view)
+        addValuesYLabel(maxValue, vc.view)
         
         let division = (rect.width / CGFloat(data.count))
         let thickness = 0.4 * division
@@ -91,7 +90,7 @@ required init?(coder aDecoder: NSCoder) {
             i = i >= colors.count ? 0 : i + 1
         }
     
-        drawYAxis(vc: presentingVC)
+        drawYAxis(vc: vc)
         
         // draw X axis
         let path = UIBezierPath()

@@ -7,13 +7,14 @@
  
 import UIKit
 
-class PieChartView: UIView {
+class PieChartView: ChartView {
     // MARK: - Data
     
     private var data: [(String, CGFloat)] = []
         
-    func set(data: SeriesDataSet) {
-        let series = data.seriesPoints.sorted(by: { $0.index <  $1.index })
+    func bind(dataSet: ChartDataSet) {
+        guard let seriesData = dataSet.data.first else { return }
+        let series = seriesData.seriesPoints.sorted(by: { $0.index <  $1.index })
         let sum = series.compactMap{ $0.value }.reduce(0, +)
         self.data = sum == 0 ? series.map{ ($0.label, CGFloat($0.value)) } : series.map{ ($0.label, CGFloat($0.value / sum)) } 
     }
