@@ -147,10 +147,14 @@ class PieChartView: ChartView {
             }
           
        
+            let shadowBlurRadius: CGFloat
+            
               if inBeetween {
                   radius = min(0.5*rect.width - 10, 0.5*rect.height - 10) - 0.5 * strokeWidth
+                  shadowBlurRadius = 10
               } else {
                   radius = min(0.5*rect.width - 20, 0.5*rect.height - 20) - 0.5 * strokeWidth
+                  shadowBlurRadius = 2
               }
             
             path.addLine(to: CGPoint(x: radius, y: 0))
@@ -171,9 +175,8 @@ class PieChartView: ChartView {
             colors[i].setFill()
             
             /// Shadow Declarations
-            let shadowOffset = CGSize(width: 1, height: 1)
-            let shadowBlurRadius: CGFloat = 5
-            
+            let shadowOffset = CGSize(width: 0, height: 0)
+             
             context.setShadow(offset: shadowOffset, blur: shadowBlurRadius,  color: UIColor.black.cgColor)
  
             
