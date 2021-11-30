@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		106AC0AE2756C8F400ED45C0 /* HorizontalStackedChart.swift in Sources */ = {isa = PBXBuildFile; fileRef = 106AC0AD2756C8F400ED45C0 /* HorizontalStackedChart.swift */; };
 		10B49FA22753E582005D06EE /* VerticalChart.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10B49FA12753E582005D06EE /* VerticalChart.swift */; };
 		28B0281827565734001AC958 /* ContainerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28B0281727565734001AC958 /* ContainerViewController.swift */; };
 		28B0281A27566BBA001AC958 /* Models.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28B0281927566BBA001AC958 /* Models.swift */; };
@@ -25,6 +26,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		106AC0AD2756C8F400ED45C0 /* HorizontalStackedChart.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HorizontalStackedChart.swift; sourceTree = "<group>"; };
 		10B49FA12753E582005D06EE /* VerticalChart.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VerticalChart.swift; sourceTree = "<group>"; };
 		28B0281727565734001AC958 /* ContainerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContainerViewController.swift; sourceTree = "<group>"; };
 		28B0281927566BBA001AC958 /* Models.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Models.swift; sourceTree = "<group>"; };
@@ -83,6 +85,7 @@
 				28C987E7274F911000AFE662 /* PieChartView.swift */,
 				28F505F02751185C004F9637 /* HorizontalChart.swift */,
 				28B0281D27568B90001AC958 /* HorizontalGroupedChart.swift */,
+				106AC0AD2756C8F400ED45C0 /* HorizontalStackedChart.swift */,
 				10B49FA12753E582005D06EE /* VerticalChart.swift */,
 				28B2640E2754BEB900ABEC74 /* VerticalGroupedChart.swift */,
 				28B0281F275693DF001AC958 /* VerticalStackedChart.swift */,
@@ -169,6 +172,7 @@
 				28F505F12751185C004F9637 /* HorizontalChart.swift in Sources */,
 				28B0281827565734001AC958 /* ContainerViewController.swift in Sources */,
 				28B0281C27566BCF001AC958 /* GlobalMethods.swift in Sources */,
+				106AC0AE2756C8F400ED45C0 /* HorizontalStackedChart.swift in Sources */,
 				28B02820275693DF001AC958 /* VerticalStackedChart.swift in Sources */,
 				10B49FA22753E582005D06EE /* VerticalChart.swift in Sources */,
 				28C987D8274F906100AFE662 /* ViewController.swift in Sources */,

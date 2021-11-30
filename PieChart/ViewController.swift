@@ -33,6 +33,8 @@ class ViewController: UIViewController {
     }
     
     @IBAction func horizontalStackedTouched(_ sender: Any) {
+        let dataSet = ChartDataSet(ChartType: .HorizontalStacked, data: globaChartData)
+        pushVC(with: dataSet)
     }
     
     @IBAction func verticalTouched(_ sender: Any) {
