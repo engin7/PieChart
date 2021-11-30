@@ -14,9 +14,9 @@ private var data: [(String, CGFloat)] = []
 private var sum: Double = 0
 private var presentingVC: ViewController!
     
-func set(dataSet: [SeriesDataSet], presentingVC: ViewController) {
+func set(dataSet: [SeriesDataSet], vc: ViewController) {
     guard let seriesData = dataSet.first else { return }
-    self.presentingVC = presentingVC
+    self.presentingVC = vc
     let series = seriesData.seriesPoints.sorted(by: { $0.index <  $1.index })
     sum = series.compactMap{ $0.value }.reduce(0, +)
     self.data = sum == 0 ? series.map{ ($0.label, CGFloat($0.value)) } : series.map{ ($0.label, CGFloat($0.value / sum)) }
@@ -63,7 +63,7 @@ required init?(coder aDecoder: NSCoder) {
         data.forEach { (key, value) in
             
             let yMax = rect.height - 50
-            let sectionHeight = value * maxHeight
+            let sectionHeight = value * maxHeight * 0.9
             let xValue: CGFloat = (CGFloat(i) * division * 0.9) + 30.0
 
             // create path
@@ -91,9 +91,9 @@ required init?(coder aDecoder: NSCoder) {
             i = i >= colors.count ? 0 : i + 1
         }
     
-        drawAxis(vc: presentingVC)
+        drawYAxis(vc: presentingVC)
         
-        // draw axis
+        // draw X axis
         let path = UIBezierPath()
         path.move(to: CGPoint(x: 0, y: rect.height - 50))
         path.addLine(to: CGPoint(x: rect.width, y: rect.height - 50))

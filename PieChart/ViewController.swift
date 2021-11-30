@@ -9,9 +9,9 @@ import UIKit
 
 class ViewController: UIViewController
 {
-    let chart = HorizontalChart(
+    let chart = VerticalChart(
         frame: CGRect(x: 0, y:0, width: 100, height: 15),
-        colors: [.yellow, .red, .orange, .brown, .purple, .cyan, .lightGray, .blue],
+        colors: [.yellow, .red, .orange, .brown, .purple, .cyan, .lightGray, .blue, .red, .orange, .brown, .purple],
         strokeWidth: 0)
     
     let scrollView: UIScrollView = {
@@ -31,9 +31,12 @@ class ViewController: UIViewController
             AxisData(index: 2, label: "oranges", value: 40),
             AxisData(index: 3, label: "peaches", value: 25),
             AxisData(index: 4, label: "pears", value: 50),
-            AxisData(index: 4, label: "banana", value: 70),
-            AxisData(index: 4, label: "nuts", value: 100),
-            AxisData(index: 4, label: "flowers", value: 50),
+            AxisData(index: 5, label: "banana", value: 70),
+            AxisData(index: 6, label: "nuts", value: 100),
+            AxisData(index: 7, label: "pumpkin", value: 50),
+            AxisData(index: 8, label: "rose", value: 30),
+            AxisData(index: 9, label: "bread", value: 20),
+            AxisData(index: 10, label: "cheese", value: 60),
         ]
          
         let seriesPoints1: [AxisData] = [
@@ -47,7 +50,7 @@ class ViewController: UIViewController
         let dataSet0: SeriesDataSet = SeriesDataSet(seriesName: "Farm I", seriesPoints: seriesPoints0)
         let dataSet1: SeriesDataSet = SeriesDataSet(seriesName: "Farm II", seriesPoints: seriesPoints1)
  
-        chart.set(dataSet: [dataSet0], presentingVC: self)
+        chart.set(dataSet: [dataSet0], vc: self)
 
         
         // add the scroll view to self.view
@@ -61,7 +64,7 @@ class ViewController: UIViewController
         }
         scrollView.topAnchor.constraint(equalTo: view.topAnchor, constant: 150.0).isActive = true
         scrollView.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -16.0).isActive = true
-        scrollView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -160.0).isActive = true
+        scrollView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -150.0).isActive = true
 
         // add labelOne to the scroll view
         scrollView.addSubview(chart)
@@ -71,7 +74,7 @@ class ViewController: UIViewController
         chart.topAnchor.constraint(equalTo: scrollView.topAnchor).isActive = true
         chart.rightAnchor.constraint(equalTo: scrollView.rightAnchor).isActive = true
         chart.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor).isActive = true
-        chart.widthAnchor.constraint(equalToConstant: 320).isActive = true
+        chart.widthAnchor.constraint(equalToConstant: 720).isActive = true
         chart.heightAnchor.constraint(equalToConstant: 320).isActive = true
     }
   
@@ -117,8 +120,8 @@ func roundToNumber(_ x : Double, roundTo: Double) -> Int {
 func addValues(_ maxValue: Double, _ view: UIView) {
     
     let labelCount: Int =  UIDevice.current.userInterfaceIdiom == .pad ? 8 : 4
-    let rate: Int =  roundToNumber(maxValue / Double(labelCount + 1), roundTo: 5)
-    let offSet = (view.bounds.height - 300) / CGFloat(labelCount + 1)
+    let rate: Int =  roundToNumber(maxValue / Double(labelCount), roundTo: 5)
+    let offSet = 0.9 * (view.bounds.height - 300) / CGFloat(labelCount + 1)
     
     for i in 1...labelCount {
         
@@ -129,21 +132,40 @@ func addValues(_ maxValue: Double, _ view: UIView) {
         view.addSubview(label)
 
         label.trailingAnchor.constraint(equalTo: view.leadingAnchor, constant: 50).isActive = true
-        label.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -195 - (offSet * CGFloat(i))).isActive = true
+        label.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -160 - (offSet * CGFloat(i + 1))).isActive = true
     }
      
 }
 
 
-func drawAxis(vc: ViewController) {
+func drawYAxis(vc: ViewController) {
     let xValue: CGFloat = 50.0
     let yValue: CGFloat = 150.0
-    let yMax = vc.view.bounds.maxY - 216
+    let yMax = vc.view.bounds.maxY - 247
     // draw axis
     let path = UIBezierPath()
  
     path.move(to: CGPoint(x: xValue, y: yValue))
     path.addLine(to: CGPoint(x: xValue, y: yMax))
+    
+    let shapeLayer = CAShapeLayer()
+    shapeLayer.path = path.cgPath
+    shapeLayer.strokeColor = UIColor.lightGray.cgColor
+    shapeLayer.lineWidth = 2
+
+    vc.view.layer.addSublayer(shapeLayer)
+    
+}
+
+func drawXAxis(vc: ViewController) {
+    let xValue: CGFloat = 91.0
+    let yValue: CGFloat = vc.view.bounds.maxY - 200.0 + 3
+    let xMax = vc.view.bounds.maxX - 16
+    // draw axis
+    let path = UIBezierPath()
+ 
+    path.move(to: CGPoint(x: xValue, y: yValue))
+    path.addLine(to: CGPoint(x: xMax, y: yValue))
     
     let shapeLayer = CAShapeLayer()
     shapeLayer.path = path.cgPath
