@@ -61,7 +61,7 @@ class VerticalGroupedChart: UIView {
         let maxRatio = multiData.compactMap { $0.1 }.max() ?? 1.0
 
         let maxValue: Double = maxRatio * sum
-        addValues(maxValue, self)
+        addValuesYLabel(maxValue, self)
         
         let maxHeight = (rect.height / maxRatio) - 350
         let division = (rect.width / CGFloat(multiData.count / data[0].1.count))

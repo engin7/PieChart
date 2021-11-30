@@ -12,12 +12,13 @@ class HorizontalChart: UIView {
 
 private var data: [(String, CGFloat)] = []
 private var presentingVC: ViewController!
+private var sum: Double = 0
 
     func set(dataSet: [SeriesDataSet], vc: ViewController) {
     guard let seriesData = dataSet.first else { return }
     self.presentingVC = vc
     let series = seriesData.seriesPoints.sorted(by: { $0.index <  $1.index })
-    let sum = series.compactMap{ $0.value }.reduce(0, +)
+    sum = series.compactMap{ $0.value }.reduce(0, +)
     self.data = sum == 0 ? series.map{ ($0.label, CGFloat($0.value)) } : series.map{ ($0.label, CGFloat($0.value / sum)) }
 }
 
@@ -50,6 +51,10 @@ required init?(coder aDecoder: NSCoder) {
          
         let maxRatio  = data.compactMap { $0.1 }.max() ?? 1.0
         let maxWidth  = (rect.width / maxRatio) * 0.7
+        
+        let maxValue = maxRatio * sum
+        addValuesXLabel(maxValue, presentingVC.view)
+        
         let division  = (rect.height / CGFloat(data.count))
         let thickness = 0.4 * division
         

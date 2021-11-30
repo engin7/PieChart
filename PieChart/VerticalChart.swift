@@ -50,7 +50,7 @@ required init?(coder aDecoder: NSCoder) {
         let maxHeight = (rect.height / maxRatio) - 250
         
         let maxValue: Double = maxRatio * sum
-        addValues(maxValue, presentingVC.view)
+        addValuesYLabel(maxValue, presentingVC.view)
         
         let division = (rect.width / CGFloat(data.count))
         let thickness = 0.4 * division

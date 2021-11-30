@@ -117,7 +117,7 @@ func roundToNumber(_ x : Double, roundTo: Double) -> Int {
     return Int(roundTo) * Int(round(x / roundTo))
 }
 
-func addValues(_ maxValue: Double, _ view: UIView) {
+func addValuesYLabel(_ maxValue: Double, _ view: UIView) {
     
     let labelCount: Int =  UIDevice.current.userInterfaceIdiom == .pad ? 8 : 4
     let rate: Int =  roundToNumber(maxValue / Double(labelCount), roundTo: 5)
@@ -137,6 +137,25 @@ func addValues(_ maxValue: Double, _ view: UIView) {
      
 }
 
+func addValuesXLabel(_ maxValue: Double, _ view: UIView) {
+    
+    let labelCount: Int =  UIDevice.current.userInterfaceIdiom == .pad ? 8 : 4
+    let rate: Int =  roundToNumber(maxValue / Double(labelCount), roundTo: 5)
+    let offSet = (view.bounds.width - 125) / CGFloat(labelCount)
+    
+    for i in 0...labelCount {
+        
+        let label = UILabel()
+        label.font = label.font.withSize(12)
+        label.text = String(rate * i)
+        label.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(label)
+
+        label.centerXAnchor.constraint(equalTo: view.leadingAnchor, constant: 92 + (offSet * CGFloat(i))).isActive = true
+        label.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -120).isActive = true
+    }
+     
+}
 
 func drawYAxis(vc: ViewController) {
     let xValue: CGFloat = 50.0
@@ -159,13 +178,26 @@ func drawYAxis(vc: ViewController) {
 
 func drawXAxis(vc: ViewController) {
     let xValue: CGFloat = 91.0
-    let yValue: CGFloat = vc.view.bounds.maxY - 150.0  
+    let yValue: CGFloat = vc.view.bounds.maxY - 150.0
     let xMax = vc.view.bounds.maxX - 16
     // draw axis
     let path = UIBezierPath()
  
     path.move(to: CGPoint(x: xValue, y: yValue))
     path.addLine(to: CGPoint(x: xMax, y: yValue))
+    
+    // seperators
+    
+    let labelCount: Int =  UIDevice.current.userInterfaceIdiom == .pad ? 8 : 4
+    let diff = (xMax - xValue - 20) / CGFloat(labelCount)
+
+    for i in 1...labelCount {
+        
+        path.move(to: CGPoint(x: xValue + CGFloat(i) * diff, y: yValue))
+        path.addLine(to: CGPoint(x: xValue + CGFloat(i) * diff, y: yValue+5))
+
+    }
+     
     
     let shapeLayer = CAShapeLayer()
     shapeLayer.path = path.cgPath
