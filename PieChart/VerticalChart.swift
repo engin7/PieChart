@@ -12,9 +12,9 @@ class VerticalChart: UIView {
 
 private var data: [(String, CGFloat)] = []
 private var sum: Double = 0
-private var presentingVC: ViewController!
+private var presentingVC: ContainerViewController!
     
-func set(dataSet: [SeriesDataSet], vc: ViewController) {
+func set(dataSet: [SeriesDataSet], vc: ContainerViewController) {
     guard let seriesData = dataSet.first else { return }
     self.presentingVC = vc
     let series = seriesData.seriesPoints.sorted(by: { $0.index <  $1.index })
