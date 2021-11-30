@@ -72,21 +72,7 @@ class VerticalGroupedChart: UIView {
 
         borderColor.setStroke()
         context.setLineWidth(strokeWidth)
-
-        // draw axis
-        let path = UIBezierPath()
-        path.move(to: CGPoint(x: 40.0, y: rect.height - 50))
-        path.addLine(to: CGPoint(x: rect.width, y: rect.height - 50))
-        path.move(to: CGPoint(x: 40.0, y: 0))
-        path.addLine(to: CGPoint(x: 40.0, y: rect.height - 50))
-
-        let shapeLayer = CAShapeLayer()
-        shapeLayer.path = path.cgPath
-        shapeLayer.strokeColor = UIColor.lightGray.cgColor
-        shapeLayer.lineWidth = 1
-
-        layer.addSublayer(shapeLayer)
-
+ 
         let yMax = rect.height - 50
         
         data.forEach { key, mData in
@@ -127,45 +113,62 @@ class VerticalGroupedChart: UIView {
 
             i = i >= colors.count ? 0 : i + 1
         }
+        
+        // draw axis
+        let path = UIBezierPath()
+        path.move(to: CGPoint(x: 40.0, y: rect.height - 50))
+        path.addLine(to: CGPoint(x: rect.width, y: rect.height - 50))
+        path.move(to: CGPoint(x: 40.0, y: 0))
+        path.addLine(to: CGPoint(x: 40.0, y: rect.height - 50))
+        
+        let shapeLayer = CAShapeLayer()
+        shapeLayer.path = path.cgPath
+        shapeLayer.strokeColor = UIColor.lightGray.cgColor
+        shapeLayer.lineWidth = 1
 
-        func addLabel(_ leftPoint: CGPoint, _ title: String) {
+        layer.addSublayer(shapeLayer)
+        //
+    }
+    
+    
+    func addLabel(_ leftPoint: CGPoint, _ title: String) {
+        let label = UILabel()
+        label.font = label.font.withSize(12)
+        label.text = title
+        label.translatesAutoresizingMaskIntoConstraints = false
+        addSubview(label)
+
+        label.centerXAnchor.constraint(equalTo: leadingAnchor, constant: leftPoint.x).isActive = true
+        label.topAnchor.constraint(equalTo: topAnchor, constant: leftPoint.y + 30).isActive = true
+    }
+    
+    func roundToNumber(_ x : Double, roundTo: Double) -> Int {
+        return Int(roundTo) * Int(round(x / roundTo))
+    }
+    
+    func addValues(_ maxValue: Double) {
+        
+        let labelCount: Int =  UIDevice.current.userInterfaceIdiom == .pad ? 8 : 3
+        let rate: Int =  roundToNumber(maxValue / Double(labelCount + 1), roundTo: 5)
+        let startPoint = CGPoint(x:35.0, y: bounds.height - 50 )
+        let offSet = bounds.height / CGFloat(labelCount + 1)
+        
+        for i in 1...labelCount {
+            
             let label = UILabel()
             label.font = label.font.withSize(12)
-            label.text = title
+            label.text = String(rate * i) + " -"
             label.translatesAutoresizingMaskIntoConstraints = false
             addSubview(label)
 
-            label.centerXAnchor.constraint(equalTo: leadingAnchor, constant: leftPoint.x).isActive = true
-            label.topAnchor.constraint(equalTo: topAnchor, constant: leftPoint.y + 30).isActive = true
+            label.trailingAnchor.constraint(equalTo: leadingAnchor, constant: startPoint.x).isActive = true
+            label.topAnchor.constraint(equalTo: topAnchor, constant: startPoint.y - (offSet * CGFloat(i))).isActive = true
         }
         
-        
-        func roundToNumber(_ x : Double, roundTo: Double) -> Int {
-            return Int(roundTo) * Int(round(x / roundTo))
-        }
-        
-        func addValues(_ maxValue: Double) {
-            
-            let labelCount: Int =  UIDevice.current.userInterfaceIdiom == .pad ? 8 : 3
-            let rate: Int =  roundToNumber(maxValue / Double(labelCount + 1), roundTo: 5)
-            let startPoint = CGPoint(x:35.0, y: rect.height - 50 )
-            let offSet = rect.height / CGFloat(labelCount + 1)
-            
-            for i in 1...labelCount {
-                
-                let label = UILabel()
-                label.font = label.font.withSize(12)
-                label.text = String(rate * i) + " -"
-                label.translatesAutoresizingMaskIntoConstraints = false
-                addSubview(label)
-
-                label.trailingAnchor.constraint(equalTo: leadingAnchor, constant: startPoint.x).isActive = true
-                label.topAnchor.constraint(equalTo: topAnchor, constant: startPoint.y - (offSet * CGFloat(i))).isActive = true
-            }
-            
-           
-            
-        }
+       
         
     }
+    
+    
+    
 }
