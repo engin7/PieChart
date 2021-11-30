@@ -44,7 +44,7 @@ class HorizontalStackedChart: ChartView {
 
     var colors: [UIColor] = [UIColor.gray]
     var strokeWidth: CGFloat = 0
-    var borderColor = UIColor.blac	k
+    var borderColor = UIColor.black
 
     override func draw(_ rect: CGRect) {
         guard let context = UIGraphicsGetCurrentContext() else { return }
@@ -70,21 +70,34 @@ class HorizontalStackedChart: ChartView {
             
             let labelValue: CGFloat = (CGFloat(i) * division) + 30.0
 
-            mData.forEach { _, value in
-            
-                
-                let sectionWidth = value * maxWidth * 0.9
-                let groupGap = CGFloat(j) * division / CGFloat(mData.count) * 0.7
-                let itemGap = CGFloat(i) * division
-                let yValue: CGFloat = itemGap + groupGap  + 20
+            var widthOffset: CGFloat = 0
 
-            // create path
-            let shapeBounds = CGRect(x: 75, y: yValue - thickness / 2, width: sectionWidth, height: thickness)
-            let path = UIBezierPath(roundedRect: shapeBounds,
-                                    byRoundingCorners: [.bottomRight, .topRight],
-                                    cornerRadii: CGSize(width: thickness / 2, height: thickness / 2))
- 
-            let shapeLayer = CAShapeLayer()
+            mData.forEach { _, value in
+             
+                let sectionWidth = value * maxWidth * 0.9
+              
+                let itemGap = CGFloat(i) * division
+                let yValue: CGFloat = itemGap + 20
+                
+                // create path
+
+                let path: UIBezierPath
+                let shapeLayer = CAShapeLayer()
+
+                if j == mData.count - 1 {
+                    let shapeBounds = CGRect(x: 75 + widthOffset, y: yValue - thickness / 2, width: sectionWidth, height: thickness)
+                    path = UIBezierPath(roundedRect: shapeBounds,
+                                            byRoundingCorners: [.bottomRight, .topRight],
+                                            cornerRadii: CGSize(width: thickness / 2, height: thickness / 2))
+                } else {
+                    
+                    path = UIBezierPath()
+                    path.move(to: CGPoint(x: 75 + widthOffset, y: yValue))
+                    path.addLine(to: CGPoint(x: 75 + widthOffset + sectionWidth, y: yValue))
+                    shapeLayer.lineWidth = thickness
+                }
+                
+           
             shapeLayer.path = path.cgPath
             shapeLayer.strokeColor = colors[j].cgColor
             shapeLayer.fillColor = colors[j].cgColor
