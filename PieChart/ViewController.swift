@@ -9,7 +9,7 @@ import UIKit
 
 class ViewController: UIViewController
 {
-    let pieChart = VerticalGroupedChart(
+    let pieChart = VerticalChart(
         frame: CGRect(x: 0, y:0, width: 100, height: 15),
         colors: [.yellow, .red, .orange, .brown, .purple],
         strokeWidth: 0)
@@ -37,7 +37,7 @@ class ViewController: UIViewController
         let dataSet1: SeriesDataSet = SeriesDataSet(seriesName: "Farm II", seriesPoints: seriesPoints1)
  
         
-        pieChart.set(dataSet: [dataSet0, dataSet1])
+        pieChart.set(dataSet: [dataSet0])
         
         view.addSubview(pieChart)
         
