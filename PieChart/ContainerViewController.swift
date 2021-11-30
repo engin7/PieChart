@@ -70,7 +70,13 @@ class ContainerViewController: UIViewController {
             scrollView.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 50).isActive = true
 
         case .HorizontalGrouped:
-            return
+            chart = HorizontalGroupedChart(
+                frame: CGRect(x: 0, y: 0, width: 100, height: 15),
+                colors: [.yellow, .red, .orange, .brown, .purple, .cyan, .lightGray, .blue, .red, .orange, .brown, .purple],
+                strokeWidth: 0)
+            chart.widthAnchor.constraint(equalToConstant: 320).isActive = true
+            chart.heightAnchor.constraint(equalToConstant: 720).isActive = true
+            scrollView.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 16).isActive = true
         case .VerticalStacked:
             return
         case .HorizontalStacked:

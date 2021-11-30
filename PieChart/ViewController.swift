@@ -30,6 +30,9 @@ class ViewController: UIViewController {
     }
     
     @IBAction func horizontalGroupedTouched(_ sender: Any) {
+        let dataSet = ChartDataSet(ChartType: .HorizontalGrouped, data: globaChartData)
+        vc.chartDataSet = dataSet
+        self.navigationController?.pushViewController(vc, animated: true)
     }
     
     @IBAction func horizontalStackedTouched(_ sender: Any) {

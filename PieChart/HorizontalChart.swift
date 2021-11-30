@@ -68,10 +68,7 @@ class HorizontalChart: ChartView {
             let path = UIBezierPath(roundedRect: shapeBounds,
                                     byRoundingCorners: [.bottomRight, .topRight],
                                     cornerRadii: CGSize(width: thickness / 2, height: thickness / 2))
-
-//            path.move(to: CGPoint(x: 75.0, y: yValue))
-//            path.addLine(to: CGPoint(x: sectionWidth + 75, y: yValue))
-//
+ 
             let shapeLayer = CAShapeLayer()
             shapeLayer.path = path.cgPath
             shapeLayer.strokeColor = colors[i].cgColor
