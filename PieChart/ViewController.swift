@@ -9,7 +9,7 @@ import UIKit
 
 class ViewController: UIViewController
 {
-    let chart = VerticalChart(
+    let chart = HorizontalChart(
         frame: CGRect(x: 0, y:0, width: 100, height: 15),
         colors: [.yellow, .red, .orange, .brown, .purple, .cyan, .lightGray, .blue],
         strokeWidth: 0)
@@ -54,7 +54,11 @@ class ViewController: UIViewController
         self.view.addSubview(scrollView)
 
         // constrain the scroll view to 8-pts on each side
-        scrollView.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 50).isActive = true
+        if chart is HorizontalChart {
+            scrollView.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 16).isActive = true
+        } else {
+            scrollView.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 50).isActive = true
+        }
         scrollView.topAnchor.constraint(equalTo: view.topAnchor, constant: 150.0).isActive = true
         scrollView.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -16.0).isActive = true
         scrollView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -160.0).isActive = true
@@ -67,8 +71,8 @@ class ViewController: UIViewController
         chart.topAnchor.constraint(equalTo: scrollView.topAnchor).isActive = true
         chart.rightAnchor.constraint(equalTo: scrollView.rightAnchor).isActive = true
         chart.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor).isActive = true
-        chart.widthAnchor.constraint(equalToConstant: 450).isActive = true
-        chart.heightAnchor.constraint(equalToConstant: 350).isActive = true
+        chart.widthAnchor.constraint(equalToConstant: 320).isActive = true
+        chart.heightAnchor.constraint(equalToConstant: 320).isActive = true
     }
   
 }

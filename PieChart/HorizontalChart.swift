@@ -11,11 +11,13 @@ import UIKit
 class HorizontalChart: UIView {
 
 private var data: [(String, CGFloat)] = []
-    
-func set(data: SeriesDataSet) {
-    let series = data.seriesPoints.sorted(by: { $0.index <  $1.index })
-    let sum = series.compactMap{ $0.value as? CGFloat}.reduce(0, +)
-    self.data = sum == 0 ? series.map{ ($0.label, CGFloat($0.value as! CGFloat)) } : series.map{ ($0.label, CGFloat($0.value as! CGFloat / sum)) }
+private var presentingVC: ViewController!
+
+    func set(dataSet: [SeriesDataSet], presentingVC: ViewController) {
+    guard let seriesData = dataSet.first else { return }
+    let series = seriesData.seriesPoints.sorted(by: { $0.index <  $1.index })
+    let sum = series.compactMap{ $0.value }.reduce(0, +)
+    self.data = sum == 0 ? series.map{ ($0.label, CGFloat($0.value)) } : series.map{ ($0.label, CGFloat($0.value / sum)) }
 }
 
 // MARK: - Initializers
@@ -45,10 +47,10 @@ required init?(coder aDecoder: NSCoder) {
     override func draw(_ rect: CGRect) {
         guard let context = UIGraphicsGetCurrentContext() else { return }
          
-        let maxRatio = data.compactMap { $0.1 }.max() ?? 1.0
-        let maxWidth = (rect.width / maxRatio) - 250
-        let division = (rect.height / CGFloat(data.count))
-        let thickness = 0.5 * division
+        let maxRatio  = data.compactMap { $0.1 }.max() ?? 1.0
+        let maxWidth  = (rect.width / maxRatio) * 0.7
+        let division  = (rect.height / CGFloat(data.count))
+        let thickness = 0.4 * division
         
         var i: Int = 0
 
@@ -76,8 +78,8 @@ required init?(coder aDecoder: NSCoder) {
 
             // create path
             let path = UIBezierPath()
-            path.move(to: CGPoint(x: 85.0, y: yValue))
-            path.addLine(to: CGPoint(x: 85.0 + sectionWidth, y: yValue))
+            path.move(to: CGPoint(x: 75.0, y: yValue))
+            path.addLine(to: CGPoint(x: sectionWidth + 75, y: yValue))
   
             let shapeLayer = CAShapeLayer()
             shapeLayer.path = path.cgPath
@@ -87,8 +89,8 @@ required init?(coder aDecoder: NSCoder) {
             
             shapeLayer.shadowColor = UIColor.black.cgColor
             shapeLayer.shadowOpacity = 1
-            shapeLayer.shadowOffset = CGSize(width:1.0, height:1.0)
-            shapeLayer.shadowRadius = 4
+            shapeLayer.shadowOffset = CGSize(width:1.0, height: -2.0)
+            shapeLayer.shadowRadius = 2
     
             
             layer.addSublayer(shapeLayer)
