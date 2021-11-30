@@ -68,14 +68,14 @@ class HorizontalGroupedChart: ChartView {
         
         data.forEach { key, mData in
             
-            let labelValue: CGFloat = (CGFloat(i) * division * 0.9) + 30.0
+            let labelValue: CGFloat = (CGFloat(i) * division) + 30.0
 
             mData.forEach { _, value in
             
                 
                 let sectionWidth = value * maxWidth * 0.9
                 let groupGap = CGFloat(j) * division / CGFloat(mData.count) * 0.7
-                let itemGap = CGFloat(i) * division * 0.9
+                let itemGap = CGFloat(i) * division
                 let yValue: CGFloat = itemGap + groupGap  + 20
 
             // create path
@@ -86,8 +86,8 @@ class HorizontalGroupedChart: ChartView {
  
             let shapeLayer = CAShapeLayer()
             shapeLayer.path = path.cgPath
-            shapeLayer.strokeColor = colors[i].cgColor
-            shapeLayer.fillColor = colors[i].cgColor
+            shapeLayer.strokeColor = colors[j].cgColor
+            shapeLayer.fillColor = colors[j].cgColor
 
             shapeLayer.shadowColor = UIColor.black.cgColor
             shapeLayer.shadowOpacity = 1
@@ -101,7 +101,7 @@ class HorizontalGroupedChart: ChartView {
             }
                 j = 0
             
-            let labelPos = CGPoint(x: 0, y: labelValue)
+            let labelPos = CGPoint(x: 60, y: labelValue)
             addLabel(labelPos, key)
 
             i = i >= colors.count ? 0 : i + 1
@@ -130,7 +130,7 @@ class HorizontalGroupedChart: ChartView {
         label.translatesAutoresizingMaskIntoConstraints = false
         addSubview(label)
 
-        label.leadingAnchor.constraint(equalTo: leadingAnchor, constant: leftPoint.x).isActive = true
+        label.trailingAnchor.constraint(equalTo: leadingAnchor, constant: leftPoint.x).isActive = true
         label.centerYAnchor.constraint(equalTo: topAnchor, constant: leftPoint.y).isActive = true
     }
      

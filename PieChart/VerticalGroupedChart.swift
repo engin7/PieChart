@@ -70,13 +70,13 @@ class VerticalGroupedChart: ChartView {
         
         data.forEach { key, mData in
 
-            let labelValue: CGFloat = (CGFloat(i) * division * 0.9) + 30.0
+            let labelValue: CGFloat = (CGFloat(i) * division) + 30.0
 
             mData.forEach { _, value in
 
                 let sectionHeight = value * maxHeight * 0.9
                 let groupGap = CGFloat(j) * division / CGFloat(mData.count) * 0.7
-                let itemGap = CGFloat(i) * division * 0.9
+                let itemGap = CGFloat(i) * division
                 let xValue: CGFloat = itemGap + groupGap + 20
                 // create path
                 let shapeBounds = CGRect(x: xValue - thickness / 2, y: rect.height - 50 - sectionHeight, width: thickness, height: sectionHeight)

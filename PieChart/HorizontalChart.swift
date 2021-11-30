@@ -82,7 +82,7 @@ class HorizontalChart: ChartView {
 
             layer.addSublayer(shapeLayer)
 
-            let labelPos = CGPoint(x: 0, y: yValue)
+            let labelPos = CGPoint(x: 60, y: yValue)
             addLabel(labelPos, key)
 
             i = i >= colors.count ? 0 : i + 1
@@ -105,11 +105,12 @@ class HorizontalChart: ChartView {
 
     func addLabel(_ leftPoint: CGPoint, _ title: String) {
         let label = UILabel()
+        label.font = label.font.withSize(12)
         label.text = title
         label.translatesAutoresizingMaskIntoConstraints = false
         addSubview(label)
 
-        label.leadingAnchor.constraint(equalTo: leadingAnchor, constant: leftPoint.x + 5).isActive = true
+        label.trailingAnchor.constraint(equalTo: leadingAnchor, constant: leftPoint.x).isActive = true
         label.centerYAnchor.constraint(equalTo: topAnchor, constant: leftPoint.y).isActive = true
     }
 }
