@@ -51,14 +51,21 @@ class HorizontalStackedChart: ChartView {
         guard let vc = masterVC else { return }
 
         let multiData = data.flatMap({ $0.1 })
-        let maxRatio = multiData.compactMap { $0.1 }.max() ?? 1.0
-        let maxWidth = (rect.width / maxRatio) * 0.7
-
+        let dataPairs = data.compactMap({ $0.1 })
+        
+        var pairSums : [Double] = []
+        for pair in dataPairs {
+            let sum =  pair.compactMap({ $0.1 }).reduce(0, +)
+            pairSums.append(sum)
+        }
+        let maxRatio =  pairSums.max() ?? 1.0
+        let maxWidth = ((rect.width - 90) / maxRatio) 
+ 
         let maxValue = maxRatio * sum
         addValuesXLabel(maxValue, vc.view)
 
         let division = (rect.height / CGFloat(multiData.count / data[0].1.count))
-        let thickness = 0.2 * division
+        let thickness = 0.4 * division
 
         var i: Int = 0
         var j: Int = 0
@@ -68,17 +75,14 @@ class HorizontalStackedChart: ChartView {
         
         data.forEach { key, mData in
             
-            let labelValue: CGFloat = (CGFloat(i) * division) + 30.0
+            let yValue: CGFloat = (CGFloat(i) * division) + 30.0
 
             var widthOffset: CGFloat = 0
 
             mData.forEach { _, value in
              
-                let sectionWidth = value * maxWidth * 0.9
-              
-                let itemGap = CGFloat(i) * division
-                let yValue: CGFloat = itemGap + 20
-                
+                let sectionWidth = value * maxWidth
+            
                 // create path
 
                 let path: UIBezierPath
@@ -110,11 +114,11 @@ class HorizontalStackedChart: ChartView {
             layer.addSublayer(shapeLayer)
                 
                 j += 1
-                
+                widthOffset += sectionWidth
             }
                 j = 0
             
-            let labelPos = CGPoint(x: 60, y: labelValue)
+            let labelPos = CGPoint(x: 60, y: yValue)
             addLabel(labelPos, key)
 
             i = i >= colors.count ? 0 : i + 1

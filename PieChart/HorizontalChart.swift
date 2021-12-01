@@ -45,7 +45,8 @@ class HorizontalChart: ChartView {
         guard let vc = masterVC else { return }
 
         let maxRatio = data.compactMap { $0.1 }.max() ?? 1.0
-        let maxWidth = (rect.width / maxRatio) * 0.7
+        // 7
+        let maxWidth = ((rect.width - 90) / maxRatio)
 
         let maxValue = maxRatio * sum
         addValuesXLabel(maxValue, vc.view)
@@ -61,7 +62,7 @@ class HorizontalChart: ChartView {
         data.forEach { key, value in
 
             let sectionWidth = value * maxWidth
-            let yValue: CGFloat = (CGFloat(i) * division) + 20
+            let yValue: CGFloat = (CGFloat(i) * division) + 30
 
             // create path
             let shapeBounds = CGRect(x: 75, y: yValue - thickness / 2, width: sectionWidth, height: thickness)

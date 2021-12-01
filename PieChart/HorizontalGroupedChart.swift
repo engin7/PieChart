@@ -52,7 +52,7 @@ class HorizontalGroupedChart: ChartView {
 
         let multiData = data.flatMap({ $0.1 })
         let maxRatio = multiData.compactMap { $0.1 }.max() ?? 1.0
-        let maxWidth = (rect.width / maxRatio) * 0.7
+        let maxWidth = ((rect.width - 90) / maxRatio)  
 
         let maxValue = maxRatio * sum
         addValuesXLabel(maxValue, vc.view)
@@ -73,7 +73,7 @@ class HorizontalGroupedChart: ChartView {
             mData.forEach { _, value in
             
                 
-                let sectionWidth = value * maxWidth * 0.9
+                let sectionWidth = value * maxWidth  
                 let groupGap = CGFloat(j) * division / CGFloat(mData.count) * 0.7
                 let itemGap = CGFloat(i) * division
                 let yValue: CGFloat = itemGap + groupGap  + 20

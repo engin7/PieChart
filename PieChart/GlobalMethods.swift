@@ -38,9 +38,9 @@ func addValuesXLabel(_ maxValue: Double, _ view: UIView) {
 
 let labelCount: Int =  UIDevice.current.userInterfaceIdiom == .pad ? 8 : 4
 let rate: Int =  roundToNumber(maxValue / Double(labelCount), roundTo: 5)
-let offSet = (view.bounds.width - 125) / CGFloat(labelCount)
+let offSet = (view.bounds.width - 135) / CGFloat(labelCount)
 
-for i in 0...labelCount {
+for i in 1...labelCount {
     
     let label = UILabel()
     label.font = label.font.withSize(12)
@@ -48,7 +48,7 @@ for i in 0...labelCount {
     label.translatesAutoresizingMaskIntoConstraints = false
     view.addSubview(label)
 
-    label.centerXAnchor.constraint(equalTo: view.leadingAnchor, constant: 92 + (offSet * CGFloat(i))).isActive = true
+    label.centerXAnchor.constraint(equalTo: view.leadingAnchor, constant: 85 + (offSet * CGFloat(i))).isActive = true
     label.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -120).isActive = true
 }
  
@@ -86,12 +86,12 @@ path.addLine(to: CGPoint(x: xMax, y: yValue))
 // seperators
 
 let labelCount: Int =  UIDevice.current.userInterfaceIdiom == .pad ? 8 : 4
-let diff = (xMax - xValue - 20) / CGFloat(labelCount)
+let diff = (xMax - xValue - 30) / CGFloat(labelCount)
 
 for i in 1...labelCount {
     
-    path.move(to: CGPoint(x: xValue + CGFloat(i) * diff, y: yValue))
-    path.addLine(to: CGPoint(x: xValue + CGFloat(i) * diff, y: yValue+5))
+    path.move(to: CGPoint(x: xValue + CGFloat(i) * diff - 5, y: yValue))
+    path.addLine(to: CGPoint(x: xValue + CGFloat(i) * diff - 5, y: yValue+5))
 
 }
  

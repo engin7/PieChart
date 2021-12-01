@@ -60,14 +60,13 @@ class VerticalStackedChart: ChartView {
         
         
         let maxRatio =  pairSums.max() ?? 1.0
-        print(maxRatio)
 
         let maxValue: Double = maxRatio * sum
         addValuesYLabel(maxValue, vc.view)
         
-        let maxHeight = (rect.height / maxRatio) - 250
+        let maxHeight = ((rect.height - 50) / maxRatio)
         let division = (rect.width / CGFloat(multiData.count / data[0].1.count))
-        let thickness = 0.2 * division
+        let thickness = 0.4 * division
 
         var i: Int = 0
         var j: Int = 0
