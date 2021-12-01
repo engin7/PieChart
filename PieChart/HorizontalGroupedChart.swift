@@ -13,6 +13,10 @@ class HorizontalGroupedChart: ChartView {
     
     private var data: [ChartModel] = []
     private var sum: Double = 0
+    private let thickness : CGFloat
+    private let colors: [UIColor]
+    private let strokeWidth: CGFloat
+    private let borderColor: UIColor
     
     func bind(dataSet: ChartDataSet) {
         
@@ -28,12 +32,13 @@ class HorizontalGroupedChart: ChartView {
 
     // MARK: - Initializers
 
-    init(frame: CGRect, colors: [UIColor]? = nil, strokeWidth: CGFloat = 0, borderColor: UIColor = .black) {
-        super.init(frame: frame)
-        self.colors = colors ?? self.colors
+    init(frame: CGRect, colors: [UIColor]? = nil, strokeWidth: CGFloat = 0, borderColor: UIColor = .black, thickness: CGFloat = 20) {
+        self.thickness = thickness
+        self.colors = colors ?? [UIColor.gray]
         self.strokeWidth = strokeWidth
         self.borderColor = borderColor
-        backgroundColor = .clear
+        super.init(frame: frame)
+        self.backgroundColor = .clear
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -41,11 +46,7 @@ class HorizontalGroupedChart: ChartView {
     }
 
     // MARK: - Aesthetics
-
-    var colors: [UIColor] = [UIColor.gray]
-    var strokeWidth: CGFloat = 0
-    var borderColor = UIColor.black
-
+ 
     override func draw(_ rect: CGRect) {
         guard let context = UIGraphicsGetCurrentContext() else { return }
 
@@ -57,7 +58,6 @@ class HorizontalGroupedChart: ChartView {
         addValuesXLabel(maxValue)
 
         let division = (rect.height / CGFloat(multiData.count / data[0].1.count))
-        let thickness = 0.2 * division
 
         var i: Int = 0
         var j: Int = 0
@@ -67,15 +67,15 @@ class HorizontalGroupedChart: ChartView {
         
         data.forEach { key, mData in
             
-            let labelValue: CGFloat = (CGFloat(i) * division) + 30.0
+            let labelValue: CGFloat = (CGFloat(i) * thickness * 5) + 30.0 + thickness
 
             mData.forEach { _, value in
             
                 
                 let sectionWidth = value * maxWidth  
-                let groupGap = CGFloat(j) * division / CGFloat(mData.count) * 0.7
-                let itemGap = CGFloat(i) * division
-                let yValue: CGFloat = itemGap + groupGap  + 20
+                let groupGap = CGFloat(j) * thickness * 2
+                let itemGap = CGFloat(i) * thickness * 5
+                let yValue: CGFloat = itemGap + groupGap  + 30
 
             // create path
             let shapeBounds = CGRect(x: 75, y: yValue - thickness / 2, width: sectionWidth, height: thickness)

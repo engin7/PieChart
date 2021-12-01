@@ -58,7 +58,6 @@ class VerticalGroupedChart: ChartView {
         addValuesYLabel(maxValue)
         
         let maxHeight = ((rect.height - 70) / maxRatio)
-        let division = (rect.width / CGFloat(multiData.count / data[0].1.count))
 
         var i: Int = 0
         var j: Int = 0

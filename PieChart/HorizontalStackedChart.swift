@@ -13,7 +13,11 @@ class HorizontalStackedChart: ChartView {
     
     private var data: [ChartModel] = []
     private var sum: Double = 0
-    
+    private let thickness : CGFloat
+    private let colors: [UIColor]
+    private let strokeWidth: CGFloat
+    private let borderColor: UIColor
+      
     func bind(dataSet: ChartDataSet) {
         
         let chartData = dataSet.data
@@ -28,12 +32,13 @@ class HorizontalStackedChart: ChartView {
 
     // MARK: - Initializers
 
-    init(frame: CGRect, colors: [UIColor]? = nil, strokeWidth: CGFloat = 0, borderColor: UIColor = .black) {
-        super.init(frame: frame)
-        self.colors = colors ?? self.colors
+    init(frame: CGRect, colors: [UIColor]? = nil, strokeWidth: CGFloat = 0, borderColor: UIColor = .black, thickness: CGFloat = 20) {
+        self.thickness = thickness
+        self.colors = colors ?? [UIColor.gray]
         self.strokeWidth = strokeWidth
         self.borderColor = borderColor
-        backgroundColor = .clear
+        super.init(frame: frame)
+        self.backgroundColor = .clear
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -41,11 +46,7 @@ class HorizontalStackedChart: ChartView {
     }
 
     // MARK: - Aesthetics
-
-    var colors: [UIColor] = [UIColor.gray]
-    var strokeWidth: CGFloat = 0
-    var borderColor = UIColor.black
-
+ 
     override func draw(_ rect: CGRect) {
         guard let context = UIGraphicsGetCurrentContext() else { return }
 
@@ -64,7 +65,6 @@ class HorizontalStackedChart: ChartView {
         addValuesXLabel(maxValue)
 
         let division = (rect.height / CGFloat(multiData.count / data[0].1.count))
-        let thickness = 0.4 * division
 
         var i: Int = 0
         var j: Int = 0
@@ -74,7 +74,7 @@ class HorizontalStackedChart: ChartView {
         
         data.forEach { key, mData in
             
-            let yValue: CGFloat = (CGFloat(i) * division) + 30.0
+            let yValue: CGFloat = (CGFloat(i) * thickness * 2.5) + 30
 
             var widthOffset: CGFloat = 0
 

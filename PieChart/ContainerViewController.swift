@@ -64,7 +64,7 @@ class ContainerViewController: UIViewController {
                 colors: [.yellow, .red, .orange, .brown, .purple, .cyan, .lightGray, .blue, .red, .orange, .brown, .purple],
                 strokeWidth: 0)
 
-            let dynamicHeight = CGFloat(itemCount * 80)
+            let dynamicHeight = CGFloat(itemCount) * 2.5 * thickness + 10
             chart.widthAnchor.constraint(equalToConstant: 320).isActive = true
             chart.heightAnchor.constraint(equalToConstant: dynamicHeight).isActive = true
             scrollView.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 16).isActive = true
@@ -85,7 +85,7 @@ class ContainerViewController: UIViewController {
                 frame: CGRect(x: 0, y: 0, width: 100, height: 15),
                 colors: [.yellow, .red, .orange, .brown, .purple, .cyan, .lightGray, .blue, .red, .orange, .brown, .purple],
                 strokeWidth: 0)
-            let dynamicHeight = CGFloat(itemCount * 80)
+            let dynamicHeight = CGFloat(itemCount) * 5 * thickness
             chart.widthAnchor.constraint(equalToConstant: 320).isActive = true
             chart.heightAnchor.constraint(equalToConstant: dynamicHeight).isActive = true
             scrollView.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 16).isActive = true
@@ -104,7 +104,7 @@ class ContainerViewController: UIViewController {
                 frame: CGRect(x: 0, y: 0, width: 100, height: 15),
                 colors: [.yellow, .red, .orange, .brown, .purple, .cyan, .lightGray, .blue, .red, .orange, .brown, .purple],
                 strokeWidth: 0)
-            let dynamicHeight = CGFloat(itemCount * 80)
+            let dynamicHeight = CGFloat(itemCount) * 2.5 * thickness + 10
             chart.widthAnchor.constraint(equalToConstant: 320).isActive = true
             chart.heightAnchor.constraint(equalToConstant: dynamicHeight).isActive = true
             scrollView.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 16).isActive = true

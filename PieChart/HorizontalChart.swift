@@ -10,7 +10,11 @@ import UIKit
 class HorizontalChart: ChartView {
     private var data: [(String, CGFloat)] = []
     private var sum: Double = 0
-
+    private let thickness : CGFloat
+    private let colors: [UIColor]
+    private let strokeWidth: CGFloat
+    private let borderColor: UIColor
+      
     func bind(dataSet: ChartDataSet) {
         guard let seriesData = dataSet.data.first else { return }
         let series = seriesData.seriesPoints.sorted(by: { $0.index < $1.index })
@@ -20,14 +24,13 @@ class HorizontalChart: ChartView {
 
     // MARK: - Initializers
 
-    init(frame: CGRect, colors: [UIColor]? = nil, strokeWidth: CGFloat = 0, borderColor: UIColor = .black) {
-        super.init(frame: frame)
-
-        self.colors = colors ?? self.colors
+    init(frame: CGRect, colors: [UIColor]? = nil, strokeWidth: CGFloat = 0, borderColor: UIColor = .black, thickness: CGFloat = 20) {
+        self.thickness = thickness
+        self.colors = colors ?? [UIColor.gray]
         self.strokeWidth = strokeWidth
         self.borderColor = borderColor
-
-        backgroundColor = .clear
+        super.init(frame: frame)
+        self.backgroundColor = .clear
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -35,11 +38,7 @@ class HorizontalChart: ChartView {
     }
 
     // MARK: - Aesthetics
-
-    var colors: [UIColor] = [UIColor.gray]
-    var strokeWidth: CGFloat = 0
-    var borderColor = UIColor.black
-
+ 
     override func draw(_ rect: CGRect) {
         guard let context = UIGraphicsGetCurrentContext() else { return }
 
@@ -50,9 +49,6 @@ class HorizontalChart: ChartView {
         let maxValue = maxRatio * sum
         addValuesXLabel(maxValue)
 
-        let division = (rect.height / CGFloat(data.count))
-        let thickness = 0.4 * division
-
         var i: Int = 0
 
         borderColor.setStroke()
@@ -61,7 +57,7 @@ class HorizontalChart: ChartView {
         data.forEach { key, value in
 
             let sectionWidth = value * maxWidth
-            let yValue: CGFloat = (CGFloat(i) * division) + 30
+            let yValue: CGFloat = (CGFloat(i) * thickness * 2.5) + 30
 
             // create path
             let shapeBounds = CGRect(x: 75, y: yValue - thickness / 2, width: sectionWidth, height: thickness)
