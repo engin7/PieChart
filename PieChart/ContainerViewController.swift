@@ -32,6 +32,9 @@ class ContainerViewController: UIViewController {
  
         let chart: ChartView
 
+        guard let seriesData = globaChartData.first else { return }
+        let itemCount = seriesData.seriesPoints.count
+        
         switch chartDataSet.ChartType {
         case .Pie:
             chart = PieChartView(
@@ -47,17 +50,22 @@ class ContainerViewController: UIViewController {
                 frame: CGRect(x: 0, y: 0, width: 100, height: 15),
                 colors: [.yellow, .red, .orange, .brown, .purple, .cyan, .lightGray, .blue, .red, .orange, .brown, .purple],
                 strokeWidth: 0)
-            chart.widthAnchor.constraint(equalToConstant: 720).isActive = true
+            
+            let dynamicWidth = CGFloat(itemCount * 80)
+
+            chart.widthAnchor.constraint(equalToConstant: dynamicWidth).isActive = true
             chart.heightAnchor.constraint(equalToConstant: 320).isActive = true
             scrollView.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 50).isActive = true
 
         case .Horizontal:
             chart = HorizontalChart(
-                frame: CGRect(x: 0, y: 0, width: 100, height: 15),
+                frame: CGRect(x: 0, y: 0, width: 0, height: 0),
                 colors: [.yellow, .red, .orange, .brown, .purple, .cyan, .lightGray, .blue, .red, .orange, .brown, .purple],
                 strokeWidth: 0)
+
+            let dynamicHeight = CGFloat(itemCount * 80)
             chart.widthAnchor.constraint(equalToConstant: 320).isActive = true
-            chart.heightAnchor.constraint(equalToConstant: 720).isActive = true
+            chart.heightAnchor.constraint(equalToConstant: dynamicHeight).isActive = true
             scrollView.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 16).isActive = true
 
         case .VerticalGrouped:
@@ -65,7 +73,9 @@ class ContainerViewController: UIViewController {
                 frame: CGRect(x: 0, y: 0, width: 100, height: 15),
                 colors: [.yellow, .red, .orange, .brown, .purple, .cyan, .lightGray, .blue, .red, .orange, .brown, .purple],
                 strokeWidth: 0)
-            chart.widthAnchor.constraint(equalToConstant: 720).isActive = true
+            
+            let dynamicWidth = CGFloat(itemCount * 80)
+            chart.widthAnchor.constraint(equalToConstant: dynamicWidth).isActive = true
             chart.heightAnchor.constraint(equalToConstant: 320).isActive = true
             scrollView.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 50).isActive = true
 
@@ -82,7 +92,9 @@ class ContainerViewController: UIViewController {
                 frame: CGRect(x: 0, y: 0, width: 100, height: 15),
                 colors: [.yellow, .red, .orange, .brown, .purple, .cyan, .lightGray, .blue, .red, .orange, .brown, .purple],
                 strokeWidth: 0)
-            chart.widthAnchor.constraint(equalToConstant: 720).isActive = true
+            
+            let dynamicWidth = CGFloat(itemCount * 80)
+            chart.widthAnchor.constraint(equalToConstant: dynamicWidth).isActive = true
             chart.heightAnchor.constraint(equalToConstant: 320).isActive = true
             scrollView.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 50).isActive = true
         case .HorizontalStacked:
@@ -94,15 +106,15 @@ class ContainerViewController: UIViewController {
             chart.heightAnchor.constraint(equalToConstant: 720).isActive = true
             scrollView.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 16).isActive = true
         }
+        chart.bind(dataSet: chartDataSet)
 
         scrollView.addSubview(chart)
-        chart.bind(dataSet: chartDataSet)
   
         chart.translatesAutoresizingMaskIntoConstraints = false
         chart.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor).isActive = true
-        chart.topAnchor.constraint(equalTo: scrollView.topAnchor).isActive = true
         chart.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor).isActive = true
+        chart.topAnchor.constraint(equalTo: scrollView.topAnchor).isActive = true
         chart.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor).isActive = true
-      
+
     }
 }

@@ -34,7 +34,11 @@ func addValuesYLabel(_ maxValue: Double) {
 
 func addValuesXLabel(_ maxValue: Double) {
     guard let vc = masterVC else { return }
-
+    guard let seriesData = globaChartData.first else { return }
+    let itemCount = seriesData.seriesPoints.count
+    let itemSpace = CGFloat(itemCount * 80)
+    let calculatedSpace = itemSpace < vc.view.bounds.height - 300 ? itemSpace + 150 : vc.view.bounds.height - 150
+    
     let labelCount: Int = UIDevice.current.userInterfaceIdiom == .pad ? 8 : 4
     let rate: Int = roundToNumber(maxValue / Double(labelCount), roundTo: 5)
     let offSet = (vc.view.bounds.width - 135) / CGFloat(labelCount)
@@ -47,7 +51,7 @@ func addValuesXLabel(_ maxValue: Double) {
         vc.view.addSubview(label)
 
         label.centerXAnchor.constraint(equalTo: vc.view.leadingAnchor, constant: 85 + (offSet * CGFloat(i))).isActive = true
-        label.bottomAnchor.constraint(equalTo: vc.view.bottomAnchor, constant: -120).isActive = true
+        label.topAnchor.constraint(equalTo: vc.view.topAnchor, constant: calculatedSpace + 10).isActive = true
     }
 }
 
@@ -73,8 +77,15 @@ func drawYAxis() {
 
 func drawXAxis() {
     guard let vc = masterVC else { return }
+    guard let seriesData = globaChartData.first else { return }
+    let itemCount = seriesData.seriesPoints.count
+    let itemSpace = CGFloat(itemCount * 80)
+    let calculatedSpace = itemSpace < vc.view.bounds.height - 300 ? itemSpace : vc.view.bounds.height - 300
+    
     let xValue: CGFloat = 91.0
-    let yValue: CGFloat = vc.view.bounds.maxY - 150.0
+    let yValue: CGFloat = vc.view.bounds.minY + 150.0 + calculatedSpace
+    
+ 
     let xMax = vc.view.bounds.maxX - 16
     // draw axis
     let path = UIBezierPath()

@@ -62,7 +62,7 @@ required init?(coder aDecoder: NSCoder) {
             
             let yMax = rect.height - 50
             let sectionHeight = value * maxHeight
-            let xValue: CGFloat = (CGFloat(i) * division) + 30.0
+            let xValue: CGFloat = (CGFloat(i) * division) + 40.0
 
             // create path
             let shapeBounds = CGRect(x: xValue - thickness / 2, y: rect.height - 50 - sectionHeight, width: thickness, height: sectionHeight)

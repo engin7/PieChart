@@ -69,7 +69,7 @@ class VerticalGroupedChart: ChartView {
         
         data.forEach { key, mData in
 
-            let labelValue: CGFloat = (CGFloat(i) * division) + 30.0
+            let labelValue: CGFloat = (CGFloat(i) * division) + 40.0
 
             mData.forEach { _, value in
 

@@ -77,17 +77,13 @@ class VerticalStackedChart: ChartView {
         
         data.forEach { key, mData in
 
-            let labelValue: CGFloat = (CGFloat(i) * division) + 30.0
             
             var heightOffset: CGFloat = 0
-            
+            let xValue: CGFloat = CGFloat(i) * division + 40
+
             mData.forEach { _, value in
 
                 let sectionHeight = value * maxHeight * 0.9
-                
-                let itemGap = CGFloat(i) * division
-                
-                let xValue: CGFloat = itemGap + 30
                 // create path
                 let path: UIBezierPath
                 let shapeLayer = CAShapeLayer()
@@ -122,7 +118,7 @@ class VerticalStackedChart: ChartView {
             }
                 j = 0
             
-            let labelPos = CGPoint(x: labelValue, y: yMax - 20)
+            let labelPos = CGPoint(x: xValue, y: yMax - 20)
             addLabel(labelPos, key)
 
             i = i >= colors.count ? 0 : i + 1
