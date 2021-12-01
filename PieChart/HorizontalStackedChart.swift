@@ -147,6 +147,7 @@ class HorizontalStackedChart: ChartView {
         addSubview(label)
 
         label.trailingAnchor.constraint(equalTo: leadingAnchor, constant: leftPoint.x).isActive = true
+        label.leadingAnchor.constraint(greaterThanOrEqualTo: leadingAnchor, constant: 8).isActive = true
         label.centerYAnchor.constraint(equalTo: topAnchor, constant: leftPoint.y).isActive = true
     }
      

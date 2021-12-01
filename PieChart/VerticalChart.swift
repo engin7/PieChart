@@ -108,9 +108,12 @@ required init?(coder aDecoder: NSCoder) {
             let label = UILabel()
             label.font = label.font.withSize(12)
             label.text = title
+            label.textAlignment = .center
+            label.numberOfLines = 1
             label.translatesAutoresizingMaskIntoConstraints = false
             addSubview(label)
         
+            label.widthAnchor.constraint(lessThanOrEqualToConstant: 50).isActive = true
             label.centerXAnchor.constraint(equalTo: leadingAnchor, constant: leftPoint.x ).isActive = true
             label.topAnchor.constraint(equalTo: topAnchor, constant: leftPoint.y + 30).isActive = true
     }
