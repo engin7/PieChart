@@ -12,6 +12,11 @@ class VerticalChart: ChartView {
 
 private var data: [(String, CGFloat)] = []
 private var sum: Double = 0
+private let thickness : CGFloat
+private let colors: [UIColor]
+private let strokeWidth: CGFloat
+private let borderColor: UIColor
+    
     
     func bind(dataSet: ChartDataSet) {
     guard let seriesData = dataSet.data.first else { return }
@@ -22,11 +27,12 @@ private var sum: Double = 0
 
 // MARK: - Initializers
 
-init(frame: CGRect, colors: [UIColor]? = nil, strokeWidth: CGFloat = 0, borderColor: UIColor = .black) {
-    super.init(frame: frame)
-    self.colors = colors ?? self.colors
+init(frame: CGRect, colors: [UIColor]? = nil, strokeWidth: CGFloat = 0, borderColor: UIColor = .black, thickness: CGFloat = 20) {
+    self.thickness = thickness
+    self.colors = colors ?? [UIColor.gray]
     self.strokeWidth = strokeWidth
     self.borderColor = borderColor
+    super.init(frame: frame)
     self.backgroundColor = .clear
 }
 
@@ -35,10 +41,7 @@ required init?(coder aDecoder: NSCoder) {
 }
 
     // MARK: - Aesthetics
-    
-    var colors: [UIColor] = [UIColor.gray]
-    var strokeWidth: CGFloat = 0
-    var borderColor = UIColor.black
+  
  
     
     override func draw(_ rect: CGRect) {
@@ -49,10 +52,7 @@ required init?(coder aDecoder: NSCoder) {
         
         let maxValue: Double = maxRatio * sum
         addValuesYLabel(maxValue)
-        
-        let division = (rect.width / CGFloat(data.count))
-        let thickness = 0.4 * division
-        
+       
         var i: Int = 0
 
         borderColor.setStroke()
@@ -62,7 +62,7 @@ required init?(coder aDecoder: NSCoder) {
             
             let yMax = rect.height - 50
             let sectionHeight = value * maxHeight
-            let xValue: CGFloat = (CGFloat(i) * division) + 40.0
+            let xValue: CGFloat = (CGFloat(i) * thickness * 3) + 30.0
 
             // create path
             let shapeBounds = CGRect(x: xValue - thickness / 2, y: rect.height - 50 - sectionHeight, width: thickness, height: sectionHeight)

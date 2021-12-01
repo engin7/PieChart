@@ -13,6 +13,10 @@ class VerticalGroupedChart: ChartView {
     
     private var data: [ChartModel] = []
     private var sum: Double = 0
+    private let thickness : CGFloat
+    private let colors: [UIColor]
+    private let strokeWidth: CGFloat
+    private let borderColor: UIColor
     
     func bind(dataSet: ChartDataSet) {
         
@@ -28,12 +32,13 @@ class VerticalGroupedChart: ChartView {
 
     // MARK: - Initializers
 
-    init(frame: CGRect, colors: [UIColor]? = nil, strokeWidth: CGFloat = 0, borderColor: UIColor = .black) {
-        super.init(frame: frame)
-        self.colors = colors ?? self.colors
+    init(frame: CGRect, colors: [UIColor]? = nil, strokeWidth: CGFloat = 0, borderColor: UIColor = .black, thickness: CGFloat = 20) {
+        self.thickness = thickness
+        self.colors = colors ?? [UIColor.gray]
         self.strokeWidth = strokeWidth
         self.borderColor = borderColor
-        backgroundColor = .clear
+        super.init(frame: frame)
+        self.backgroundColor = .clear
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -41,10 +46,7 @@ class VerticalGroupedChart: ChartView {
     }
 
     // MARK: - Aesthetics
-
-    var colors: [UIColor] = [UIColor.gray]
-    var strokeWidth: CGFloat = 0
-    var borderColor = UIColor.black
+ 
 
     override func draw(_ rect: CGRect) {
         guard let context = UIGraphicsGetCurrentContext() else { return }
@@ -57,7 +59,6 @@ class VerticalGroupedChart: ChartView {
         
         let maxHeight = ((rect.height - 70) / maxRatio)
         let division = (rect.width / CGFloat(multiData.count / data[0].1.count))
-        let thickness = 0.2 * division
 
         var i: Int = 0
         var j: Int = 0
@@ -69,14 +70,14 @@ class VerticalGroupedChart: ChartView {
         
         data.forEach { key, mData in
 
-            let labelValue: CGFloat = (CGFloat(i) * division) + 40.0
+            let labelValue: CGFloat = (CGFloat(i) * thickness * 5) + 30.0 + thickness
 
             mData.forEach { _, value in
 
                 let sectionHeight = value * maxHeight 
-                let groupGap = CGFloat(j) * division / CGFloat(mData.count) * 0.7
-                let itemGap = CGFloat(i) * division
-                let xValue: CGFloat = itemGap + groupGap + 20
+                let groupGap = CGFloat(j) * thickness * 2
+                let itemGap = CGFloat(i) * thickness * 5
+                let xValue: CGFloat = itemGap + groupGap + 30
                 // create path
                 let shapeBounds = CGRect(x: xValue - thickness / 2, y: rect.height - 50 - sectionHeight, width: thickness, height: sectionHeight)
                 let path = UIBezierPath(roundedRect: shapeBounds,
@@ -129,7 +130,8 @@ class VerticalGroupedChart: ChartView {
         label.text = title
         label.translatesAutoresizingMaskIntoConstraints = false
         addSubview(label)
-
+        
+        label.widthAnchor.constraint(lessThanOrEqualToConstant: 80).isActive = true
         label.centerXAnchor.constraint(equalTo: leadingAnchor, constant: leftPoint.x).isActive = true
         label.topAnchor.constraint(equalTo: topAnchor, constant: leftPoint.y + 30).isActive = true
     }

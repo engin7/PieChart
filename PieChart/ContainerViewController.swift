@@ -34,6 +34,7 @@ class ContainerViewController: UIViewController {
 
         guard let seriesData = globaChartData.first else { return }
         let itemCount = seriesData.seriesPoints.count
+        let thickness: CGFloat = 20
         
         switch chartDataSet.ChartType {
         case .Pie:
@@ -51,7 +52,7 @@ class ContainerViewController: UIViewController {
                 colors: [.yellow, .red, .orange, .brown, .purple, .cyan, .lightGray, .blue, .red, .orange, .brown, .purple],
                 strokeWidth: 0)
             
-            let dynamicWidth = CGFloat(itemCount * 80)
+            let dynamicWidth = CGFloat(itemCount * 3) * thickness
 
             chart.widthAnchor.constraint(equalToConstant: dynamicWidth).isActive = true
             chart.heightAnchor.constraint(equalToConstant: 320).isActive = true
@@ -72,9 +73,9 @@ class ContainerViewController: UIViewController {
             chart = VerticalGroupedChart(
                 frame: CGRect(x: 0, y: 0, width: 100, height: 15),
                 colors: [.yellow, .red, .orange, .brown, .purple, .cyan, .lightGray, .blue, .red, .orange, .brown, .purple],
-                strokeWidth: 0)
+                strokeWidth: 0, thickness: thickness)
             
-            let dynamicWidth = CGFloat(itemCount * 80)
+            let dynamicWidth = CGFloat(itemCount * 5) * thickness
             chart.widthAnchor.constraint(equalToConstant: dynamicWidth).isActive = true
             chart.heightAnchor.constraint(equalToConstant: 320).isActive = true
             scrollView.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 50).isActive = true
@@ -94,7 +95,7 @@ class ContainerViewController: UIViewController {
                 colors: [.yellow, .red, .orange, .brown, .purple, .cyan, .lightGray, .blue, .red, .orange, .brown, .purple],
                 strokeWidth: 0)
             
-            let dynamicWidth = CGFloat(itemCount * 80)
+            let dynamicWidth = CGFloat(itemCount * 3) * thickness
             chart.widthAnchor.constraint(equalToConstant: dynamicWidth).isActive = true
             chart.heightAnchor.constraint(equalToConstant: 320).isActive = true
             scrollView.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 50).isActive = true
