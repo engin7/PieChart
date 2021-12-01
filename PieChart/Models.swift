@@ -13,11 +13,11 @@ var masterVC: UIViewController?
 // sample data
 
 let seriesPoints0: [AxisData] = [
-   AxisData(index: 0, label: "apples", value: 25),
-   AxisData(index: 1, label: "cherries", value: 45),
-//   AxisData(index: 2, label: "oranges", value: 40),
-//   AxisData(index: 3, label: "peaches", value: 25),
-//   AxisData(index: 4, label: "pears", value: 50),
+   AxisData(index: 0, label: "apples", value: 50),
+   AxisData(index: 1, label: "cherries", value: 145),
+   AxisData(index: 2, label: "oranges is sweet oh", value: 90),
+   AxisData(index: 3, label: "peaches", value: 5),
+   AxisData(index: 4, label: "pears", value: 50),
 //   AxisData(index: 5, label: "banana", value: 70),
 //   AxisData(index: 6, label: "nuts", value: 100),
 //   AxisData(index: 7, label: "pumpkin", value: 50),
@@ -27,7 +27,7 @@ let seriesPoints0: [AxisData] = [
 ]
 
 let seriesPoints1: [AxisData] = [
-   AxisData(index: 0, label: "apples", value: 15),
+   AxisData(index: 0, label: "apples", value: 50),
    AxisData(index: 1, label: "cherries", value: 35),
    AxisData(index: 2, label: "oranges", value: 20),
    AxisData(index: 3, label: "peaches", value: 55),

@@ -40,7 +40,7 @@ class ContainerViewController: UIViewController {
             chart = PieChartView(
                 frame: CGRect(x: 0, y: 0, width: 320, height: 320),
                 colors: [.yellow, .red, .orange, .brown, .purple, .cyan, .lightGray, .blue, .red, .orange, .brown, .purple],
-                strokeWidth: 0)
+                strokeWidth: 1.0)
             chart.widthAnchor.constraint(equalToConstant: 320).isActive = true
             chart.heightAnchor.constraint(equalToConstant: 320).isActive = true
             scrollView.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 16).isActive = true

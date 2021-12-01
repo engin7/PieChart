@@ -50,7 +50,7 @@ func addValuesXLabel(_ maxValue: Double) {
         label.translatesAutoresizingMaskIntoConstraints = false
         vc.view.addSubview(label)
 
-        label.centerXAnchor.constraint(equalTo: vc.view.leadingAnchor, constant: 85 + (offSet * CGFloat(i))).isActive = true
+        label.centerXAnchor.constraint(equalTo: vc.view.leadingAnchor, constant: 92 + (offSet * CGFloat(i))).isActive = true
         label.topAnchor.constraint(equalTo: vc.view.topAnchor, constant: calculatedSpace + 10).isActive = true
     }
 }
@@ -96,11 +96,11 @@ func drawXAxis() {
     // seperators
 
     let labelCount: Int = UIDevice.current.userInterfaceIdiom == .pad ? 8 : 4
-    let diff = (xMax - xValue - 30) / CGFloat(labelCount)
+    let diff = (xMax - xValue - 25) / CGFloat(labelCount)
 
     for i in 1 ... labelCount {
-        path.move(to: CGPoint(x: xValue + CGFloat(i) * diff - 5, y: yValue))
-        path.addLine(to: CGPoint(x: xValue + CGFloat(i) * diff - 5, y: yValue + 5))
+        path.move(to: CGPoint(x: xValue + CGFloat(i) * diff, y: yValue))
+        path.addLine(to: CGPoint(x: xValue + CGFloat(i) * diff, y: yValue + 5))
     }
 
     let shapeLayer = CAShapeLayer()

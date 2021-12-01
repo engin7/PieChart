@@ -21,7 +21,7 @@ class PieChartView: ChartView {
     
     // MARK: - Initializers
     
-    init(frame: CGRect, colors: [UIColor]? = nil, strokeWidth: CGFloat = 0, borderColor: UIColor = .black) {
+    init(frame: CGRect, colors: [UIColor]? = nil, strokeWidth: CGFloat = 0, borderColor: UIColor = .white) {
         super.init(frame: frame)
         
         self.colors = colors ?? self.colors
@@ -107,7 +107,6 @@ class PieChartView: ChartView {
         var i: Int = 0
         
         borderColor.setStroke()
-        context.setLineWidth(strokeWidth)
         
         data.forEach { (key, value) in
             let angle = value * 2 * CGFloat.pi
@@ -143,11 +142,13 @@ class PieChartView: ChartView {
             let shadowBlurRadius: CGFloat
             
               if inBeetween {
+                  context.setLineWidth(0.0)
                   radius = min(0.5*rect.width - 10, 0.5*rect.height - 10) - 0.5 * strokeWidth
                   shadowBlurRadius = 10
               } else {
+                  context.setLineWidth(strokeWidth)
                   radius = min(0.5*rect.width - 20, 0.5*rect.height - 20) - 0.5 * strokeWidth
-                  shadowBlurRadius = 2
+                  shadowBlurRadius = 0
               }
             
             path.addLine(to: CGPoint(x: radius, y: 0))
