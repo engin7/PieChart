@@ -46,7 +46,7 @@ required init?(coder aDecoder: NSCoder) {
         guard let vc = masterVC else { return }
 
         let maxRatio = data.compactMap { $0.1 }.max() ?? 1.0
-        let maxHeight = ((rect.height - 50) / maxRatio) 
+        let maxHeight = ((rect.height - 70) / maxRatio)
         
         let maxValue: Double = maxRatio * sum
         addValuesYLabel(maxValue, vc.view)
@@ -62,14 +62,14 @@ required init?(coder aDecoder: NSCoder) {
         data.forEach { (key, value) in
             
             let yMax = rect.height - 50
-            let sectionHeight = value * maxHeight * 0.9
+            let sectionHeight = value * maxHeight
             let xValue: CGFloat = (CGFloat(i) * division) + 30.0
 
             // create path
             let shapeBounds = CGRect(x: xValue - thickness / 2, y: rect.height - 50 - sectionHeight, width: thickness, height: sectionHeight)
             let path = UIBezierPath(roundedRect: shapeBounds,
                                     byRoundingCorners: [.topLeft, .topRight],
-                                    cornerRadii: CGSize(width: thickness / 2, height: thickness / 2))
+                                    cornerRadii: CGSize(width: thickness / .pi, height: 0))
        
             let shapeLayer = CAShapeLayer()
             shapeLayer.path = path.cgPath

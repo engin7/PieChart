@@ -18,18 +18,18 @@ func addValuesYLabel(_ maxValue: Double, _ view: UIView) {
 
 let labelCount: Int =  UIDevice.current.userInterfaceIdiom == .pad ? 8 : 4
 let rate: Int =  roundToNumber(maxValue / Double(labelCount), roundTo: 5)
-let offSet = 0.9 * (view.bounds.height - 300) / CGFloat(labelCount + 1)
+let offSet = (view.bounds.maxY - 247 - 150 - 20) / CGFloat(labelCount)
 
-for i in 1...labelCount {
+for i in 0...labelCount-1 {
     
     let label = UILabel()
     label.font = label.font.withSize(12)
-    label.text = String(rate * i) + " -"
+    label.text = String(rate * (i+1)) + " -"
     label.translatesAutoresizingMaskIntoConstraints = false
     view.addSubview(label)
 
     label.trailingAnchor.constraint(equalTo: view.leadingAnchor, constant: 50).isActive = true
-    label.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -160 - (offSet * CGFloat(i + 1))).isActive = true
+    label.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -242 - (offSet * CGFloat(i+1)) ).isActive = true
 }
  
 }

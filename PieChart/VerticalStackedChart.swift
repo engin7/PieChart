@@ -64,7 +64,7 @@ class VerticalStackedChart: ChartView {
         let maxValue: Double = maxRatio * sum
         addValuesYLabel(maxValue, vc.view)
         
-        let maxHeight = ((rect.height - 50) / maxRatio)
+        let maxHeight = ((rect.height - 70) / maxRatio)
         let division = (rect.width / CGFloat(multiData.count / data[0].1.count))
         let thickness = 0.4 * division
 
@@ -97,7 +97,7 @@ class VerticalStackedChart: ChartView {
                     let shapeBounds = CGRect(x: xValue - thickness / 2, y: rect.height - 50 - sectionHeight - heightOffset, width: thickness, height: sectionHeight)
                     path = UIBezierPath(roundedRect: shapeBounds,
                                             byRoundingCorners: [.topLeft, .topRight],
-                                            cornerRadii: CGSize(width: thickness / 2, height: thickness / 2))
+                                        cornerRadii: CGSize(width: thickness / .pi, height: 0))
                 } else {
                     
                     path = UIBezierPath()

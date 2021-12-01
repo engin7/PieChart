@@ -68,7 +68,7 @@ class HorizontalChart: ChartView {
             let shapeBounds = CGRect(x: 75, y: yValue - thickness / 2, width: sectionWidth, height: thickness)
             let path = UIBezierPath(roundedRect: shapeBounds,
                                     byRoundingCorners: [.bottomRight, .topRight],
-                                    cornerRadii: CGSize(width: thickness / 2, height: thickness / 2))
+                                    cornerRadii: CGSize(width: thickness / .pi, height: 0))
  
             let shapeLayer = CAShapeLayer()
             shapeLayer.path = path.cgPath
