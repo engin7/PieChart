@@ -48,13 +48,12 @@ class VerticalGroupedChart: ChartView {
 
     override func draw(_ rect: CGRect) {
         guard let context = UIGraphicsGetCurrentContext() else { return }
-        guard let vc = masterVC else { return }
 
         let multiData = data.flatMap({ $0.1 })
         let maxRatio = multiData.compactMap { $0.1 }.max() ?? 1.0
 
         let maxValue: Double = maxRatio * sum
-        addValuesYLabel(maxValue, vc.view)
+        addValuesYLabel(maxValue)
         
         let maxHeight = ((rect.height - 70) / maxRatio)
         let division = (rect.width / CGFloat(multiData.count / data[0].1.count))
@@ -107,7 +106,7 @@ class VerticalGroupedChart: ChartView {
             i = i >= colors.count ? 0 : i + 1
         }
         
-        drawYAxis(vc: vc)
+        drawYAxis()
         
         // draw X Axis
         let path = UIBezierPath()

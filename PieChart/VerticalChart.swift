@@ -43,13 +43,12 @@ required init?(coder aDecoder: NSCoder) {
     
     override func draw(_ rect: CGRect) {
         guard let context = UIGraphicsGetCurrentContext() else { return }
-        guard let vc = masterVC else { return }
 
         let maxRatio = data.compactMap { $0.1 }.max() ?? 1.0
         let maxHeight = ((rect.height - 70) / maxRatio)
         
         let maxValue: Double = maxRatio * sum
-        addValuesYLabel(maxValue, vc.view)
+        addValuesYLabel(maxValue)
         
         let division = (rect.width / CGFloat(data.count))
         let thickness = 0.4 * division
@@ -90,7 +89,7 @@ required init?(coder aDecoder: NSCoder) {
             i = i >= colors.count ? 0 : i + 1
         }
     
-        drawYAxis(vc: vc)
+        drawYAxis()
         
         // draw X axis
         let path = UIBezierPath()

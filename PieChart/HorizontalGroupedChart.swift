@@ -48,14 +48,13 @@ class HorizontalGroupedChart: ChartView {
 
     override func draw(_ rect: CGRect) {
         guard let context = UIGraphicsGetCurrentContext() else { return }
-        guard let vc = masterVC else { return }
 
         let multiData = data.flatMap({ $0.1 })
         let maxRatio = multiData.compactMap { $0.1 }.max() ?? 1.0
         let maxWidth = ((rect.width - 90) / maxRatio)  
 
         let maxValue = maxRatio * sum
-        addValuesXLabel(maxValue, vc.view)
+        addValuesXLabel(maxValue)
 
         let division = (rect.height / CGFloat(multiData.count / data[0].1.count))
         let thickness = 0.2 * division
@@ -107,7 +106,7 @@ class HorizontalGroupedChart: ChartView {
             i = i >= colors.count ? 0 : i + 1
         }
 
-        drawXAxis(vc: vc)
+        drawXAxis()
 
         // draw Y axis
         let path = UIBezierPath()
