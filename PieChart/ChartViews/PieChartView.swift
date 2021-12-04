@@ -101,8 +101,7 @@ class PieChartView: ChartView {
         guard let context = UIGraphicsGetCurrentContext() else { return }
          
         
-        let center = CGPoint(x: 0.5*rect.width, y: 0.5*rect.height)
-        
+        let center = CGPoint(x: rect.midX, y: rect.midY)
         var accumulatedAngle: CGFloat = -0.5 * CGFloat.pi
         var i: Int = 0
         
@@ -110,7 +109,7 @@ class PieChartView: ChartView {
         
         data.forEach { (key, value) in
             let angle = value * 2 * CGFloat.pi
-            radius = min(0.5*rect.width - 10, 0.5*rect.height - 10) - 0.5 * strokeWidth
+            radius = min(0.4*rect.width, 0.4*rect.height)
 
             let startAngle = -accumulatedAngle
             let endAngle =  startAngle - angle
@@ -125,7 +124,6 @@ class PieChartView: ChartView {
             
             var inBeetween: Bool = false
             
-          print("#anlges## \(i)")
             
             let touchAngle =  atan2(center.y - touchPoint.y, touchPoint.x - center.x)
             
@@ -143,11 +141,11 @@ class PieChartView: ChartView {
             
               if inBeetween {
                   context.setLineWidth(0.0)
-                  radius = min(0.5*rect.width - 10, 0.5*rect.height - 10) - 0.5 * strokeWidth
+                  radius = min(0.45*rect.width, 0.45*rect.height)
                   shadowBlurRadius = 10
               } else {
                   context.setLineWidth(strokeWidth)
-                  radius = min(0.5*rect.width - 20, 0.5*rect.height - 20) - 0.5 * strokeWidth
+                  radius = min(0.4*rect.width, 0.4*rect.height)
                   shadowBlurRadius = 0
               }
             

@@ -9,7 +9,7 @@ import UIKit
 
 class ContainerViewController: UIViewController {
     var chartDataSet: ChartDataSet!
-
+ 
     let scrollView: UIScrollView = {
         let v = UIScrollView()
         v.translatesAutoresizingMaskIntoConstraints = false
@@ -25,26 +25,36 @@ class ContainerViewController: UIViewController {
         masterVC = self
 
         view.addSubview(scrollView)
+        
+        let frameLayoutGuide = scrollView.frameLayoutGuide
+        let contentLayoutGuide = scrollView.contentLayoutGuide
+
+        let width = view.bounds.width
+        let height = view.bounds.height
  
-        scrollView.topAnchor.constraint(equalTo: view.topAnchor, constant: 150.0).isActive = true
-        scrollView.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -16.0).isActive = true
-        scrollView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -150.0).isActive = true
- 
+        NSLayoutConstraint.activate([
+          frameLayoutGuide.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+          frameLayoutGuide.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+          frameLayoutGuide.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 0.1 * height),
+          frameLayoutGuide.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -0.2 * height)
+        ])
+       
         let chart: ChartView
 
         guard let seriesData = globaChartData.first else { return }
         let itemCount = seriesData.seriesPoints.count
         let thickness: CGFloat = 20
         
+    
         switch chartDataSet.ChartType {
         case .Pie:
             chart = PieChartView(
                 frame: CGRect(x: 0, y: 0, width: 320, height: 320),
                 colors: [.yellow, .red, .orange, .brown, .purple, .cyan, .lightGray, .blue, .red, .orange, .brown, .purple],
                 strokeWidth: 1.0)
-            chart.widthAnchor.constraint(equalToConstant: 320).isActive = true
-            chart.heightAnchor.constraint(equalToConstant: 320).isActive = true
-            scrollView.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 16).isActive = true
+      
+            chart.widthAnchor.constraint(equalToConstant: width).isActive = true
+            chart.heightAnchor.constraint(equalToConstant: width).isActive = true
 
         case .Vertical:
             chart = VerticalChart(
@@ -63,9 +73,9 @@ class ContainerViewController: UIViewController {
                 frame: CGRect(x: 0, y: 0, width: 0, height: 0),
                 colors: [.yellow, .red, .orange, .brown, .purple, .cyan, .lightGray, .blue, .red, .orange, .brown, .purple],
                 strokeWidth: 0)
-
+ 
             let dynamicHeight = CGFloat(itemCount) * 2.5 * thickness + 10
-            chart.widthAnchor.constraint(equalToConstant: 320).isActive = true
+            chart.widthAnchor.constraint(equalToConstant: width).isActive = true
             chart.heightAnchor.constraint(equalToConstant: dynamicHeight).isActive = true
             scrollView.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 16).isActive = true
 
@@ -112,12 +122,10 @@ class ContainerViewController: UIViewController {
         chart.bind(dataSet: chartDataSet)
 
         scrollView.addSubview(chart)
-  
         chart.translatesAutoresizingMaskIntoConstraints = false
-        chart.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor).isActive = true
-        chart.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor).isActive = true
-        chart.topAnchor.constraint(equalTo: scrollView.topAnchor).isActive = true
-        chart.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor).isActive = true
-
+        chart.leadingAnchor.constraint(equalTo: contentLayoutGuide.leadingAnchor).isActive = true
+        chart.topAnchor.constraint(equalTo: contentLayoutGuide.topAnchor).isActive = true
     }
+    
+ 
 }
