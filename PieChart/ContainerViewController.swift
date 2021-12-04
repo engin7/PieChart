@@ -77,8 +77,7 @@ class ContainerViewController: UIViewController {
             let dynamicHeight = CGFloat(itemCount) * 2.5 * thickness + 10
             chart.widthAnchor.constraint(equalToConstant: width).isActive = true
             chart.heightAnchor.constraint(equalToConstant: dynamicHeight).isActive = true
-            scrollView.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 16).isActive = true
-
+ 
         case .VerticalGrouped:
             chart = VerticalGroupedChart(
                 frame: CGRect(x: 0, y: 0, width: 100, height: 15),
@@ -125,6 +124,8 @@ class ContainerViewController: UIViewController {
         chart.translatesAutoresizingMaskIntoConstraints = false
         chart.leadingAnchor.constraint(equalTo: contentLayoutGuide.leadingAnchor).isActive = true
         chart.topAnchor.constraint(equalTo: contentLayoutGuide.topAnchor).isActive = true
+        chart.bottomAnchor.constraint(equalTo: contentLayoutGuide.bottomAnchor).isActive = true
+
     }
     
  
