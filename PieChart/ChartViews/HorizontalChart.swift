@@ -14,7 +14,8 @@ class HorizontalChart: ChartView {
     private let colors: [UIColor]
     private let strokeWidth: CGFloat
     private let borderColor: UIColor
-      
+    private let vc: ContainerViewController
+    
     func bind(dataSet: ChartDataSet) {
         guard let seriesData = dataSet.data.first else { return }
         let series = seriesData.seriesPoints.sorted(by: { $0.index < $1.index })
@@ -24,11 +25,12 @@ class HorizontalChart: ChartView {
 
     // MARK: - Initializers
 
-    init(frame: CGRect, colors: [UIColor]? = nil, strokeWidth: CGFloat = 0, borderColor: UIColor = .black, thickness: CGFloat = 20) {
+    init(_ vc: ContainerViewController, frame: CGRect, colors: [UIColor]? = nil, strokeWidth: CGFloat = 0, borderColor: UIColor = .black, thickness: CGFloat = 20) {
         self.thickness = thickness
         self.colors = colors ?? [UIColor.gray]
         self.strokeWidth = strokeWidth
         self.borderColor = borderColor
+        self.vc = vc
         super.init(frame: frame)
         self.backgroundColor = .clear
     }
@@ -47,8 +49,9 @@ class HorizontalChart: ChartView {
         let maxWidth = ((rect.width - 75) / maxRatio)
 
         let maxValue = maxRatio * sum
-        addValuesXLabel(maxValue)
 
+        vc.addValuesXLabel(maxValue)
+        
         var i: Int = 0
 
         borderColor.setStroke()
@@ -83,8 +86,6 @@ class HorizontalChart: ChartView {
 
             i = i >= colors.count ? 0 : i + 1
         }
-
-        drawXAxis()
 
         // draw Y axis
         let path = UIBezierPath()

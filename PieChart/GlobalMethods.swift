@@ -73,7 +73,7 @@ func drawYAxis() {
     shapeLayer.lineWidth = 2
 
     vc.view.layer.addSublayer(shapeLayer)
-}
+}		
 
 func drawXAxis() {
     guard let vc = masterVC else { return }
@@ -82,7 +82,7 @@ func drawXAxis() {
     let itemSpace = CGFloat(itemCount * 80)
     let calculatedSpace = itemSpace < vc.view.bounds.height - 300 ? itemSpace : vc.view.bounds.height - 300
     
-    let xValue: CGFloat = 91.0
+    let xValue: CGFloat = 75.0
     let yValue: CGFloat = vc.view.bounds.minY + 150.0 + calculatedSpace
     
  

@@ -9,7 +9,8 @@ import UIKit
 
 class ContainerViewController: UIViewController {
     var chartDataSet: ChartDataSet!
- 
+    let sampleColors: [UIColor] = [.yellow, .red, .orange, .brown, .purple, .cyan, .lightGray, .blue, .red, .orange, .brown, .purple]
+    
     let scrollView: UIScrollView = {
         let v = UIScrollView()
         v.translatesAutoresizingMaskIntoConstraints = false
@@ -50,7 +51,7 @@ class ContainerViewController: UIViewController {
         case .Pie:
             chart = PieChartView(
                 frame: CGRect(x: 0, y: 0, width: 320, height: 320),
-                colors: [.yellow, .red, .orange, .brown, .purple, .cyan, .lightGray, .blue, .red, .orange, .brown, .purple],
+                colors: sampleColors,
                 strokeWidth: 1.0)
       
             chart.widthAnchor.constraint(equalToConstant: width).isActive = true
@@ -59,7 +60,7 @@ class ContainerViewController: UIViewController {
         case .Vertical:
             chart = VerticalChart(
                 frame: CGRect(x: 0, y: 0, width: 100, height: 15),
-                colors: [.yellow, .red, .orange, .brown, .purple, .cyan, .lightGray, .blue, .red, .orange, .brown, .purple],
+                colors: sampleColors,
                 strokeWidth: 0)
             
             let dynamicWidth = CGFloat(itemCount * 3) * thickness
@@ -69,15 +70,15 @@ class ContainerViewController: UIViewController {
             scrollView.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 50).isActive = true
 
         case .Horizontal:
-            chart = HorizontalChart(
-                frame: CGRect(x: 0, y: 0, width: 0, height: 0),
-                colors: [.yellow, .red, .orange, .brown, .purple, .cyan, .lightGray, .blue, .red, .orange, .brown, .purple],
+            chart = HorizontalChart(self, frame: CGRect(x: 0, y: 0, width: 0, height: 0),
+                colors: sampleColors,
                 strokeWidth: 0)
  
             let dynamicHeight = CGFloat(itemCount) * 2.5 * thickness + 10
             chart.widthAnchor.constraint(equalToConstant: width).isActive = true
             chart.heightAnchor.constraint(equalToConstant: dynamicHeight).isActive = true
- 
+            drawXAxisWithNotch()
+            
         case .VerticalGrouped:
             chart = VerticalGroupedChart(
                 frame: CGRect(x: 0, y: 0, width: 100, height: 15),
@@ -128,5 +129,60 @@ class ContainerViewController: UIViewController {
 
     }
     
+    lazy var horizontalLineView: UIView = {
+        $0.backgroundColor = .lightGray
+        $0.translatesAutoresizingMaskIntoConstraints = false
+        return $0
+    }(UIView())
+    
+    
+    func drawXAxisWithNotch() {
  
+        view.addSubview(horizontalLineView)
+        
+        NSLayoutConstraint.activate([
+            horizontalLineView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 75),
+            horizontalLineView.trailingAnchor.constraint(equalTo: view.trailingAnchor,constant: -25),
+            horizontalLineView.topAnchor.constraint(equalTo: scrollView.bottomAnchor),
+            horizontalLineView.heightAnchor.constraint(equalToConstant: 2)
+        ])
+  
+         // notch
+
+        let labelCount: Int = UIDevice.current.userInterfaceIdiom == .pad ? 8 : 4
+        let diff = (view.bounds.width-100) / CGFloat(labelCount) - 5
+
+        for i in 1 ... labelCount {
+            let seperatorView = UIView()
+            seperatorView.backgroundColor = .gray
+            seperatorView.translatesAutoresizingMaskIntoConstraints = false
+            view.addSubview(seperatorView)
+            
+            NSLayoutConstraint.activate([
+                seperatorView.trailingAnchor.constraint(equalTo: horizontalLineView.leadingAnchor, constant: CGFloat(i) * diff),
+                seperatorView.topAnchor.constraint(equalTo: horizontalLineView.bottomAnchor),
+                seperatorView.heightAnchor.constraint(equalToConstant: 5),
+                seperatorView.widthAnchor.constraint(equalToConstant: 1)
+            ])
+        }
+    }
+ 
+    func addValuesXLabel(_ maxValue: Double) {
+     
+        let labelCount: Int = UIDevice.current.userInterfaceIdiom == .pad ? 8 : 4
+        let rate: Int = roundToNumber(maxValue / Double(labelCount), roundTo: 5)
+        let offSet = (view.bounds.width-100) / CGFloat(labelCount) - 5
+
+        for i in 1 ... labelCount {
+            let label = UILabel()
+            label.font = label.font.withSize(12)
+            label.text = String(rate * i)
+            label.translatesAutoresizingMaskIntoConstraints = false
+            view.addSubview(label)
+
+            label.centerXAnchor.constraint(equalTo: horizontalLineView.leadingAnchor, constant: (offSet * CGFloat(i))).isActive = true
+            label.topAnchor.constraint(equalTo: horizontalLineView.bottomAnchor, constant: 8).isActive = true
+        }
+    }
+    
 }
