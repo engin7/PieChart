@@ -8,8 +8,6 @@
 import UIKit
 
  
-var masterVC: UIViewController?
-
 // sample data
 
 let seriesPoints0: [AxisData] = [
@@ -40,10 +38,25 @@ let seriesPoints1: [AxisData] = [
    AxisData(index: 10, label: "cheese", value: 30),
 ]
 
+let seriesPoints2: [AxisData] = [
+   AxisData(index: 0, label: "apples", value: 50),
+   AxisData(index: 1, label: "cherries", value: 35),
+   AxisData(index: 2, label: "oranges", value: 20),
+   AxisData(index: 3, label: "peaches", value: 55),
+   AxisData(index: 4, label: "pears", value: 50),
+   AxisData(index: 5, label: "banana", value: 30),
+   AxisData(index: 6, label: "nuts", value: 40),
+   AxisData(index: 7, label: "pumpkin", value: 45),
+   AxisData(index: 8, label: "rose", value: 35),
+   AxisData(index: 9, label: "bread", value: 25),
+   AxisData(index: 10, label: "cheese", value: 30),
+]
+
 let dataSet0: SeriesDataSet = SeriesDataSet(seriesName: "Farm I", seriesPoints: seriesPoints0)
 let dataSet1: SeriesDataSet = SeriesDataSet(seriesName: "Farm II", seriesPoints: seriesPoints1)
+let dataSet2: SeriesDataSet = SeriesDataSet(seriesName: "Farm III", seriesPoints: seriesPoints2)
 
-let globaChartData = [ dataSet0, dataSet1 ]
+let globaChartData = [dataSet0, dataSet1, dataSet2]
 /// Data Models
  
 typealias ChartView = UIView & ProtocolChart
