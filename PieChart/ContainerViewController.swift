@@ -74,7 +74,6 @@ class ContainerViewController: UIViewController {
         case .Horizontal:
             chart = HorizontalChart(self, frame: CGRect.zero,
                 colors: sampleColors, strokeWidth: 0, thickness: thickness, gap: gap)
- 
             let distanceAmongBars = (thickness + gap)
             let dynamicHeight = (CGFloat(itemCount) * distanceAmongBars) + gap
             chart.heightAnchor.constraint(equalToConstant: dynamicHeight).isActive = true
@@ -82,21 +81,16 @@ class ContainerViewController: UIViewController {
         case .VerticalGrouped:
             chart = VerticalGroupedChart(self, frame: CGRect.zero, colors: sampleColors,
             strokeWidth: 0, thickness: thickness, gap: gap)
-            
-            let distanceAmongBars = (2*thickness + 2*gap)
-            let dynamicWidth = (CGFloat(itemCount) * distanceAmongBars) + gap
+            let distanceAmongBars = (thickness + gap)
+            let dynamicWidth = (CGFloat(itemCount) * 2 * distanceAmongBars) + distanceAmongBars
             chart.widthAnchor.constraint(equalToConstant: dynamicWidth).isActive = true
             drawAxisesForVertical()
-       
         case .HorizontalGrouped:
-            chart = HorizontalGroupedChart(
-                frame: CGRect(x: 0, y: 0, width: 100, height: 15),
-                colors: sampleColors,
-                strokeWidth: 0)
-            let dynamicHeight = CGFloat(itemCount) * 5 * thickness
-            chart.widthAnchor.constraint(equalToConstant: 320).isActive = true
+            chart = HorizontalGroupedChart(self, frame: CGRect.zero, colors: sampleColors, strokeWidth: 0, thickness: thickness, gap: gap)
+            let distanceAmongBars = (thickness + gap)
+            let dynamicHeight = (CGFloat(itemCount) * 2 * distanceAmongBars) + distanceAmongBars
             chart.heightAnchor.constraint(equalToConstant: dynamicHeight).isActive = true
-            scrollView.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 16).isActive = true
+            drawAxisesForHorizontal()
         case .VerticalStacked:
             chart = VerticalStackedChart(
                 self,

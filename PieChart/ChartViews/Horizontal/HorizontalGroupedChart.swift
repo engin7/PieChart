@@ -14,10 +14,13 @@ class HorizontalGroupedChart: ChartView {
     private var data: [ChartModel] = []
     private var sum: Double = 0
     private let thickness : CGFloat
+    private let gap : CGFloat
+
     private let colors: [UIColor]
     private let strokeWidth: CGFloat
     private let borderColor: UIColor
-    
+    private let vc: ContainerViewController
+
     func bind(dataSet: ChartDataSet) {
         
         let chartData = dataSet.data
@@ -32,11 +35,13 @@ class HorizontalGroupedChart: ChartView {
 
     // MARK: - Initializers
 
-    init(frame: CGRect, colors: [UIColor]? = nil, strokeWidth: CGFloat = 0, borderColor: UIColor = .black, thickness: CGFloat = 20) {
+    init(_ vc: ContainerViewController, frame: CGRect, colors: [UIColor]? = nil, strokeWidth: CGFloat = 0, borderColor: UIColor = .black, thickness: CGFloat, gap: CGFloat) {
         self.thickness = thickness
+        self.gap = gap
         self.colors = colors ?? [UIColor.gray]
         self.strokeWidth = strokeWidth
         self.borderColor = borderColor
+        self.vc = vc
         super.init(frame: frame)
         self.backgroundColor = .clear
     }
@@ -52,73 +57,71 @@ class HorizontalGroupedChart: ChartView {
 
         let multiData = data.flatMap({ $0.1 })
         let maxRatio = multiData.compactMap { $0.1 }.max() ?? 1.0
-        let maxWidth = ((rect.width - 90) / maxRatio)  
+        let maxWidth = ((rect.width - 125) / maxRatio)  
 
         let maxValue = maxRatio * sum
-        addValuesXLabel(maxValue)
-
-        let division = (rect.height / CGFloat(multiData.count / data[0].1.count))
+        vc.addValuesXAxis(maxValue)
 
         var i: Int = 0
         var j: Int = 0
         
         borderColor.setStroke()
         context.setLineWidth(strokeWidth)
-        
+       
         data.forEach { key, mData in
-            
-            let labelValue: CGFloat = (CGFloat(i) * thickness * 5) + 30.0 + thickness
-
+             
+           let barAndGap = (thickness + gap)
+           let distanceAmongGroups: CGFloat = (CGFloat(i) * (barAndGap + 0.5*thickness) * CGFloat(mData.count))
+           
             mData.forEach { _, value in
             
+                let distanceAmongBars: CGFloat = (CGFloat(j) * barAndGap) + (barAndGap + 0.5*thickness)
+                let yValue: CGFloat = distanceAmongGroups + distanceAmongBars
+                let sectionWidth = value * maxWidth
                 
-                let sectionWidth = value * maxWidth  
-                let groupGap = CGFloat(j) * thickness * 2
-                let itemGap = CGFloat(i) * thickness * 5
-                let yValue: CGFloat = itemGap + groupGap  + 30
-
-            // create path
-            let shapeBounds = CGRect(x: 75, y: yValue - thickness / 2, width: sectionWidth, height: thickness)
-            let path = UIBezierPath(roundedRect: shapeBounds,
-                                    byRoundingCorners: [.bottomRight, .topRight],
-                                    cornerRadii: CGSize(width: thickness / .pi, height: 0))
- 
-            let shapeLayer = CAShapeLayer()
-            shapeLayer.path = path.cgPath
-            shapeLayer.strokeColor = colors[j].cgColor
-            shapeLayer.fillColor = colors[j].cgColor
-
-            shapeLayer.shadowColor = UIColor.black.cgColor
-            shapeLayer.shadowOpacity = 1
-            shapeLayer.shadowOffset = CGSize(width: 1.0, height: -2.0)
-            shapeLayer.shadowRadius = 2
-
-            layer.addSublayer(shapeLayer)
+                // create bar views
+                let barView = UIView()
+                barView.backgroundColor = colors[j]
+                barView.translatesAutoresizingMaskIntoConstraints = false
+                addSubview(barView)
                 
+                NSLayoutConstraint.activate([
+                    barView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 75),
+                    barView.centerYAnchor.constraint(equalTo: bottomAnchor, constant: -yValue),
+                    barView.widthAnchor.constraint(equalToConstant: sectionWidth),
+                    barView.heightAnchor.constraint(equalToConstant: thickness)
+                ])
+                
+                barView.layer.cornerRadius = thickness / .pi
+                barView.layer.maskedCorners = [.layerMaxXMinYCorner, .layerMaxXMaxYCorner]
+
+                barView.layer.shadowColor = UIColor.black.cgColor
+                barView.layer.shadowOpacity = 1
+                barView.layer.shadowOffset = CGSize(width: 1.0, height: -2.0)
+                barView.layer.shadowRadius = 2
+  
                 j += 1
-                
             }
                 j = 0
+         
+            let label = UILabel()
+            label.font = label.font.withSize(12)
+            label.text = key
+            label.textAlignment = .center
+            label.numberOfLines = 1
+            label.translatesAutoresizingMaskIntoConstraints = false
+            addSubview(label)
+        
+            let labelY = distanceAmongGroups + (barAndGap + 0.5*thickness) + CGFloat(mData.count-1)*barAndGap*0.5
             
-            let labelPos = CGPoint(x: 60, y: labelValue)
-            addLabel(labelPos, key)
-
+            NSLayoutConstraint.activate([
+                label.trailingAnchor.constraint(equalTo: leadingAnchor, constant: 70),
+                label.leadingAnchor.constraint(greaterThanOrEqualTo: leadingAnchor, constant: 8),
+                label.centerYAnchor.constraint(equalTo: bottomAnchor, constant: -labelY)
+            ])
+             
             i = i >= colors.count ? 0 : i + 1
         }
-
-        drawXAxis()
-
-        // draw Y axis
-        let path = UIBezierPath()
-        path.move(to: CGPoint(x: 75.0, y: 0))
-        path.addLine(to: CGPoint(x: 75.0, y: rect.height))
-
-        let shapeLayer = CAShapeLayer()
-        shapeLayer.path = path.cgPath
-        shapeLayer.strokeColor = UIColor.lightGray.cgColor
-        shapeLayer.lineWidth = 1
-
-        layer.addSublayer(shapeLayer)
     }
     
     
