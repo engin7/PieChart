@@ -37,6 +37,12 @@ class ChartClass: UIView {
     @objc func viewTapped(sender: UITapGestureRecognizer){
         guard let unwrappedView = sender.view as? BarView else { return }
         vc.barLabel.text = unwrappedView.myViewValue ?? "Not available"
+        UIView.animate(withDuration: 0.3,//Time duration
+                            delay:0.0,
+                            options:[.allowUserInteraction, .curveEaseInOut],
+                            animations: { unwrappedView.alpha = 0.5  },
+                            completion: { _ in unwrappedView.alpha = 1 })
+        
     }
 }
  
