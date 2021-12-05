@@ -48,7 +48,7 @@ class VerticalStackedChart: ChartView {
             let distanceAmongBars = (thickness + gap)
             let xValue: CGFloat = (CGFloat(i) * distanceAmongBars) + (gap + 0.5 * thickness)
 
-            mData.forEach { _, value in
+            mData.forEach { groupName, value in
 
                 let sectionHeight = value * maxHeight
 
@@ -75,7 +75,7 @@ class VerticalStackedChart: ChartView {
                 barView.layer.shadowOffset = CGSize(width: 1.0, height: -2.0)
                 barView.layer.shadowRadius = 2
 
-                barView.myViewValue = key
+                barView.myViewValue = key + " / " + groupName
                 let tapGesture = UITapGestureRecognizer.init(target: self, action: #selector(viewTapped(sender:)))
                 barView.addGestureRecognizer(tapGesture)
                 

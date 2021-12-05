@@ -46,7 +46,7 @@ class VerticalGroupedChart: ChartView {
             let barAndGap = (thickness + gap)
             let distanceAmongGroups: CGFloat = (CGFloat(i) * (barAndGap + 0.5 * thickness) * CGFloat(mData.count))
 
-            mData.forEach { _, value in
+            mData.forEach { groupName, value in
 
                 let distanceAmongBars: CGFloat = (CGFloat(j) * barAndGap) + (barAndGap + 0.5 * thickness)
                 let xValue: CGFloat = distanceAmongGroups + distanceAmongBars
@@ -73,7 +73,7 @@ class VerticalGroupedChart: ChartView {
                 barView.layer.shadowOffset = CGSize(width: 1.0, height: -2.0)
                 barView.layer.shadowRadius = 2
 
-                barView.myViewValue = key
+                barView.myViewValue = key + " / " + groupName
                 let tapGesture = UITapGestureRecognizer.init(target: self, action: #selector(viewTapped(sender:)))
                 barView.addGestureRecognizer(tapGesture)
                 

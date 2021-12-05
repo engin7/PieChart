@@ -44,16 +44,13 @@ class HorizontalStackedChart: ChartView {
 
         data.forEach { key, mData in
 
-            let yValue: CGFloat = (CGFloat(i) * thickness * 2.5) + 30
-
             var widthOffset: CGFloat = 0
-
-            mData.forEach { _, value in
+            let distanceAmongBars = (thickness + gap)
+            let yValue: CGFloat = (CGFloat(i) * distanceAmongBars) + (gap + 0.5 * thickness)
+            
+            mData.forEach { groupName, value in
 
                 let sectionWidth = value * maxWidth
-                let distanceAmongBars = (thickness + gap)
-                let yValue: CGFloat = (CGFloat(i) * distanceAmongBars) + (gap + 0.5 * thickness)
-
                 // create bar views
                 let barView = BarView()
                 barView.backgroundColor = colors[j]
@@ -77,7 +74,7 @@ class HorizontalStackedChart: ChartView {
                     barView.widthAnchor.constraint(equalToConstant: sectionWidth),
                 ])
 
-                barView.myViewValue = key
+                barView.myViewValue = key + " / " + groupName
                 let tapGesture = UITapGestureRecognizer.init(target: self, action: #selector(viewTapped(sender:)))
                 barView.addGestureRecognizer(tapGesture)
                 
@@ -103,15 +100,4 @@ class HorizontalStackedChart: ChartView {
         }
     }
 
-    func addLabel(_ leftPoint: CGPoint, _ title: String) {
-        let label = UILabel()
-        label.font = label.font.withSize(12)
-        label.text = title
-        label.translatesAutoresizingMaskIntoConstraints = false
-        addSubview(label)
-
-        label.trailingAnchor.constraint(equalTo: leadingAnchor, constant: leftPoint.x).isActive = true
-        label.leadingAnchor.constraint(greaterThanOrEqualTo: leadingAnchor, constant: 8).isActive = true
-        label.centerYAnchor.constraint(equalTo: topAnchor, constant: leftPoint.y).isActive = true
-    }
 }

@@ -46,7 +46,7 @@ class HorizontalGroupedChart: ChartView {
             let barAndGap = (thickness + gap)
             let distanceAmongGroups: CGFloat = (CGFloat(i) * (barAndGap + 0.5 * thickness) * CGFloat(mData.count))
 
-            mData.forEach { _, value in
+            mData.forEach { groupName, value in
 
                 let distanceAmongBars: CGFloat = (CGFloat(j) * barAndGap) + (barAndGap + 0.5 * thickness)
                 let yValue: CGFloat = distanceAmongGroups + distanceAmongBars
@@ -68,7 +68,7 @@ class HorizontalGroupedChart: ChartView {
                 barView.layer.cornerRadius = thickness / .pi
                 barView.layer.maskedCorners = [.layerMaxXMinYCorner, .layerMaxXMaxYCorner]
 
-                barView.myViewValue = key
+                barView.myViewValue = key + " / " + groupName
                 let tapGesture = UITapGestureRecognizer.init(target: self, action: #selector(viewTapped(sender:)))
                 barView.addGestureRecognizer(tapGesture)
                 

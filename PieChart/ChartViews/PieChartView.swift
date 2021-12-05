@@ -122,6 +122,7 @@ class PieChartView: ChartView {
                   context.setLineWidth(0.0)
                   radius = min(0.45*rect.width, 0.45*rect.height)
                   shadowBlurRadius = 10
+                  vc.barLabel.text = key
               } else {
                   context.setLineWidth(strokeWidth)
                   radius = min(0.4*rect.width, 0.4*rect.height)
@@ -161,7 +162,7 @@ class PieChartView: ChartView {
                 let midPointAngle = ((startAngle + endAngle) / 2.0)
                 let midPoint = CGPoint(x: center.x + 0.7 * radius * cos(midPointAngle), y: center.y - 0.7 * radius * sin(midPointAngle))
                 
-                addLabel(midPoint, key)
+//                addLabel(midPoint, key)
             }
             
             context.restoreGState()
