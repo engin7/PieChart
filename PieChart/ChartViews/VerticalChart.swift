@@ -16,7 +16,8 @@ private let thickness : CGFloat
 private let colors: [UIColor]
 private let strokeWidth: CGFloat
 private let borderColor: UIColor
-    
+private let vc: ContainerViewController
+
     
     func bind(dataSet: ChartDataSet) {
     guard let seriesData = dataSet.data.first else { return }
@@ -27,11 +28,12 @@ private let borderColor: UIColor
 
 // MARK: - Initializers
 
-init(frame: CGRect, colors: [UIColor]? = nil, strokeWidth: CGFloat = 0, borderColor: UIColor = .black, thickness: CGFloat = 20) {
+init(_ vc: ContainerViewController, frame: CGRect, colors: [UIColor]? = nil, strokeWidth: CGFloat = 0, borderColor: UIColor = .black, thickness: CGFloat = 20) {
     self.thickness = thickness
     self.colors = colors ?? [UIColor.gray]
     self.strokeWidth = strokeWidth
     self.borderColor = borderColor
+    self.vc = vc
     super.init(frame: frame)
     self.backgroundColor = .clear
 }
@@ -51,8 +53,8 @@ required init?(coder aDecoder: NSCoder) {
         let maxHeight = ((rect.height - 70) / maxRatio)
         
         let maxValue: Double = maxRatio * sum
-        addValuesYLabel(maxValue)
-       
+       vc.addValuesYLabel(maxValue)
+
         var i: Int = 0
 
         borderColor.setStroke()
@@ -62,7 +64,7 @@ required init?(coder aDecoder: NSCoder) {
             
             let yMax = rect.height - 50
             let sectionHeight = value * maxHeight
-            let xValue: CGFloat = (CGFloat(i) * thickness * 3) + 30.0
+            let xValue: CGFloat = (CGFloat(i) * thickness * 3) + 105.0
 
             // create path
             let shapeBounds = CGRect(x: xValue - thickness / 2, y: rect.height - 50 - sectionHeight, width: thickness, height: sectionHeight)
@@ -88,20 +90,7 @@ required init?(coder aDecoder: NSCoder) {
              
             i = i >= colors.count ? 0 : i + 1
         }
-    
-        drawYAxis()
-        
-        // draw X axis
-        let path = UIBezierPath()
-        path.move(to: CGPoint(x: 0, y: rect.height - 50))
-        path.addLine(to: CGPoint(x: rect.width, y: rect.height - 50))
  
-        let shapeLayer = CAShapeLayer()
-        shapeLayer.path = path.cgPath
-        shapeLayer.strokeColor =  UIColor.lightGray.cgColor
-        shapeLayer.lineWidth = 2
-
-        layer.addSublayer(shapeLayer)
     }
     
     func addLabel(_ leftPoint: CGPoint, _ title: String) {

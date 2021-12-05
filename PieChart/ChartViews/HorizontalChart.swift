@@ -60,7 +60,7 @@ class HorizontalChart: ChartView {
         data.forEach { key, value in
 
             let sectionWidth = value * maxWidth
-            let yValue: CGFloat = (CGFloat(i) * thickness * 2.5) + 30
+            let yValue: CGFloat = (CGFloat(i) * thickness * 2.5) + 80
 
             // create bar views
             let barView = UIView()
