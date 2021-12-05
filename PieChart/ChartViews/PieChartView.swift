@@ -90,8 +90,8 @@ class PieChartView: ChartView {
             let angle = value * 2 * CGFloat.pi
             radius = min(0.4*rect.width, 0.4*rect.height)
 
-            let startAngle = -accumulatedAngle
-            let endAngle =  startAngle - angle
+//            let startAngle = -accumulatedAngle
+//            let endAngle =  startAngle - angle
       
             let convertedStartAngle =  (accumulatedAngle + 0.5 * CGFloat.pi).degrees
             let convertedEndAngle = (0.5 * CGFloat.pi + accumulatedAngle + angle).degrees
@@ -159,9 +159,9 @@ class PieChartView: ChartView {
                
         
             if !flag {
-                let midPointAngle = ((startAngle + endAngle) / 2.0)
-                let midPoint = CGPoint(x: center.x + 0.7 * radius * cos(midPointAngle), y: center.y - 0.7 * radius * sin(midPointAngle))
-                
+//                let midPointAngle = ((startAngle + endAngle) / 2.0)
+//                let midPoint = CGPoint(x: center.x + 0.7 * radius * cos(midPointAngle), y: center.y - 0.7 * radius * sin(midPointAngle))
+//
 //                addLabel(midPoint, key)
             }
             

@@ -20,7 +20,6 @@ class HorizontalChart: ChartView {
     // MARK: - Aesthetics
 
     override func draw(_ rect: CGRect) {
-        guard let context = UIGraphicsGetCurrentContext() else { return }
 
         let maxRatio = data.compactMap { $0.1 }.max() ?? 1.0
         let maxWidth = ((rect.width - 125) / maxRatio)
@@ -30,8 +29,6 @@ class HorizontalChart: ChartView {
 
         var i: Int = 0
 
-        borderColor.setStroke()
-        context.setLineWidth(strokeWidth)
 
         data.forEach { key, value in
 

@@ -25,7 +25,6 @@ class VerticalGroupedChart: ChartView {
     // MARK: - Aesthetics
 
     override func draw(_ rect: CGRect) {
-        guard let context = UIGraphicsGetCurrentContext() else { return }
 
         let multiData = data.flatMap({ $0.1 })
         let maxRatio = multiData.compactMap { $0.1 }.max() ?? 1.0
@@ -39,7 +38,6 @@ class VerticalGroupedChart: ChartView {
         var j: Int = 0
 
         borderColor.setStroke()
-        context.setLineWidth(strokeWidth)
 
         data.forEach { key, mData in
 

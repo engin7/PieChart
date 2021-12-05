@@ -21,7 +21,6 @@ class VerticalChart: ChartView {
     // MARK: - Aesthetics
 
     override func draw(_ rect: CGRect) {
-        guard let context = UIGraphicsGetCurrentContext() else { return }
 
         let maxRatio = data.compactMap { $0.1 }.max() ?? 1.0
         let maxHeight = ((rect.height - 75) / maxRatio)
@@ -32,7 +31,6 @@ class VerticalChart: ChartView {
         var i: Int = 0
 
         borderColor.setStroke()
-        context.setLineWidth(strokeWidth)
 
         data.forEach { key, value in
 
