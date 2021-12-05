@@ -64,7 +64,7 @@ class VerticalChart: ChartView {
             let distanceAmongBars = (thickness + gap)
             let xValue: CGFloat = (CGFloat(i) * distanceAmongBars) + (gap + 0.5 * thickness)
             // create bar views
-            let barView = UIView()
+            let barView = BarView()
             barView.backgroundColor = colors[i]
             barView.translatesAutoresizingMaskIntoConstraints = false
             addSubview(barView)
@@ -84,6 +84,10 @@ class VerticalChart: ChartView {
             barView.layer.shadowOffset = CGSize(width: 1.0, height: -2.0)
             barView.layer.shadowRadius = 2
 
+            barView.myViewValue = key
+            let tapGesture = UITapGestureRecognizer.init(target: self, action: #selector(viewTapped(sender:)))
+            barView.addGestureRecognizer(tapGesture)
+ 
             let label = UILabel()
             label.font = label.font.withSize(12)
             label.text = key
@@ -99,4 +103,16 @@ class VerticalChart: ChartView {
             i = i >= colors.count ? 0 : i + 1
         }
     }
+    
+    @objc func viewTapped(sender: UITapGestureRecognizer){
+
+        guard let unwrappedView = sender.view as? BarView else { return }
+        vc.barLabel.text = unwrappedView.myViewValue ?? "Not available"
+    }
+    
 }
+
+class BarView: UIView {
+    var myViewValue: String?
+}
+
