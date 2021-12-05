@@ -55,9 +55,11 @@ class ContainerViewController: UIViewController {
         switch chartDataSet.ChartType {
         case .Pie:
             chart = PieChartView(
+                self,
                 frame: CGRect.zero,
                 colors: sampleColors,
-                strokeWidth: 1.0)
+                strokeWidth: 1.0
+            )
 
             NSLayoutConstraint.activate([
                 frameLayoutGuide.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 25),

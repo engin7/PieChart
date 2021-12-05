@@ -18,25 +18,7 @@ class PieChartView: ChartView {
         let sum = series.compactMap{ $0.value }.reduce(0, +)
         self.data = sum == 0 ? series.map{ ($0.label, CGFloat($0.value)) } : series.map{ ($0.label, CGFloat($0.value / sum)) } 
     }
-    
-    // MARK: - Initializers
-    
-    init(frame: CGRect, colors: [UIColor]? = nil, strokeWidth: CGFloat = 0, borderColor: UIColor = .white) {
-        super.init(frame: frame)
-        
-        self.colors = colors ?? self.colors
-        self.strokeWidth = strokeWidth
-        self.borderColor = borderColor
-        
-        self.backgroundColor = .clear
-         
-    }
-    
-    required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-    
-    
+ 
     // MARK: - Touch
     
     @objc private func tapGestureRecognized(_ recognizer: UITapGestureRecognizer)
@@ -89,10 +71,7 @@ class PieChartView: ChartView {
     
     
     // MARK: - Aesthetics
-    
-    var colors: [UIColor] = [UIColor.gray]
-    var strokeWidth: CGFloat = 0
-    var borderColor = UIColor.black
+ 
     var radius: CGFloat = 0
     var touchPoint: CGPoint = CGPoint.zero
     var flag = false

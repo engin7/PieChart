@@ -11,14 +11,6 @@ class HorizontalGroupedChart: ChartView {
     typealias ChartModel = (String, [(String, Double)])
 
     private var data: [ChartModel] = []
-    private var sum: Double = 0
-    private let thickness: CGFloat
-    private let gap: CGFloat
-
-    private let colors: [UIColor]
-    private let strokeWidth: CGFloat
-    private let borderColor: UIColor
-    private let vc: ContainerViewController
 
     func bind(dataSet: ChartDataSet) {
         let chartData = dataSet.data
@@ -29,23 +21,6 @@ class HorizontalGroupedChart: ChartView {
             print(points)
             data.append(points)
         }
-    }
-
-    // MARK: - Initializers
-
-    init(_ vc: ContainerViewController, frame: CGRect, colors: [UIColor]? = nil, strokeWidth: CGFloat = 0, borderColor: UIColor = .black, thickness: CGFloat, gap: CGFloat) {
-        self.thickness = thickness
-        self.gap = gap
-        self.colors = colors ?? [UIColor.gray]
-        self.strokeWidth = strokeWidth
-        self.borderColor = borderColor
-        self.vc = vc
-        super.init(frame: frame)
-        backgroundColor = .clear
-    }
-
-    required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
     }
 
     // MARK: - Aesthetics
@@ -78,7 +53,7 @@ class HorizontalGroupedChart: ChartView {
                 let sectionWidth = value * maxWidth
 
                 // create bar views
-                let barView = UIView()
+                let barView = BarView()
                 barView.backgroundColor = colors[j]
                 barView.translatesAutoresizingMaskIntoConstraints = false
                 addSubview(barView)
@@ -93,11 +68,10 @@ class HorizontalGroupedChart: ChartView {
                 barView.layer.cornerRadius = thickness / .pi
                 barView.layer.maskedCorners = [.layerMaxXMinYCorner, .layerMaxXMaxYCorner]
 
-                barView.layer.shadowColor = UIColor.black.cgColor
-                barView.layer.shadowOpacity = 1
-                barView.layer.shadowOffset = CGSize(width: 1.0, height: -2.0)
-                barView.layer.shadowRadius = 2
-
+                barView.myViewValue = key
+                let tapGesture = UITapGestureRecognizer.init(target: self, action: #selector(viewTapped(sender:)))
+                barView.addGestureRecognizer(tapGesture)
+                
                 j += 1
             }
             j = 0

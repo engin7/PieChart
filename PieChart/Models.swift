@@ -59,11 +59,12 @@ let dataSet2: SeriesDataSet = SeriesDataSet(seriesName: "Farm III", seriesPoints
 let globaChartData = [dataSet0, dataSet1, dataSet2]
 /// Data Models
  
-typealias ChartView = UIView & ProtocolChart
+typealias ChartView =  ProtocolChart & ChartClass
 
 protocol ProtocolChart {
     func bind(dataSet: ChartDataSet)
 }
+
 
 enum GraphEnum {
 case Pie
@@ -90,4 +91,23 @@ struct AxisData {
 let index: Int
 let label: String
 let value: Double
+}
+
+
+class BarView: UIView {
+    var myViewValue: String?
+    
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        backgroundColor = .clear
+        layer.shadowColor = UIColor.black.cgColor
+        layer.shadowOpacity = 1
+        layer.shadowOffset = CGSize(width: 1.0, height: -2.0)
+        layer.shadowRadius = 2
+        translatesAutoresizingMaskIntoConstraints = false
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
 }

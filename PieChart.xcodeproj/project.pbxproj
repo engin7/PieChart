@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		105DB429275D56F7004A853B /* ChartClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 105DB428275D56F7004A853B /* ChartClass.swift */; };
 		106AC0AE2756C8F400ED45C0 /* HorizontalStackedChart.swift in Sources */ = {isa = PBXBuildFile; fileRef = 106AC0AD2756C8F400ED45C0 /* HorizontalStackedChart.swift */; };
 		10B49FA22753E582005D06EE /* VerticalChart.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10B49FA12753E582005D06EE /* VerticalChart.swift */; };
 		28B0281827565734001AC958 /* ContainerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28B0281727565734001AC958 /* ContainerViewController.swift */; };
@@ -26,6 +27,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		105DB428275D56F7004A853B /* ChartClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChartClass.swift; sourceTree = "<group>"; };
 		106AC0AD2756C8F400ED45C0 /* HorizontalStackedChart.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HorizontalStackedChart.swift; sourceTree = "<group>"; };
 		10B49FA12753E582005D06EE /* VerticalChart.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VerticalChart.swift; sourceTree = "<group>"; };
 		28B0281727565734001AC958 /* ContainerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContainerViewController.swift; sourceTree = "<group>"; };
@@ -77,6 +79,13 @@
 			path = Vertical;
 			sourceTree = "<group>";
 		};
+		105DB42A275D5793004A853B /* Models */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
 		10D0223D275B4C2A00DA0184 /* ChartViews */ = {
 			isa = PBXGroup;
 			children = (
@@ -111,6 +120,8 @@
 				28C987D7274F906100AFE662 /* ViewController.swift */,
 				28B0281727565734001AC958 /* ContainerViewController.swift */,
 				28B0281927566BBA001AC958 /* Models.swift */,
+				105DB42A275D5793004A853B /* Models */,
+				105DB428275D56F7004A853B /* ChartClass.swift */,
 				28B0281B27566BCF001AC958 /* GlobalMethods.swift */,
 				10D0223D275B4C2A00DA0184 /* ChartViews */,
 				28C987D9274F906100AFE662 /* Main.storyboard */,
@@ -205,6 +216,7 @@
 				28B2640F2754BEB900ABEC74 /* VerticalGroupedChart.swift in Sources */,
 				28C987D6274F906100AFE662 /* SceneDelegate.swift in Sources */,
 				28B0281E27568B90001AC958 /* HorizontalGroupedChart.swift in Sources */,
+				105DB429275D56F7004A853B /* ChartClass.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
