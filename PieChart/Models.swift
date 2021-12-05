@@ -15,7 +15,7 @@ var masterVC: UIViewController?
 let seriesPoints0: [AxisData] = [
    AxisData(index: 0, label: "apples", value: 50),
    AxisData(index: 1, label: "cherries", value: 145),
-   AxisData(index: 2, label: "oranges", value: 90),
+   AxisData(index: 2, label: "oranges and oranges", value: 90),
    AxisData(index: 3, label: "peaches", value: 15),
    AxisData(index: 4, label: "pears", value: 50),
    AxisData(index: 5, label: "banana", value: 70),

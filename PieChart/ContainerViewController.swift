@@ -73,7 +73,7 @@ class ContainerViewController: UIViewController {
             drawAxisesForVertical()
         case .Horizontal:
             chart = HorizontalChart(self, frame: CGRect.zero,
-                colors: sampleColors, strokeWidth: 0, thickness: thickness, gap: 20)
+                colors: sampleColors, strokeWidth: 0, thickness: thickness, gap: gap)
  
             let distanceAmongBars = (thickness + gap)
             let dynamicHeight = (CGFloat(itemCount) * distanceAmongBars) + gap
@@ -113,14 +113,12 @@ class ContainerViewController: UIViewController {
             drawAxisesForVertical()
             
         case .HorizontalStacked:
-            chart = HorizontalStackedChart(
-                frame: CGRect(x: 0, y: 0, width: 100, height: 15),
-                colors: sampleColors,
-                strokeWidth: 0)
-            let dynamicHeight = CGFloat(itemCount) * 2.5 * thickness + 10
-            chart.widthAnchor.constraint(equalToConstant: 320).isActive = true
+            chart = HorizontalStackedChart(self, frame: CGRect.zero, colors: sampleColors, strokeWidth: 0, thickness: thickness, gap: gap)
+            
+            let distanceAmongBars = (thickness + gap)
+            let dynamicHeight = (CGFloat(itemCount) * distanceAmongBars) + gap
             chart.heightAnchor.constraint(equalToConstant: dynamicHeight).isActive = true
-            scrollView.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 16).isActive = true
+            drawAxisesForHorizontal()
         }
         chart.bind(dataSet: chartDataSet)
 

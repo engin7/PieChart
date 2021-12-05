@@ -92,8 +92,7 @@ class HorizontalChart: ChartView {
             label.text = key
             label.translatesAutoresizingMaskIntoConstraints = false
             addSubview(label)
-
-            
+ 
            NSLayoutConstraint.activate([
                label.trailingAnchor.constraint(equalTo: barView.leadingAnchor, constant: -5),
                label.leadingAnchor.constraint(greaterThanOrEqualTo: leadingAnchor, constant: 8),
@@ -102,8 +101,6 @@ class HorizontalChart: ChartView {
             
             i = i >= colors.count ? 0 : i + 1
         }
-
     }
     
-  
 }
