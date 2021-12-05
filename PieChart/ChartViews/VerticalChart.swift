@@ -53,7 +53,7 @@ required init?(coder aDecoder: NSCoder) {
         let maxHeight = ((rect.height - 70) / maxRatio)
         
         let maxValue: Double = maxRatio * sum
-       vc.addValuesYLabel(maxValue)
+        vc.addValuesYLabel(maxValue)
 
         var i: Int = 0
 
@@ -66,25 +66,27 @@ required init?(coder aDecoder: NSCoder) {
             let sectionHeight = value * maxHeight
             let xValue: CGFloat = (CGFloat(i) * thickness * 3) + 105.0
 
-            // create path
-            let shapeBounds = CGRect(x: xValue - thickness / 2, y: rect.height - 50 - sectionHeight, width: thickness, height: sectionHeight)
-            let path = UIBezierPath(roundedRect: shapeBounds,
-                                    byRoundingCorners: [.topLeft, .topRight],
-                                    cornerRadii: CGSize(width: thickness / .pi, height: 0))
-       
-            let shapeLayer = CAShapeLayer()
-            shapeLayer.path = path.cgPath
-            shapeLayer.strokeColor = colors[i].cgColor
-            shapeLayer.fillColor = colors[i].cgColor
+            // create bar views
+            let barView = UIView()
+            barView.backgroundColor = colors[i]
+            barView.translatesAutoresizingMaskIntoConstraints = false
+            addSubview(barView)
             
-            shapeLayer.shadowColor = UIColor.black.cgColor
-            shapeLayer.shadowOpacity = 1
-            shapeLayer.shadowOffset = CGSize(width:1.0, height:-2.0)
-            shapeLayer.shadowRadius = 2
-    
+            NSLayoutConstraint.activate([
+                barView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -50),
+                barView.centerXAnchor.constraint(equalTo: leadingAnchor, constant: xValue),
+                barView.heightAnchor.constraint(equalToConstant: sectionHeight),
+                barView.widthAnchor.constraint(equalToConstant: thickness)
+            ])
             
-            layer.addSublayer(shapeLayer)
+            barView.layer.cornerRadius = thickness / .pi
+            barView.layer.maskedCorners = [.layerMaxXMinYCorner, .layerMinXMinYCorner]
             
+            barView.layer.shadowColor = UIColor.black.cgColor
+            barView.layer.shadowOpacity = 1
+            barView.layer.shadowOffset = CGSize(width: 1.0, height: -2.0)
+            barView.layer.shadowRadius = 2
+              
             let labelPos = CGPoint(x: xValue, y: yMax - 20)
             addLabel(labelPos, key)
              
