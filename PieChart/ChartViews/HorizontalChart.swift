@@ -60,21 +60,14 @@ class HorizontalChart: ChartView {
         data.forEach { key, value in
 
             let sectionWidth = value * maxWidth
-            let yValue: CGFloat = (CGFloat(i) * thickness * 2.5) + 80
+            let yValue: CGFloat = (CGFloat(i) * thickness * 2.5) + 25
 
             // create bar views
             let barView = UIView()
             barView.backgroundColor = colors[i]
             barView.translatesAutoresizingMaskIntoConstraints = false
             addSubview(barView)
-            
-            NSLayoutConstraint.activate([
-                barView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 75),
-                barView.centerYAnchor.constraint(equalTo: bottomAnchor, constant: -yValue),
-                barView.heightAnchor.constraint(equalToConstant: thickness),
-                barView.widthAnchor.constraint(equalToConstant: sectionWidth)
-            ])
-            
+             
             barView.layer.cornerRadius = thickness / .pi
             barView.layer.maskedCorners = [.layerMaxXMinYCorner, .layerMaxXMaxYCorner]
             
@@ -83,23 +76,31 @@ class HorizontalChart: ChartView {
             barView.layer.shadowOffset = CGSize(width: 1.0, height: -2.0)
             barView.layer.shadowRadius = 2
              
-            let labelPos = CGPoint(x: 60, y: rect.maxY - yValue)
-            addLabel(labelPos, key)
+            NSLayoutConstraint.activate([
+                barView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 75),
+                barView.centerYAnchor.constraint(equalTo: bottomAnchor, constant: -yValue),
+                barView.heightAnchor.constraint(equalToConstant: thickness),
+                barView.widthAnchor.constraint(equalToConstant: sectionWidth),
+            ])
+            
+            // add labels
+            let label = UILabel()
+            label.font = label.font.withSize(12)
+            label.text = key
+            label.translatesAutoresizingMaskIntoConstraints = false
+            addSubview(label)
 
+            
+           NSLayoutConstraint.activate([
+               label.trailingAnchor.constraint(equalTo: barView.leadingAnchor, constant: -5),
+               label.leadingAnchor.constraint(greaterThanOrEqualTo: leadingAnchor, constant: 8),
+               label.centerYAnchor.constraint(equalTo: barView.centerYAnchor)
+           ])
+            
             i = i >= colors.count ? 0 : i + 1
         }
 
     }
-
-    func addLabel(_ leftPoint: CGPoint, _ title: String) {
-        let label = UILabel()
-        label.font = label.font.withSize(12)
-        label.text = title
-        label.translatesAutoresizingMaskIntoConstraints = false
-        addSubview(label)
-        
-        label.trailingAnchor.constraint(equalTo: leadingAnchor, constant: leftPoint.x).isActive = true
-        label.leadingAnchor.constraint(greaterThanOrEqualTo: leadingAnchor, constant: 8).isActive = true
-        label.centerYAnchor.constraint(equalTo: topAnchor, constant: leftPoint.y).isActive = true
-    }
+    
+  
 }

@@ -17,7 +17,8 @@ class VerticalGroupedChart: ChartView {
     private let colors: [UIColor]
     private let strokeWidth: CGFloat
     private let borderColor: UIColor
-    
+    private let vc: ContainerViewController
+
     func bind(dataSet: ChartDataSet) {
         
         let chartData = dataSet.data
@@ -32,11 +33,12 @@ class VerticalGroupedChart: ChartView {
 
     // MARK: - Initializers
 
-    init(frame: CGRect, colors: [UIColor]? = nil, strokeWidth: CGFloat = 0, borderColor: UIColor = .black, thickness: CGFloat = 20) {
+    init(_ vc: ContainerViewController, frame: CGRect, colors: [UIColor]? = nil, strokeWidth: CGFloat = 0, borderColor: UIColor = .black, thickness: CGFloat = 20) {
         self.thickness = thickness
         self.colors = colors ?? [UIColor.gray]
         self.strokeWidth = strokeWidth
         self.borderColor = borderColor
+        self.vc = vc
         super.init(frame: frame)
         self.backgroundColor = .clear
     }
@@ -55,8 +57,8 @@ class VerticalGroupedChart: ChartView {
         let maxRatio = multiData.compactMap { $0.1 }.max() ?? 1.0
 
         let maxValue: Double = maxRatio * sum
-        addValuesYLabel(maxValue)
-        
+        vc.addValuesYLabel(maxValue)
+
         let maxHeight = ((rect.height - 70) / maxRatio)
 
         var i: Int = 0
@@ -69,34 +71,37 @@ class VerticalGroupedChart: ChartView {
         
         data.forEach { key, mData in
 
-            let labelValue: CGFloat = (CGFloat(i) * thickness * 5) + 30.0 + thickness
+            let labelValue: CGFloat = (CGFloat(i) * thickness * 5) + 105.0 + thickness
 
             mData.forEach { _, value in
 
                 let sectionHeight = value * maxHeight 
                 let groupGap = CGFloat(j) * thickness * 2
                 let itemGap = CGFloat(i) * thickness * 5
-                let xValue: CGFloat = itemGap + groupGap + 30
-                // create path
-                let shapeBounds = CGRect(x: xValue - thickness / 2, y: rect.height - 50 - sectionHeight, width: thickness, height: sectionHeight)
-                let path = UIBezierPath(roundedRect: shapeBounds,
-                                        byRoundingCorners: [.topLeft, .topRight],
-                                        cornerRadii: CGSize(width: thickness / .pi, height: 0))
-             
-                let shapeLayer = CAShapeLayer()
-                shapeLayer.path = path.cgPath
-                shapeLayer.strokeColor = colors[j].cgColor
-                shapeLayer.fillColor = colors[j].cgColor
-
-                shapeLayer.shadowColor = UIColor.black.cgColor
-                shapeLayer.shadowOpacity = 1
-                shapeLayer.shadowOffset = CGSize(width: 2.0, height: -2.0)
-                shapeLayer.shadowRadius = 4
-
-                layer.addSublayer(shapeLayer)
+                let xValue: CGFloat = itemGap + groupGap + 105
                 
-                j += 1
+                // create bar views
+                let barView = UIView()
+                barView.backgroundColor = colors[i]
+                barView.translatesAutoresizingMaskIntoConstraints = false
+                addSubview(barView)
+                
+                NSLayoutConstraint.activate([
+                    barView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -50),
+                    barView.centerXAnchor.constraint(equalTo: leadingAnchor, constant: xValue),
+                    barView.heightAnchor.constraint(equalToConstant: sectionHeight),
+                    barView.widthAnchor.constraint(equalToConstant: thickness)
+                ])
+                
+                barView.layer.cornerRadius = thickness / .pi
+                barView.layer.maskedCorners = [.layerMaxXMinYCorner, .layerMinXMinYCorner]
 
+                barView.layer.shadowColor = UIColor.black.cgColor
+                barView.layer.shadowOpacity = 1
+                barView.layer.shadowOffset = CGSize(width: 1.0, height: -2.0)
+                barView.layer.shadowRadius = 2
+           
+                j += 1
             }
                 j = 0
             
@@ -105,21 +110,7 @@ class VerticalGroupedChart: ChartView {
 
             i = i >= colors.count ? 0 : i + 1
         }
-        
-        drawYAxis()
-        
-        // draw X Axis
-        let path = UIBezierPath()
-        path.move(to: CGPoint(x: 0.0, y: rect.height - 50))
-        path.addLine(to: CGPoint(x: rect.width, y: rect.height - 50))
-        
-        let shapeLayer = CAShapeLayer()
-        shapeLayer.path = path.cgPath
-        shapeLayer.strokeColor = UIColor.lightGray.cgColor
-        shapeLayer.lineWidth = 1
-
-        layer.addSublayer(shapeLayer)
-        //
+ 
     }
     
     

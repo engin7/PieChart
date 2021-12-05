@@ -64,7 +64,7 @@ required init?(coder aDecoder: NSCoder) {
             
             let yMax = rect.height - 50
             let sectionHeight = value * maxHeight
-            let xValue: CGFloat = (CGFloat(i) * thickness * 3) + 105.0
+            let xValue: CGFloat = (CGFloat(i) * thickness * 3) + 25
 
             // create bar views
             let barView = UIView()

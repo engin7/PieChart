@@ -29,16 +29,14 @@ class ContainerViewController: UIViewController {
 
         view.addSubview(scrollView)
         
-        drawAxises()
-        
+ 
         let frameLayoutGuide = scrollView.frameLayoutGuide
         let contentLayoutGuide = scrollView.contentLayoutGuide
  
+          
         NSLayoutConstraint.activate([
-          frameLayoutGuide.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 0),
-          frameLayoutGuide.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-          frameLayoutGuide.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 100),
-          frameLayoutGuide.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -200)
+          frameLayoutGuide.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -25),
+          frameLayoutGuide.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 75),
         ])
        
         let chart: ChartView
@@ -54,6 +52,11 @@ class ContainerViewController: UIViewController {
                 colors: sampleColors,
                 strokeWidth: 1.0)
        
+            NSLayoutConstraint.activate([
+              frameLayoutGuide.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 25),
+              frameLayoutGuide.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -75)
+            ])
+            
         case .Vertical:
             chart = VerticalChart(
                 self,
@@ -63,7 +66,7 @@ class ContainerViewController: UIViewController {
             
             let dynamicWidth = CGFloat(itemCount * 3) * thickness
             chart.widthAnchor.constraint(equalToConstant: dynamicWidth).isActive = true
-        
+            drawAxisesForVertical()
         case .Horizontal:
             chart = HorizontalChart(self, frame: CGRect.zero,
                 colors: sampleColors,
@@ -72,18 +75,17 @@ class ContainerViewController: UIViewController {
             let dynamicHeight = CGFloat(itemCount) * 2.5 * thickness + 10
     
             chart.heightAnchor.constraint(equalToConstant: dynamicHeight).isActive = true
-
+            drawAxisesForHorizontal()
         case .VerticalGrouped:
             chart = VerticalGroupedChart(
-                frame: CGRect(x: 0, y: 0, width: 100, height: 15),
+                self,
+                frame: CGRect.zero,
                 colors: sampleColors,
                 strokeWidth: 0, thickness: thickness)
             
             let dynamicWidth = CGFloat(itemCount * 5) * thickness
             chart.widthAnchor.constraint(equalToConstant: dynamicWidth).isActive = true
-            chart.heightAnchor.constraint(equalToConstant: 320).isActive = true
-            scrollView.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 50).isActive = true
-
+       
         case .HorizontalGrouped:
             chart = HorizontalGroupedChart(
                 frame: CGRect(x: 0, y: 0, width: 100, height: 15),
@@ -121,7 +123,7 @@ class ContainerViewController: UIViewController {
         chart.trailingAnchor.constraint(equalTo: contentLayoutGuide.trailingAnchor).isActive = true
         chart.topAnchor.constraint(equalTo: contentLayoutGuide.topAnchor).isActive = true
         chart.bottomAnchor.constraint(equalTo: contentLayoutGuide.bottomAnchor).isActive = true
-        
+
         // we want min sizes to as big as frame layout
         chart.heightAnchor.constraint(greaterThanOrEqualTo: frameLayoutGuide.heightAnchor, constant: 0.0).isActive = true
         chart.widthAnchor.constraint(greaterThanOrEqualTo: frameLayoutGuide.widthAnchor, constant: 0.0).isActive = true
@@ -142,14 +144,21 @@ class ContainerViewController: UIViewController {
         return $0
     }(UIView())
     
-    func drawAxises() {
+    func drawAxisesForVertical() {
  
+        let frameLayoutGuide = scrollView.frameLayoutGuide
+
+        NSLayoutConstraint.activate([
+          frameLayoutGuide.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 50),
+          frameLayoutGuide.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -150)
+        ])
+        
         view.addSubview(horizontalLineView)
         view.addSubview(verticalLineView)
         
         NSLayoutConstraint.activate([
-            horizontalLineView.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor, constant: 75),
-            horizontalLineView.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor,constant: -25),
+            horizontalLineView.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor),
+            horizontalLineView.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor),
             horizontalLineView.topAnchor.constraint(equalTo: scrollView.bottomAnchor, constant: -50),
             horizontalLineView.heightAnchor.constraint(equalToConstant: 2),
             verticalLineView.topAnchor.constraint(equalTo: scrollView.topAnchor),
@@ -159,10 +168,35 @@ class ContainerViewController: UIViewController {
         ])
     
     }
+  
+    func drawAxisesForHorizontal() {
  
- 
+        let frameLayoutGuide = scrollView.frameLayoutGuide
+
+        NSLayoutConstraint.activate([
+          frameLayoutGuide.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+          frameLayoutGuide.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -150)
+        ])
+        
+        view.addSubview(horizontalLineView)
+        view.addSubview(verticalLineView)
+        
+        NSLayoutConstraint.activate([
+            horizontalLineView.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor, constant: 75),
+            horizontalLineView.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor, constant: -25),
+            horizontalLineView.topAnchor.constraint(equalTo: scrollView.bottomAnchor),
+            horizontalLineView.heightAnchor.constraint(equalToConstant: 2),
+            verticalLineView.topAnchor.constraint(equalTo: scrollView.topAnchor),
+            verticalLineView.bottomAnchor.constraint(equalTo: horizontalLineView.bottomAnchor),
+            verticalLineView.trailingAnchor.constraint(equalTo: horizontalLineView.leadingAnchor),
+            verticalLineView.widthAnchor.constraint(equalToConstant: 2)
+        ])
+    
+    }
+    
     func addValuesXLabel(_ maxValue: Double) {
      
+
         let rate: Int = roundToNumber(maxValue / Double(labelCount), roundTo: 5)
         let offSet = (scrollView.frameLayoutGuide.layoutFrame.width-125) / CGFloat(labelCount)
 
@@ -191,6 +225,7 @@ class ContainerViewController: UIViewController {
         }
     }
     
+   
     
     func addValuesYLabel(_ maxValue: Double) {
       
