@@ -57,16 +57,32 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		105DB426275CFCB4004A853B /* Horizontal */ = {
+			isa = PBXGroup;
+			children = (
+				28F505F02751185C004F9637 /* HorizontalChart.swift */,
+				28B0281D27568B90001AC958 /* HorizontalGroupedChart.swift */,
+				106AC0AD2756C8F400ED45C0 /* HorizontalStackedChart.swift */,
+			);
+			path = Horizontal;
+			sourceTree = "<group>";
+		};
+		105DB427275CFCC2004A853B /* Vertical */ = {
+			isa = PBXGroup;
+			children = (
+				10B49FA12753E582005D06EE /* VerticalChart.swift */,
+				28B2640E2754BEB900ABEC74 /* VerticalGroupedChart.swift */,
+				28B0281F275693DF001AC958 /* VerticalStackedChart.swift */,
+			);
+			path = Vertical;
+			sourceTree = "<group>";
+		};
 		10D0223D275B4C2A00DA0184 /* ChartViews */ = {
 			isa = PBXGroup;
 			children = (
 				28C987E7274F911000AFE662 /* PieChartView.swift */,
-				28F505F02751185C004F9637 /* HorizontalChart.swift */,
-				28B0281D27568B90001AC958 /* HorizontalGroupedChart.swift */,
-				106AC0AD2756C8F400ED45C0 /* HorizontalStackedChart.swift */,
-				10B49FA12753E582005D06EE /* VerticalChart.swift */,
-				28B2640E2754BEB900ABEC74 /* VerticalGroupedChart.swift */,
-				28B0281F275693DF001AC958 /* VerticalStackedChart.swift */,
+				105DB426275CFCB4004A853B /* Horizontal */,
+				105DB427275CFCC2004A853B /* Vertical */,
 			);
 			path = ChartViews;
 			sourceTree = "<group>";

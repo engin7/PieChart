@@ -80,14 +80,13 @@ class ContainerViewController: UIViewController {
             chart.heightAnchor.constraint(equalToConstant: dynamicHeight).isActive = true
             drawAxisesForHorizontal()
         case .VerticalGrouped:
-            chart = VerticalGroupedChart(
-                self,
-                frame: CGRect.zero,
-                colors: sampleColors,
-                strokeWidth: 0, thickness: thickness)
+            chart = VerticalGroupedChart(self, frame: CGRect.zero, colors: sampleColors,
+            strokeWidth: 0, thickness: thickness, gap: gap)
             
-            let dynamicWidth = CGFloat(itemCount * 5) * thickness
+            let distanceAmongBars = (2*thickness + 2*gap)
+            let dynamicWidth = (CGFloat(itemCount) * distanceAmongBars) + gap
             chart.widthAnchor.constraint(equalToConstant: dynamicWidth).isActive = true
+            drawAxisesForVertical()
        
         case .HorizontalGrouped:
             chart = HorizontalGroupedChart(
