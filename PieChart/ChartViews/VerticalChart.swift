@@ -13,6 +13,8 @@ class VerticalChart: ChartView {
 private var data: [(String, CGFloat)] = []
 private var sum: Double = 0
 private let thickness : CGFloat
+private let gap : CGFloat
+
 private let colors: [UIColor]
 private let strokeWidth: CGFloat
 private let borderColor: UIColor
@@ -28,8 +30,9 @@ private let vc: ContainerViewController
 
 // MARK: - Initializers
 
-init(_ vc: ContainerViewController, frame: CGRect, colors: [UIColor]? = nil, strokeWidth: CGFloat = 0, borderColor: UIColor = .black, thickness: CGFloat = 20) {
+    init(_ vc: ContainerViewController, frame: CGRect, colors: [UIColor]? = nil, strokeWidth: CGFloat = 0, borderColor: UIColor = .black, thickness: CGFloat, gap: CGFloat) {
     self.thickness = thickness
+    self.gap = gap
     self.colors = colors ?? [UIColor.gray]
     self.strokeWidth = strokeWidth
     self.borderColor = borderColor
@@ -62,9 +65,11 @@ required init?(coder aDecoder: NSCoder) {
          
         data.forEach { (key, value) in
             
-            let yMax = rect.height - 50
             let sectionHeight = value * maxHeight
-            let xValue: CGFloat = (CGFloat(i) * thickness * 3) + 25
+            
+            let distanceAmongBars = (thickness + gap)
+            let xValue: CGFloat = (CGFloat(i) * distanceAmongBars) + (gap + 0.5*thickness)
+            
 
             // create bar views
             let barView = UIView()
@@ -86,28 +91,23 @@ required init?(coder aDecoder: NSCoder) {
             barView.layer.shadowOpacity = 1
             barView.layer.shadowOffset = CGSize(width: 1.0, height: -2.0)
             barView.layer.shadowRadius = 2
-              
-            let labelPos = CGPoint(x: xValue, y: yMax - 20)
-            addLabel(labelPos, key)
-             
-            i = i >= colors.count ? 0 : i + 1
-        }
- 
-    }
-    
-    func addLabel(_ leftPoint: CGPoint, _ title: String) {
+       
             let label = UILabel()
             label.font = label.font.withSize(12)
-            label.text = title
+            label.text = key
             label.textAlignment = .center
             label.numberOfLines = 1
             label.translatesAutoresizingMaskIntoConstraints = false
             addSubview(label)
         
             label.widthAnchor.constraint(lessThanOrEqualToConstant: 50).isActive = true
-            label.centerXAnchor.constraint(equalTo: leadingAnchor, constant: leftPoint.x ).isActive = true
-            label.topAnchor.constraint(equalTo: topAnchor, constant: leftPoint.y + 30).isActive = true
+            label.centerXAnchor.constraint(equalTo: barView.centerXAnchor).isActive = true
+            label.topAnchor.constraint(equalTo: barView.bottomAnchor, constant: 5).isActive = true
+            
+            i = i >= colors.count ? 0 : i + 1
+        }
+ 
     }
-
+   
     
 }

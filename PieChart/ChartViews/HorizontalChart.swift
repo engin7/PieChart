@@ -11,6 +11,7 @@ class HorizontalChart: ChartView {
     private var data: [(String, CGFloat)] = []
     private var sum: Double = 0
     private let thickness : CGFloat
+    private let gap: CGFloat
     private let colors: [UIColor]
     private let strokeWidth: CGFloat
     private let borderColor: UIColor
@@ -25,8 +26,9 @@ class HorizontalChart: ChartView {
 
     // MARK: - Initializers
 
-    init(_ vc: ContainerViewController, frame: CGRect, colors: [UIColor]? = nil, strokeWidth: CGFloat = 0, borderColor: UIColor = .black, thickness: CGFloat = 20) {
+    init(_ vc: ContainerViewController, frame: CGRect, colors: [UIColor]? = nil, strokeWidth: CGFloat = 0, borderColor: UIColor = .black, thickness: CGFloat, gap: CGFloat) {
         self.thickness = thickness
+        self.gap = gap
         self.colors = colors ?? [UIColor.gray]
         self.strokeWidth = strokeWidth
         self.borderColor = borderColor
@@ -60,7 +62,8 @@ class HorizontalChart: ChartView {
         data.forEach { key, value in
 
             let sectionWidth = value * maxWidth
-            let yValue: CGFloat = (CGFloat(i) * thickness * 2.5) + 25
+            let distanceAmongBars = (thickness + gap)
+            let yValue: CGFloat = (CGFloat(i) * distanceAmongBars) + (gap + 0.5*thickness)
 
             // create bar views
             let barView = UIView()

@@ -10,6 +10,8 @@ import UIKit
 class ContainerViewController: UIViewController {
     var chartDataSet: ChartDataSet!
     let labelCount: Int = UIDevice.current.userInterfaceIdiom == .pad ? 8 : 4
+    let thickness: CGFloat = 20
+    let gap: CGFloat = 20
 
     let sampleColors: [UIColor] = [.yellow, .red, .orange, .brown, .purple, .cyan, .lightGray, .blue, .red, .orange, .brown, .purple]
     
@@ -43,7 +45,6 @@ class ContainerViewController: UIViewController {
 
         guard let seriesData = globaChartData.first else { return }
         let itemCount = seriesData.seriesPoints.count
-        let thickness: CGFloat = 20
        
         switch chartDataSet.ChartType {
         case .Pie:
@@ -62,18 +63,20 @@ class ContainerViewController: UIViewController {
                 self,
                 frame: CGRect.zero,
                 colors: sampleColors,
-                strokeWidth: 0)
+                strokeWidth: 0,
+                thickness: thickness,
+                gap: gap*2)
             
-            let dynamicWidth = CGFloat(itemCount * 3) * thickness
+            let distanceAmongBars = (thickness + gap*2)
+            let dynamicWidth = (CGFloat(itemCount) * distanceAmongBars) + gap
             chart.widthAnchor.constraint(equalToConstant: dynamicWidth).isActive = true
             drawAxisesForVertical()
         case .Horizontal:
             chart = HorizontalChart(self, frame: CGRect.zero,
-                colors: sampleColors,
-                strokeWidth: 0)
+                colors: sampleColors, strokeWidth: 0, thickness: thickness, gap: 20)
  
-            let dynamicHeight = CGFloat(itemCount) * 2.5 * thickness + 10
-    
+            let distanceAmongBars = (thickness + gap)
+            let dynamicHeight = (CGFloat(itemCount) * distanceAmongBars) + gap
             chart.heightAnchor.constraint(equalToConstant: dynamicHeight).isActive = true
             drawAxisesForHorizontal()
         case .VerticalGrouped:
