@@ -163,7 +163,7 @@ class ContainerViewController: UIViewController {
          // notch
 
         let labelCount: Int = UIDevice.current.userInterfaceIdiom == .pad ? 8 : 4
-        let diff = (scrollView.frameLayoutGuide.layoutFrame.width-100) / CGFloat(labelCount) - 5
+        let diff = (scrollView.frameLayoutGuide.layoutFrame.width-125) / CGFloat(labelCount)  
 
         for i in 1 ... labelCount {
             let seperatorView = UIView()
@@ -185,7 +185,7 @@ class ContainerViewController: UIViewController {
      
         let labelCount: Int = UIDevice.current.userInterfaceIdiom == .pad ? 8 : 4
         let rate: Int = roundToNumber(maxValue / Double(labelCount), roundTo: 5)
-        let offSet = (scrollView.frameLayoutGuide.layoutFrame.width-100) / CGFloat(labelCount) - 5
+        let offSet = (scrollView.frameLayoutGuide.layoutFrame.width-125) / CGFloat(labelCount)
 
         for i in 1 ... labelCount {
             let label = UILabel()

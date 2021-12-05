@@ -46,7 +46,7 @@ class HorizontalChart: ChartView {
 
         let maxRatio = data.compactMap { $0.1 }.max() ?? 1.0
         // 7
-        let maxWidth = ((rect.width - 75) / maxRatio)
+        let maxWidth = ((rect.width - 125) / maxRatio)
 
         let maxValue = maxRatio * sum
 
