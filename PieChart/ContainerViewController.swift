@@ -100,14 +100,18 @@ class ContainerViewController: UIViewController {
             scrollView.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 16).isActive = true
         case .VerticalStacked:
             chart = VerticalStackedChart(
-                frame: CGRect(x: 0, y: 0, width: 100, height: 15),
+                self,
+                frame: CGRect.zero,
                 colors: sampleColors,
-                strokeWidth: 0)
+                strokeWidth: 0,
+                thickness: thickness,
+                gap: gap*2)
             
-            let dynamicWidth = CGFloat(itemCount * 3) * thickness
+            let distanceAmongBars = (thickness + gap*2)
+            let dynamicWidth = (CGFloat(itemCount) * distanceAmongBars) + gap
             chart.widthAnchor.constraint(equalToConstant: dynamicWidth).isActive = true
-            chart.heightAnchor.constraint(equalToConstant: 320).isActive = true
-            scrollView.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 50).isActive = true
+            drawAxisesForVertical()
+            
         case .HorizontalStacked:
             chart = HorizontalStackedChart(
                 frame: CGRect(x: 0, y: 0, width: 100, height: 15),
@@ -197,7 +201,7 @@ class ContainerViewController: UIViewController {
     
     }
     
-    func addValuesXLabel(_ maxValue: Double) {
+    func addValuesXAxis(_ maxValue: Double) {
      
 
         let rate: Int = roundToNumber(maxValue / Double(labelCount), roundTo: 5)
@@ -230,7 +234,7 @@ class ContainerViewController: UIViewController {
     
    
     
-    func addValuesYLabel(_ maxValue: Double) {
+    func addValuesYAxis(_ maxValue: Double) {
       
         let rate: Int = roundToNumber(maxValue / Double(labelCount), roundTo: 5)
         let offSet = (scrollView.frameLayoutGuide.layoutFrame.height-75) / CGFloat(labelCount)

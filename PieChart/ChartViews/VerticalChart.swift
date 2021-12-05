@@ -53,10 +53,10 @@ required init?(coder aDecoder: NSCoder) {
         guard let context = UIGraphicsGetCurrentContext() else { return }
 
         let maxRatio = data.compactMap { $0.1 }.max() ?? 1.0
-        let maxHeight = ((rect.height - 70) / maxRatio)
+        let maxHeight = ((rect.height - 75) / maxRatio)
         
         let maxValue: Double = maxRatio * sum
-        vc.addValuesYLabel(maxValue)
+        vc.addValuesYAxis(maxValue)
 
         var i: Int = 0
 

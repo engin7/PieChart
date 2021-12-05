@@ -57,7 +57,7 @@ class VerticalGroupedChart: ChartView {
         let maxRatio = multiData.compactMap { $0.1 }.max() ?? 1.0
 
         let maxValue: Double = maxRatio * sum
-        vc.addValuesYLabel(maxValue)
+        vc.addValuesYAxis(maxValue)
 
         let maxHeight = ((rect.height - 70) / maxRatio)
 

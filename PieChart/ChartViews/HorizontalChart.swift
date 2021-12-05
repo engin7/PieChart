@@ -52,7 +52,7 @@ class HorizontalChart: ChartView {
 
         let maxValue = maxRatio * sum
 
-        vc.addValuesXLabel(maxValue)
+        vc.addValuesXAxis(maxValue)
         
         var i: Int = 0
 
