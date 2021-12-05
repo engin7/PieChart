@@ -30,11 +30,11 @@ class ContainerViewController: UIViewController {
         let frameLayoutGuide = scrollView.frameLayoutGuide
         let contentLayoutGuide = scrollView.contentLayoutGuide
 
-        let width = view.bounds.width
-        let height = view.bounds.height
+        let width = view.safeAreaLayoutGuide.layoutFrame.width
+        let height = view.safeAreaLayoutGuide.layoutFrame.height
  
         NSLayoutConstraint.activate([
-          frameLayoutGuide.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+          frameLayoutGuide.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 0),
           frameLayoutGuide.trailingAnchor.constraint(equalTo: view.trailingAnchor),
           frameLayoutGuide.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 0.1 * height),
           frameLayoutGuide.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -0.2 * height)
@@ -45,8 +45,7 @@ class ContainerViewController: UIViewController {
         guard let seriesData = globaChartData.first else { return }
         let itemCount = seriesData.seriesPoints.count
         let thickness: CGFloat = 20
-        
-    
+       
         switch chartDataSet.ChartType {
         case .Pie:
             chart = PieChartView(
@@ -75,6 +74,7 @@ class ContainerViewController: UIViewController {
                 strokeWidth: 0)
  
             let dynamicHeight = CGFloat(itemCount) * 2.5 * thickness + 10
+          
             chart.widthAnchor.constraint(equalToConstant: width).isActive = true
             chart.heightAnchor.constraint(equalToConstant: dynamicHeight).isActive = true
             drawXAxisWithNotch()
@@ -126,7 +126,10 @@ class ContainerViewController: UIViewController {
         chart.leadingAnchor.constraint(equalTo: contentLayoutGuide.leadingAnchor).isActive = true
         chart.topAnchor.constraint(equalTo: contentLayoutGuide.topAnchor).isActive = true
         chart.bottomAnchor.constraint(equalTo: contentLayoutGuide.bottomAnchor).isActive = true
-
+        
+        // we want min sizes to as big as frame layout
+        chart.heightAnchor.constraint(greaterThanOrEqualTo: frameLayoutGuide.heightAnchor, constant: 0.0).isActive = true
+        chart.widthAnchor.constraint(greaterThanOrEqualTo: frameLayoutGuide.widthAnchor, constant: 0.0).isActive = true
     }
     
     lazy var horizontalLineView: UIView = {
@@ -135,22 +138,32 @@ class ContainerViewController: UIViewController {
         return $0
     }(UIView())
     
+    lazy var verticalLineView: UIView = {
+        $0.backgroundColor = .lightGray
+        $0.translatesAutoresizingMaskIntoConstraints = false
+        return $0
+    }(UIView())
     
     func drawXAxisWithNotch() {
  
         view.addSubview(horizontalLineView)
+        view.addSubview(verticalLineView)
         
         NSLayoutConstraint.activate([
-            horizontalLineView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 75),
-            horizontalLineView.trailingAnchor.constraint(equalTo: view.trailingAnchor,constant: -25),
+            horizontalLineView.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor, constant: 75),
+            horizontalLineView.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor,constant: -25),
             horizontalLineView.topAnchor.constraint(equalTo: scrollView.bottomAnchor),
-            horizontalLineView.heightAnchor.constraint(equalToConstant: 2)
+            horizontalLineView.heightAnchor.constraint(equalToConstant: 2),
+            verticalLineView.topAnchor.constraint(equalTo: scrollView.topAnchor),
+            verticalLineView.bottomAnchor.constraint(equalTo: horizontalLineView.bottomAnchor),
+            verticalLineView.trailingAnchor.constraint(equalTo: horizontalLineView.leadingAnchor),
+            verticalLineView.widthAnchor.constraint(equalToConstant: 2)
         ])
   
          // notch
 
         let labelCount: Int = UIDevice.current.userInterfaceIdiom == .pad ? 8 : 4
-        let diff = (view.bounds.width-100) / CGFloat(labelCount) - 5
+        let diff = (scrollView.frameLayoutGuide.layoutFrame.width-100) / CGFloat(labelCount) - 5
 
         for i in 1 ... labelCount {
             let seperatorView = UIView()
@@ -165,13 +178,14 @@ class ContainerViewController: UIViewController {
                 seperatorView.widthAnchor.constraint(equalToConstant: 1)
             ])
         }
+   
     }
  
     func addValuesXLabel(_ maxValue: Double) {
      
         let labelCount: Int = UIDevice.current.userInterfaceIdiom == .pad ? 8 : 4
         let rate: Int = roundToNumber(maxValue / Double(labelCount), roundTo: 5)
-        let offSet = (view.bounds.width-100) / CGFloat(labelCount) - 5
+        let offSet = (scrollView.frameLayoutGuide.layoutFrame.width-100) / CGFloat(labelCount) - 5
 
         for i in 1 ... labelCount {
             let label = UILabel()
