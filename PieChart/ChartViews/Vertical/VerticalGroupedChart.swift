@@ -7,7 +7,7 @@
 
 import UIKit
 
-class VerticalGroupedChart: ChartView {
+class VerticalGroupedChart: ChartViewArea {
     typealias ChartModel = (String, [(String, Double)])
     private var data: [ChartModel] = []
 
@@ -71,7 +71,7 @@ class VerticalGroupedChart: ChartView {
                 barView.layer.shadowOffset = CGSize(width: 1.0, height: -2.0)
                 barView.layer.shadowRadius = 2
 
-                barView.myViewValue = key + " / " + groupName
+                barView.label = key + " / " + groupName
                 let tapGesture = UITapGestureRecognizer.init(target: self, action: #selector(viewTapped(sender:)))
                 barView.addGestureRecognizer(tapGesture)
                 

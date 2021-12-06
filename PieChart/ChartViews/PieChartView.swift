@@ -7,7 +7,7 @@
  
 import UIKit
 
-class PieChartView: ChartView {
+class PieChartView: ChartViewArea {
     // MARK: - Data
     
     private var data: [(String, CGFloat)] = []

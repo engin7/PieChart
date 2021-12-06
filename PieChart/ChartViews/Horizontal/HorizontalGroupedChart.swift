@@ -7,7 +7,7 @@
 
 import UIKit
 
-class HorizontalGroupedChart: ChartView {
+class HorizontalGroupedChart: ChartViewArea {
     typealias ChartModel = (String, [(String, Double)])
 
     private var data: [ChartModel] = []
@@ -66,7 +66,7 @@ class HorizontalGroupedChart: ChartView {
                 barView.layer.cornerRadius = thickness / .pi
                 barView.layer.maskedCorners = [.layerMaxXMinYCorner, .layerMaxXMaxYCorner]
 
-                barView.myViewValue = key + " / " + groupName
+                barView.label = key + " / " + groupName
                 let tapGesture = UITapGestureRecognizer.init(target: self, action: #selector(viewTapped(sender:)))
                 barView.addGestureRecognizer(tapGesture)
                 

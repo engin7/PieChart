@@ -7,7 +7,7 @@
 
 import UIKit
 
-class VerticalChart: ChartView {
+class VerticalChart: ChartViewArea {
     private var data: [(String, CGFloat)] = []
  
     func bind(dataSet: ChartDataSet) {
@@ -52,7 +52,7 @@ class VerticalChart: ChartView {
             barView.layer.cornerRadius = thickness / .pi
             barView.layer.maskedCorners = [.layerMaxXMinYCorner, .layerMinXMinYCorner]
  
-            barView.myViewValue = key
+            barView.label = key
             let tapGesture = UITapGestureRecognizer.init(target: self, action: #selector(viewTapped(sender:)))
             barView.addGestureRecognizer(tapGesture)
  

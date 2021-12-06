@@ -7,7 +7,7 @@
 
 import UIKit
 
-class HorizontalStackedChart: ChartView {
+class HorizontalStackedChart: ChartViewArea {
     typealias ChartModel = (String, [(String, Double)])
 
     private var data: [ChartModel] = []
@@ -74,7 +74,7 @@ class HorizontalStackedChart: ChartView {
                     barView.widthAnchor.constraint(equalToConstant: sectionWidth),
                 ])
 
-                barView.myViewValue = key + " / " + groupName
+                barView.label = key + " / " + groupName
                 let tapGesture = UITapGestureRecognizer.init(target: self, action: #selector(viewTapped(sender:)))
                 barView.addGestureRecognizer(tapGesture)
                 

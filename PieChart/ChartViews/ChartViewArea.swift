@@ -7,6 +7,13 @@
 
 import UIKit
 
+
+typealias ChartViewArea =  ProtocolChart & ChartClass
+
+protocol ProtocolChart {
+    func bind(dataSet: ChartDataSet)
+}
+
 class ChartClass: UIView {
     var sum: Double = 0
     let thickness: CGFloat

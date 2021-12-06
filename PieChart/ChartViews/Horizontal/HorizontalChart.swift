@@ -7,7 +7,7 @@
 
 import UIKit
 
-class HorizontalChart: ChartView {
+class HorizontalChart: ChartViewArea {
     private var data: [(String, CGFloat)] = []
    
     func bind(dataSet: ChartDataSet) {
@@ -44,7 +44,7 @@ class HorizontalChart: ChartView {
             barView.layer.cornerRadius = thickness / .pi
             barView.layer.maskedCorners = [.layerMaxXMinYCorner, .layerMaxXMaxYCorner]
  
-            barView.myViewValue = key
+            barView.label = key
             let tapGesture = UITapGestureRecognizer.init(target: self, action: #selector(viewTapped(sender:)))
             barView.addGestureRecognizer(tapGesture)
             

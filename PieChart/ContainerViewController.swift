@@ -47,7 +47,7 @@ class ContainerViewController: UIViewController {
             barLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor)
         ])
 
-        let chart: ChartView
+        let chart: ChartViewArea
 
         guard let seriesData = globaChartData.first else { return }
         let itemCount = seriesData.seriesPoints.count
@@ -193,6 +193,10 @@ class ContainerViewController: UIViewController {
         ])
     }
 
+    func roundToNumber(_ x: Double, roundTo: Double) -> Int {
+        return Int(roundTo) * Int(round(x / roundTo))
+    }
+    
     func addValuesXAxis(_ maxValue: Double) {
         let rate: Int = roundToNumber(maxValue / Double(labelCount), roundTo: 5)
         let offSet = (scrollView.frameLayoutGuide.layoutFrame.width - 125) / CGFloat(labelCount)

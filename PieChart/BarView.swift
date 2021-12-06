@@ -6,19 +6,11 @@
 //
 
 import UIKit.UIView
-
-
-typealias ChartView =  ProtocolChart & ChartClass
-
-protocol ProtocolChart {
-    func bind(dataSet: ChartDataSet)
-}
-
-
-
+ 
 class BarView: UIView {
-    var myViewValue: String?
-    
+    var value: String?
+    var label: String?
+
     override init(frame: CGRect) {
         super.init(frame: frame)
         backgroundColor = .clear
