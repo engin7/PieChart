@@ -19,7 +19,7 @@
 		28B2640F2754BEB900ABEC74 /* VerticalGroupedChart.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28B2640E2754BEB900ABEC74 /* VerticalGroupedChart.swift */; };
 		28C987D4274F906100AFE662 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28C987D3274F906100AFE662 /* AppDelegate.swift */; };
 		28C987D6274F906100AFE662 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28C987D5274F906100AFE662 /* SceneDelegate.swift */; };
-		28C987D8274F906100AFE662 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28C987D7274F906100AFE662 /* ViewController.swift */; };
+		28C987D8274F906100AFE662 /* ChartsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28C987D7274F906100AFE662 /* ChartsVC.swift */; };
 		28C987DB274F906100AFE662 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 28C987D9274F906100AFE662 /* Main.storyboard */; };
 		28C987DD274F906600AFE662 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 28C987DC274F906600AFE662 /* Assets.xcassets */; };
 		28C987E0274F906600AFE662 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 28C987DE274F906600AFE662 /* LaunchScreen.storyboard */; };
@@ -41,7 +41,7 @@
 		28C987D0274F906100AFE662 /* PieChart.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PieChart.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		28C987D3274F906100AFE662 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		28C987D5274F906100AFE662 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		28C987D7274F906100AFE662 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		28C987D7274F906100AFE662 /* ChartsVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChartsVC.swift; sourceTree = "<group>"; };
 		28C987DA274F906100AFE662 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		28C987DC274F906600AFE662 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		28C987DF274F906600AFE662 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -113,7 +113,7 @@
 			children = (
 				28C987D3274F906100AFE662 /* AppDelegate.swift */,
 				28C987D5274F906100AFE662 /* SceneDelegate.swift */,
-				28C987D7274F906100AFE662 /* ViewController.swift */,
+				28C987D7274F906100AFE662 /* ChartsVC.swift */,
 				28B0281727565734001AC958 /* ContainerViewController.swift */,
 				28B0281927566BBA001AC958 /* Data.swift */,
 				289D410E275DFA0400B71D2D /* BarView.swift */,
@@ -206,7 +206,7 @@
 				28B02820275693DF001AC958 /* VerticalStackedChart.swift in Sources */,
 				289D410D275DF9D000B71D2D /* ChartDataSet.swift in Sources */,
 				10B49FA22753E582005D06EE /* VerticalChart.swift in Sources */,
-				28C987D8274F906100AFE662 /* ViewController.swift in Sources */,
+				28C987D8274F906100AFE662 /* ChartsVC.swift in Sources */,
 				28C987D4274F906100AFE662 /* AppDelegate.swift in Sources */,
 				28B0281A27566BBA001AC958 /* Data.swift in Sources */,
 				28B2640F2754BEB900ABEC74 /* VerticalGroupedChart.swift in Sources */,

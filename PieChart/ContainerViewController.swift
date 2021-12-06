@@ -90,13 +90,13 @@ class ContainerViewController: UIViewController {
             chart = VerticalGroupedChart(self, frame: CGRect.zero, colors: sampleColors,
                                          strokeWidth: 0, thickness: thickness, gap: gap)
             let distanceAmongBars = (thickness + gap)
-            let dynamicWidth = (CGFloat(itemCount) * 2 * distanceAmongBars) + distanceAmongBars
+            let dynamicWidth = ((CGFloat(itemCount) * distanceAmongBars) + distanceAmongBars) * CGFloat(globaChartData.count)
             chart.widthAnchor.constraint(equalToConstant: dynamicWidth).isActive = true
             drawAxisesForVertical()
         case .HorizontalGrouped:
             chart = HorizontalGroupedChart(self, frame: CGRect.zero, colors: sampleColors, strokeWidth: 0, thickness: thickness, gap: gap)
             let distanceAmongBars = (thickness + gap)
-            let dynamicHeight = (CGFloat(itemCount) * 2 * distanceAmongBars) + distanceAmongBars
+            let dynamicHeight = ((CGFloat(itemCount) * distanceAmongBars) + distanceAmongBars) * CGFloat(globaChartData.count)
             chart.heightAnchor.constraint(equalToConstant: dynamicHeight).isActive = true
             drawAxisesForHorizontal()
         case .VerticalStacked:
