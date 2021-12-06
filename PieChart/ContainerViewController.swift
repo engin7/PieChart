@@ -89,14 +89,24 @@ class ContainerViewController: UIViewController {
         case .VerticalGrouped:
             chart = VerticalGroupedChart(self, frame: CGRect.zero, colors: sampleColors,
                                          strokeWidth: 0, thickness: thickness, gap: gap)
-            let distanceAmongBars = (thickness + gap)
-            let dynamicWidth = ((CGFloat(itemCount) * distanceAmongBars) + distanceAmongBars) * CGFloat(globaChartData.count)
+           
+            let barAndGap = (thickness + gap)
+         
+            let distanceAmongBars: CGFloat = (CGFloat(globaChartData.count-1) * barAndGap) + (barAndGap + 0.5 * thickness)
+            let distanceAmongGroups: CGFloat = CGFloat(itemCount-1) * (barAndGap + 0.5 * thickness) * CGFloat(globaChartData.count)
+
+            let dynamicWidth = distanceAmongBars + distanceAmongGroups + barAndGap
+            
             chart.widthAnchor.constraint(equalToConstant: dynamicWidth).isActive = true
             drawAxisesForVertical()
         case .HorizontalGrouped:
             chart = HorizontalGroupedChart(self, frame: CGRect.zero, colors: sampleColors, strokeWidth: 0, thickness: thickness, gap: gap)
-            let distanceAmongBars = (thickness + gap)
-            let dynamicHeight = ((CGFloat(itemCount) * distanceAmongBars) + distanceAmongBars) * CGFloat(globaChartData.count)
+            let barAndGap = (thickness + gap)
+         
+            let distanceAmongBars: CGFloat = (CGFloat(globaChartData.count-1) * barAndGap) + (barAndGap + 0.5 * thickness)
+            let distanceAmongGroups: CGFloat = CGFloat(itemCount-1) * (barAndGap + 0.5 * thickness) * CGFloat(globaChartData.count)
+
+            let dynamicHeight = distanceAmongBars + distanceAmongGroups + barAndGap
             chart.heightAnchor.constraint(equalToConstant: dynamicHeight).isActive = true
             drawAxisesForHorizontal()
         case .VerticalStacked:
