@@ -35,8 +35,8 @@ class ContainerViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        view.addSubview(scrollView)
         view.addSubview(markerView)
+        view.addSubview(scrollView)
 
         let frameLayoutGuide = scrollView.frameLayoutGuide
         let contentLayoutGuide = scrollView.contentLayoutGuide
@@ -44,8 +44,10 @@ class ContainerViewController: UIViewController {
         NSLayoutConstraint.activate([
             frameLayoutGuide.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -25),
             frameLayoutGuide.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 75),
-            markerView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 25),
-            markerView.centerXAnchor.constraint(equalTo: view.centerXAnchor)
+            markerView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            markerView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            markerView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            markerView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
         ])
 
         let chart: ChartViewArea

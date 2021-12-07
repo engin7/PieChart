@@ -52,13 +52,6 @@ class VerticalChart: ChartViewArea {
             barView.layer.cornerRadius = thickness / .pi
             barView.layer.maskedCorners = [.layerMaxXMinYCorner, .layerMinXMinYCorner]
  
-            barView.color = colors[i]
-            barView.seriesPoint = AxisData(index: i, label: key, value: value)
-            barView.point = CGPoint(x: barView.bounds.midX, y: barView.bounds.minY)
-            
-            let tapGesture = UITapGestureRecognizer.init(target: self, action: #selector(viewTapped(sender:)))
-            barView.addGestureRecognizer(tapGesture)
- 
             let label = UILabel()
             label.font = label.font.withSize(12)
             label.text = key
@@ -70,6 +63,17 @@ class VerticalChart: ChartViewArea {
             label.widthAnchor.constraint(lessThanOrEqualToConstant: 50).isActive = true
             label.centerXAnchor.constraint(equalTo: barView.centerXAnchor).isActive = true
             label.topAnchor.constraint(equalTo: barView.bottomAnchor, constant: 5).isActive = true
+
+            layoutIfNeeded()
+            let p = CGPoint(x: barView.frame.midX, y: barView.frame.minY)
+            barView.point = superview?.convert(p, to: nil)
+            barView.color = colors[i]
+            barView.seriesPoint = AxisData(index: i, label: key, value: value*sum)
+            
+            print(p)
+            let tapGesture = UITapGestureRecognizer.init(target: self, action: #selector(viewTapped(sender:)))
+            barView.addGestureRecognizer(tapGesture)
+ 
 
             i = i >= colors.count ? 0 : i + 1
         }
