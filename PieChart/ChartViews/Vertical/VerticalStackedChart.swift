@@ -75,7 +75,11 @@ class VerticalStackedChart: ChartViewArea {
                 barView.layer.shadowOffset = CGSize(width: 1.0, height: -2.0)
                 barView.layer.shadowRadius = 2
 
-                barView.label = key + " / " + groupName
+                barView.color = colors[j]
+                barView.seriesPoint = AxisData(index: j, label: key, value: value)
+                barView.point = CGPoint(x: barView.bounds.midX, y: barView.bounds.minY)
+
+                
                 let tapGesture = UITapGestureRecognizer.init(target: self, action: #selector(viewTapped(sender:)))
                 barView.addGestureRecognizer(tapGesture)
                 

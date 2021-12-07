@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		105DB429275D56F7004A853B /* ChartViewArea.swift in Sources */ = {isa = PBXBuildFile; fileRef = 105DB428275D56F7004A853B /* ChartViewArea.swift */; };
 		106AC0AE2756C8F400ED45C0 /* HorizontalStackedChart.swift in Sources */ = {isa = PBXBuildFile; fileRef = 106AC0AD2756C8F400ED45C0 /* HorizontalStackedChart.swift */; };
+		10A84361275FF8C8008562F0 /* ChartMarkerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10A84360275FF8C8008562F0 /* ChartMarkerView.swift */; };
 		10B49FA22753E582005D06EE /* VerticalChart.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10B49FA12753E582005D06EE /* VerticalChart.swift */; };
 		289D410D275DF9D000B71D2D /* ChartDataSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 289D410C275DF9D000B71D2D /* ChartDataSet.swift */; };
 		289D410F275DFA0400B71D2D /* BarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 289D410E275DFA0400B71D2D /* BarView.swift */; };
@@ -30,6 +31,7 @@
 /* Begin PBXFileReference section */
 		105DB428275D56F7004A853B /* ChartViewArea.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChartViewArea.swift; sourceTree = "<group>"; };
 		106AC0AD2756C8F400ED45C0 /* HorizontalStackedChart.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HorizontalStackedChart.swift; sourceTree = "<group>"; };
+		10A84360275FF8C8008562F0 /* ChartMarkerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChartMarkerView.swift; sourceTree = "<group>"; };
 		10B49FA12753E582005D06EE /* VerticalChart.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VerticalChart.swift; sourceTree = "<group>"; };
 		289D410C275DF9D000B71D2D /* ChartDataSet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChartDataSet.swift; sourceTree = "<group>"; };
 		289D410E275DFA0400B71D2D /* BarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BarView.swift; sourceTree = "<group>"; };
@@ -85,6 +87,7 @@
 			isa = PBXGroup;
 			children = (
 				105DB428275D56F7004A853B /* ChartViewArea.swift */,
+				10A84360275FF8C8008562F0 /* ChartMarkerView.swift */,
 				28C987E7274F911000AFE662 /* PieChartView.swift */,
 				105DB426275CFCB4004A853B /* Horizontal */,
 				105DB427275CFCC2004A853B /* Vertical */,
@@ -213,6 +216,7 @@
 				28C987D6274F906100AFE662 /* SceneDelegate.swift in Sources */,
 				28B0281E27568B90001AC958 /* HorizontalGroupedChart.swift in Sources */,
 				105DB429275D56F7004A853B /* ChartViewArea.swift in Sources */,
+				10A84361275FF8C8008562F0 /* ChartMarkerView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

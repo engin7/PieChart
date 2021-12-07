@@ -23,7 +23,8 @@ class ChartClass: UIView {
     let strokeWidth: CGFloat
     let borderColor: UIColor
     let vc: ContainerViewController
-
+    var markerView: ChartMarkerView?
+    
     // MARK: - Initializers
 
     init(_ vc: ContainerViewController, frame: CGRect, colors: [UIColor]? = nil, strokeWidth: CGFloat = 0, borderColor: UIColor = .black, thickness: CGFloat = 0, gap: CGFloat = 0) {
@@ -43,7 +44,15 @@ class ChartClass: UIView {
 
     @objc func viewTapped(sender: UITapGestureRecognizer){
         guard let unwrappedView = sender.view as? BarView else { return }
-        vc.barLabel.text = unwrappedView.label ?? "Not available"
+         
+        guard let seriesPoint =  unwrappedView.seriesPoint else { return }
+        guard let color = unwrappedView.color else { return }
+        guard let point = unwrappedView.point else { return }
+        
+        let bundle = ShowChartMarkerBundle(seriesPoint: seriesPoint, color: color, point: point)
+        
+        markerView?.show(bundle: bundle)
+ 
         UIView.animate(withDuration: 0.3,//Time duration
                             delay:0.0,
                             options:[.allowUserInteraction, .curveEaseInOut],

@@ -52,7 +52,10 @@ class VerticalChart: ChartViewArea {
             barView.layer.cornerRadius = thickness / .pi
             barView.layer.maskedCorners = [.layerMaxXMinYCorner, .layerMinXMinYCorner]
  
-            barView.label = key
+            barView.color = colors[i]
+            barView.seriesPoint = AxisData(index: i, label: key, value: value)
+            barView.point = CGPoint(x: barView.bounds.midX, y: barView.bounds.minY)
+            
             let tapGesture = UITapGestureRecognizer.init(target: self, action: #selector(viewTapped(sender:)))
             barView.addGestureRecognizer(tapGesture)
  

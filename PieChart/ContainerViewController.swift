@@ -25,17 +25,18 @@ class ContainerViewController: UIViewController {
         return v
     }()
 
-    let barLabel: UILabel = {
-        $0.text = "Display touched bar here"
+    let markerView: ChartMarkerView = {
         $0.translatesAutoresizingMaskIntoConstraints = false
         return $0
-    }(UILabel())
-
+    }(ChartMarkerView())
+    
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
         view.addSubview(scrollView)
-        view.addSubview(barLabel)
+        view.addSubview(markerView)
 
         let frameLayoutGuide = scrollView.frameLayoutGuide
         let contentLayoutGuide = scrollView.contentLayoutGuide
@@ -43,8 +44,8 @@ class ContainerViewController: UIViewController {
         NSLayoutConstraint.activate([
             frameLayoutGuide.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -25),
             frameLayoutGuide.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 75),
-            barLabel.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 25),
-            barLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor)
+            markerView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 25),
+            markerView.centerXAnchor.constraint(equalTo: view.centerXAnchor)
         ])
 
         let chart: ChartViewArea
@@ -132,7 +133,8 @@ class ContainerViewController: UIViewController {
             drawAxisesForHorizontal()
         }
         chart.bind(dataSet: chartDataSet)
-
+        chart.markerView = markerView
+        
         scrollView.addSubview(chart)
         chart.translatesAutoresizingMaskIntoConstraints = false
         chart.leadingAnchor.constraint(equalTo: contentLayoutGuide.leadingAnchor).isActive = true

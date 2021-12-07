@@ -74,7 +74,11 @@ class HorizontalStackedChart: ChartViewArea {
                     barView.widthAnchor.constraint(equalToConstant: sectionWidth),
                 ])
 
-                barView.label = key + " / " + groupName
+              
+                barView.color = colors[j]
+                barView.seriesPoint = AxisData(index: i, label: key, value: value)
+                barView.point = CGPoint(x: barView.bounds.midX, y: barView.bounds.minY)
+                
                 let tapGesture = UITapGestureRecognizer.init(target: self, action: #selector(viewTapped(sender:)))
                 barView.addGestureRecognizer(tapGesture)
                 

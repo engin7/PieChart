@@ -8,9 +8,10 @@
 import UIKit.UIView
  
 class BarView: UIView {
-    var value: String?
-    var label: String?
-
+    var color: UIColor?
+    var seriesPoint: AxisData?
+    var point: CGPoint?
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         backgroundColor = .clear

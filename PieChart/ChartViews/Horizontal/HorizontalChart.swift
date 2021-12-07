@@ -44,7 +44,10 @@ class HorizontalChart: ChartViewArea {
             barView.layer.cornerRadius = thickness / .pi
             barView.layer.maskedCorners = [.layerMaxXMinYCorner, .layerMaxXMaxYCorner]
  
-            barView.label = key
+            barView.color = colors[i]
+            barView.seriesPoint = AxisData(index: i, label: key, value: value)
+            barView.point = CGPoint(x: barView.bounds.maxX, y: barView.bounds.midY)
+            
             let tapGesture = UITapGestureRecognizer.init(target: self, action: #selector(viewTapped(sender:)))
             barView.addGestureRecognizer(tapGesture)
             
