@@ -34,7 +34,7 @@ class ContainerViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        scrollView.delegate = self
         view.addSubview(markerView)
         view.addSubview(scrollView)
 
@@ -265,4 +265,13 @@ class ContainerViewController: UIViewController {
             ])
         }
     }
+}
+
+extension ContainerViewController: UIScrollViewDelegate {
+    
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        let point = scrollView.panGestureRecognizer.location(in: view)
+        print(point)
+    }
+    
 }

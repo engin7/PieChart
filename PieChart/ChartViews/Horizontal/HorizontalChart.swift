@@ -63,8 +63,8 @@ class HorizontalChart: ChartViewArea {
             ])
 
             layoutIfNeeded()
-            let p = CGPoint(x: barView.frame.maxX, y: barView.frame.midY)
-            barView.point = superview?.convert(p, to: nil)
+            let p = CGPoint(x: barView.bounds.maxX, y: barView.bounds.midY)
+            barView.point = p
             barView.color = colors[i]
             barView.seriesPoint = AxisData(index: i, label: key, value: value * sum)
 

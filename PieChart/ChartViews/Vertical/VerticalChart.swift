@@ -65,12 +65,13 @@ class VerticalChart: ChartViewArea {
             label.topAnchor.constraint(equalTo: barView.bottomAnchor, constant: 5).isActive = true
 
             layoutIfNeeded()
-            let p = CGPoint(x: barView.frame.midX, y: barView.frame.minY)
-            barView.point = superview?.convert(p, to: nil)
+            let p = CGPoint(x: barView.bounds.midX, y: barView.bounds.minY)
+          
+            barView.point = p
             barView.color = colors[i]
             barView.seriesPoint = AxisData(index: i, label: key, value: value*sum)
+     
             
-            print(p)
             let tapGesture = UITapGestureRecognizer.init(target: self, action: #selector(viewTapped(sender:)))
             barView.addGestureRecognizer(tapGesture)
  

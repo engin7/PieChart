@@ -49,7 +49,11 @@ class ChartClass: UIView {
         guard let color = unwrappedView.color else { return }
         guard let point = unwrappedView.point else { return }
         
-        let bundle = ShowChartMarkerBundle(seriesPoint: seriesPoint, color: color, point: point)
+        // convert relative point to screen at that moment
+        let p =  unwrappedView.convert(point, to: vc.view)
+
+        
+        let bundle = ShowChartMarkerBundle(seriesPoint: seriesPoint, color: color, point: p)
         
         markerView?.show(bundle: bundle)
  
