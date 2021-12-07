@@ -270,8 +270,7 @@ class ContainerViewController: UIViewController {
 extension ContainerViewController: UIScrollViewDelegate {
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        let point = scrollView.panGestureRecognizer.location(in: view)
-        markerView.scrolMarkerTo(point)
+        markerView.scrolMarkerTo(scrollView)
     }
     
 }
