@@ -15,8 +15,8 @@ class PieChartView: ChartViewArea {
     func bind(dataSet: ChartDataSet) {
         guard let seriesData = dataSet.data.first else { return }
         let series = seriesData.seriesPoints.sorted(by: { $0.index <  $1.index })
-        let sum = series.compactMap{ $0.value }.reduce(0, +)
-        self.data = sum == 0 ? series.map{ ($0.label, CGFloat($0.value)) } : series.map{ ($0.label, CGFloat($0.value / sum)) } 
+        sum = series.compactMap{ $0.value }.reduce(0, +)
+        self.data = sum == 0 ? series.map{ ($0.label, CGFloat($0.value)) } : series.map{ ($0.label, CGFloat($0.value / sum)) }
     }
  
     // MARK: - Touch
@@ -74,7 +74,6 @@ class PieChartView: ChartViewArea {
  
     var radius: CGFloat = 0
     var touchPoint: CGPoint = CGPoint.zero
-    var flag = false
     
     override func draw(_ rect: CGRect) {
         guard let context = UIGraphicsGetCurrentContext() else { return }
@@ -89,26 +88,20 @@ class PieChartView: ChartViewArea {
         data.forEach { (key, value) in
             let angle = value * 2 * CGFloat.pi
             radius = min(0.4*rect.width, 0.4*rect.height)
-
-//            let startAngle = -accumulatedAngle
-//            let endAngle =  startAngle - angle
-      
+ 
             let convertedStartAngle =  (accumulatedAngle + 0.5 * CGFloat.pi).degrees
             let convertedEndAngle = (0.5 * CGFloat.pi + accumulatedAngle + angle).degrees
  
             // create path
             let path = CGMutablePath()
             path.move(to: CGPoint())
-            
-            
+             
             var inBeetween: Bool = false
-            
-            
             let touchAngle =  atan2(center.y - touchPoint.y, touchPoint.x - center.x)
             
             let convertedTouchAngle = (0.5 * CGFloat.pi - touchAngle).degrees
             
- 
+            //   need to convert to unit circle angles so we can decide the quadrant
             if touchPoint != CGPoint.zero {
                 if (convertedTouchAngle > convertedStartAngle && convertedTouchAngle < convertedEndAngle)  {
                     inBeetween = true
@@ -117,12 +110,54 @@ class PieChartView: ChartViewArea {
           
        
             let shadowBlurRadius: CGFloat
+             
+             self.subviews.forEach {
+                 if $0.tag == i { $0.removeFromSuperview() }
+            }
             
               if inBeetween {
                   context.setLineWidth(0.0)
                   radius = min(0.45*rect.width, 0.45*rect.height)
                   shadowBlurRadius = 10
-                  vc.barLabel.text = key
+                  
+                  // Add label
+                  let startAngle = -accumulatedAngle
+                  let endAngle =  startAngle - angle
+                  let midPointAngle = (CGFloat.pi/2 - (startAngle + endAngle) / 2.0)
+                  let midPoint = CGPoint(x: center.x + 0.7 * radius * cos(midPointAngle - 0.5 * .pi), y: center.y + 0.7 * radius * sin(midPointAngle - 0.5 * .pi))
+                  let percentValue = Int(ceil(value*100))
+                  
+                  let label = PaddedLabel()
+ 
+                  label.layer.cornerRadius = 5
+                  label.layer.masksToBounds = true
+                  label.backgroundColor =  colors[i]
+                  label.tag = i
+                  label.text = key + ": \(percentValue)%"
+                  label.lineBreakMode = .byTruncatingMiddle
+                  
+                  let shadowView = UIView()
+                  shadowView.layer.shadowColor = UIColor.black.cgColor
+                  shadowView.layer.shadowRadius = 2.0
+                  shadowView.layer.shadowOffset = CGSize(width: 2.0, height: 2.0)
+                  shadowView.layer.shadowOpacity = 1.0
+                  addSubview(shadowView)
+                  
+                  shadowView.addSubview(label)
+                  label.translatesAutoresizingMaskIntoConstraints = false
+
+                  NSLayoutConstraint.activate([
+                      label.leadingAnchor.constraint(greaterThanOrEqualTo: leadingAnchor, constant: 5),
+                      label.trailingAnchor.constraint(lessThanOrEqualTo: trailingAnchor, constant: -5),
+                      label.centerYAnchor.constraint(equalTo: topAnchor, constant: midPoint.y),
+                  ])
+                  print((midPointAngle).degrees )
+                  if midPointAngle < CGFloat.pi {
+                      label.trailingAnchor.constraint(greaterThanOrEqualTo: leadingAnchor, constant: midPoint.x).isActive = true
+                  } else {
+                      label.leadingAnchor.constraint(lessThanOrEqualTo: leadingAnchor, constant: midPoint.x).isActive = true
+                  }
+                  
               } else {
                   context.setLineWidth(strokeWidth)
                   radius = min(0.4*rect.width, 0.4*rect.height)
@@ -158,12 +193,7 @@ class PieChartView: ChartViewArea {
             context.strokePath()
                
         
-            if !flag {
-//                let midPointAngle = ((startAngle + endAngle) / 2.0)
-//                let midPoint = CGPoint(x: center.x + 0.7 * radius * cos(midPointAngle), y: center.y - 0.7 * radius * sin(midPointAngle))
-//
-//                addLabel(midPoint, key)
-            }
+ 
             
             context.restoreGState()
  
@@ -172,17 +202,6 @@ class PieChartView: ChartViewArea {
         }
         let _tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(tapGestureRecognized(_:)))
         self.addGestureRecognizer(_tapGestureRecognizer)
-        flag = true
-    }
-     
-    func addLabel(_ midPoint: CGPoint, _ title: String) {
-            let label = UILabel()
-            label.text = title
-            label.translatesAutoresizingMaskIntoConstraints = false
-            addSubview(label)
-        
-            label.centerXAnchor.constraint(equalTo: leadingAnchor, constant: midPoint.x).isActive = true
-            label.centerYAnchor.constraint(equalTo: topAnchor, constant: midPoint.y).isActive = true
     }
  
 }
@@ -199,3 +218,43 @@ extension CGFloat {
     }
 }
  
+@IBDesignable
+class PaddedLabel: UILabel {
+
+    @IBInspectable var inset:CGSize = CGSize(width: 5, height: 5)
+
+    var padding: UIEdgeInsets {
+        var hasText:Bool = false
+        if let t = self.text?.count, t > 0 {
+            hasText = true
+        }
+        else if let t = attributedText?.length, t > 0 {
+            hasText = true
+        }
+
+        return hasText ? UIEdgeInsets(top: inset.height, left: inset.width, bottom: inset.height, right: inset.width) : UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
+    }
+
+    override func drawText(in rect: CGRect) {
+        super.drawText(in: rect.inset(by: padding))
+    }
+
+    override var intrinsicContentSize: CGSize {
+        let superContentSize = super.intrinsicContentSize
+        let p = padding
+        let width = superContentSize.width + p.left + p.right
+        let heigth = superContentSize.height + p.top + p.bottom
+        return CGSize(width: width, height: heigth)
+    }
+
+    override func sizeThatFits(_ size: CGSize) -> CGSize {
+        let superSizeThatFits = super.sizeThatFits(size)
+        let p = padding
+        let width = superSizeThatFits.width + p.left + p.right
+        let heigth = superSizeThatFits.height + p.top + p.bottom
+        return CGSize(width: width, height: heigth)
+    }
+ 
+}
+
+
