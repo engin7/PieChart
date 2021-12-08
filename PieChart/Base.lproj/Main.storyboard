@@ -18,7 +18,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="33" translatesAutoresizingMaskIntoConstraints="NO" id="LpK-jI-x47">
-                                <rect key="frame" x="132" y="240.5" width="150" height="415"/>
+                                <rect key="frame" x="132" y="208.5" width="150" height="479"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Du4-fU-VwQ">
                                         <rect key="frame" x="53" y="0.0" width="44" height="31"/>
@@ -28,8 +28,16 @@
                                             <action selector="pieTouched:" destination="BYZ-38-t0r" eventType="touchUpInside" id="DR4-VQ-Twe"/>
                                         </connections>
                                     </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="42w-EK-GqB">
+                                        <rect key="frame" x="49.5" y="64" width="51" height="31"/>
+                                        <state key="normal" title="Button"/>
+                                        <buttonConfiguration key="configuration" style="plain" title="Line"/>
+                                        <connections>
+                                            <action selector="lineTouched:" destination="BYZ-38-t0r" eventType="touchUpInside" id="tL3-he-FTu"/>
+                                        </connections>
+                                    </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="KUf-J0-yy4">
-                                        <rect key="frame" x="30" y="64" width="90.5" height="31"/>
+                                        <rect key="frame" x="30" y="128" width="90.5" height="31"/>
                                         <state key="normal" title="Button"/>
                                         <buttonConfiguration key="configuration" style="plain" title="Horizontal"/>
                                         <connections>
@@ -37,7 +45,7 @@
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="HVp-HV-Mxa">
-                                        <rect key="frame" x="38.5" y="128" width="73" height="31"/>
+                                        <rect key="frame" x="38.5" y="192" width="73" height="31"/>
                                         <state key="normal" title="Button"/>
                                         <buttonConfiguration key="configuration" style="plain" title="Vertical"/>
                                         <connections>
@@ -45,7 +53,7 @@
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="evk-1y-iTQ">
-                                        <rect key="frame" x="0.0" y="192" width="150" height="31"/>
+                                        <rect key="frame" x="0.0" y="256" width="150" height="31"/>
                                         <state key="normal" title="Button"/>
                                         <buttonConfiguration key="configuration" style="plain" title="Horizontal Grouped"/>
                                         <connections>
@@ -53,7 +61,7 @@
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ydL-RU-wKC">
-                                        <rect key="frame" x="8.5" y="256" width="133" height="31"/>
+                                        <rect key="frame" x="8.5" y="320" width="133" height="31"/>
                                         <state key="normal" title="Button"/>
                                         <buttonConfiguration key="configuration" style="plain" title="Vertical Grouped"/>
                                         <connections>
@@ -61,7 +69,7 @@
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gq1-E3-5k6">
-                                        <rect key="frame" x="2" y="320" width="146.5" height="31"/>
+                                        <rect key="frame" x="2" y="384" width="146.5" height="31"/>
                                         <state key="normal" title="Button"/>
                                         <buttonConfiguration key="configuration" style="plain" title="Horizontal Stacked"/>
                                         <connections>
@@ -69,7 +77,7 @@
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="C8W-gg-NIo">
-                                        <rect key="frame" x="10.5" y="384" width="129.5" height="31"/>
+                                        <rect key="frame" x="10.5" y="448" width="129.5" height="31"/>
                                         <state key="normal" title="Button"/>
                                         <buttonConfiguration key="configuration" style="plain" title="Vertical Stacked"/>
                                         <connections>
@@ -79,7 +87,7 @@
                                 </subviews>
                             </stackView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="CHARTS" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vL8-Eu-34c">
-                                <rect key="frame" x="160.5" y="171.5" width="93" height="29"/>
+                                <rect key="frame" x="160.5" y="139.5" width="93" height="29"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="24"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
