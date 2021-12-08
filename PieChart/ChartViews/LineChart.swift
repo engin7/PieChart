@@ -56,8 +56,8 @@ class LineChart: ChartViewArea {
     @IBInspectable var labelFontSize: CGFloat = 10
 
     var axisLineWidth: CGFloat = 1
-    var deltaX: CGFloat = 20 // The change between each tick on the x axis
-    var deltaY: CGFloat = 20 // and y axis
+    var deltaX: CGFloat = 0 // The change between each tick on the x axis
+    var deltaY: CGFloat = 0 // and y axis
     var xMax: CGFloat = 100
     var yMax: CGFloat = 100
     var xMin: CGFloat = 0
@@ -94,11 +94,11 @@ class LineChart: ChartViewArea {
     func setAxisRange(forData data: [(String, CGFloat)]) {
         guard !data.isEmpty else { return }
     
-        let xs = CGFloat(data.map() { $0.0 }.count + 1) * thickness
+        let xs = CGFloat(data.map() { $0.0 }.count) * thickness
         let ys = data.map() { $0.1*sum }
         
-        xMax = ceil(xs / deltaX) * deltaX
-        yMax = ceil(ys.max()! / deltaY) * deltaY
+        xMax = ceil(xs )
+        yMax = ceil(ys.max()! )
         xMin = 0
         yMin = 0
         setTransform(minX: xMin, maxX: xMax, minY: yMin, maxY: yMax)
@@ -120,13 +120,13 @@ class LineChart: ChartViewArea {
         
         let yLabelSize = "\(Int(maxY))".size(withSystemFontSize: labelFontSize)
         
-        let xOffset = xLabelSize.height + 2
+        let xOffset = 50.0
         let yOffset = yLabelSize.width + 5
 
         let xScale = (bounds.width - yOffset - xLabelSize.width/2 - 2)/(maxX - minX)
-        let yScale = (bounds.height - xOffset - yLabelSize.height/2 - 2)/(maxY - minY)
+        let yScale = (bounds.height - 50)/(maxY - minY) * 0.95
         
-        chartTransform = CGAffineTransform(a: xScale, b: 0, c: 0, d: -yScale, tx: yOffset, ty: bounds.height - xOffset)
+        chartTransform = CGAffineTransform(a: xScale, b: 0, c: 0, d: -yScale, tx: 20 + yOffset, ty:   bounds.height - xOffset)
         
         setNeedsDisplay()
     }
@@ -181,7 +181,7 @@ class LineChart: ChartViewArea {
         // I like guard statements for this because it's kind of like a bouncer to a bar.
         // If you don't have your transform yet, you can't enter drawAxes.
         guard let context = UIGraphicsGetCurrentContext(), let t = chartTransform else { return }
-        drawAxes(in: context, usingTransform: t)
+//        drawAxes(in: context, usingTransform: t)
         vc.addValuesYAxis(yMax)
 
     }
