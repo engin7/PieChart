@@ -28,6 +28,7 @@ let value: Double
 
 enum GraphEnum {
 case Pie
+case Line
 case Vertical
 case Horizontal
 case VerticalGrouped

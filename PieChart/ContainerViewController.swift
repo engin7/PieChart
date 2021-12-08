@@ -66,9 +66,25 @@ class ContainerViewController: UIViewController {
 
             NSLayoutConstraint.activate([
                 frameLayoutGuide.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 25),
-                frameLayoutGuide.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -75),
+                frameLayoutGuide.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -25),
             ])
 
+        case .Line:
+            
+            chart =  LineChart(
+                self,
+                frame: CGRect.zero,
+                colors: sampleColors,
+                strokeWidth: 0,
+                thickness: thickness,
+                gap: gap * 2)
+                
+                  
+            let distanceAmongBars = (thickness + gap * 2)
+            let dynamicWidth = (CGFloat(itemCount) * distanceAmongBars) + gap
+            chart.widthAnchor.constraint(equalToConstant: dynamicWidth).isActive = true
+            drawAxisesForVertical()
+            
         case .Vertical:
             chart = VerticalChart(
                 self,
@@ -166,7 +182,7 @@ class ContainerViewController: UIViewController {
 
         NSLayoutConstraint.activate([
             frameLayoutGuide.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 50),
-            frameLayoutGuide.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -150),
+            frameLayoutGuide.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -25),
         ])
 
         view.addSubview(horizontalLineView)
@@ -189,7 +205,7 @@ class ContainerViewController: UIViewController {
 
         NSLayoutConstraint.activate([
             frameLayoutGuide.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            frameLayoutGuide.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -150),
+            frameLayoutGuide.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -25),
         ])
 
         view.addSubview(horizontalLineView)

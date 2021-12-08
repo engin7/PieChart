@@ -9,8 +9,18 @@ import Foundation
 
 import UIKit
 
-class LineChart: UIView {
+class LineChart: ChartViewArea {
+    
+    private var data: [(String, CGFloat)] = []
  
+    func bind(dataSet: ChartDataSet) {
+        guard let seriesData = dataSet.data.first else { return }
+        let series = seriesData.seriesPoints.sorted(by: { $0.index < $1.index })
+        sum = series.compactMap { $0.value }.reduce(0, +)
+        data = sum == 0 ? series.map { ($0.label, CGFloat($0.value)) } : series.map { ($0.label, CGFloat($0.value / sum)) }
+        plot(data)
+    }
+
 
     // MARK: - Aesthetics
 
@@ -46,26 +56,15 @@ class LineChart: UIView {
     @IBInspectable var labelFontSize: CGFloat = 10
 
     var axisLineWidth: CGFloat = 1
-    var deltaX: CGFloat = 10 // The change between each tick on the x axis
-    var deltaY: CGFloat = 10 // and y axis
+    var deltaX: CGFloat = 20 // The change between each tick on the x axis
+    var deltaY: CGFloat = 20 // and y axis
     var xMax: CGFloat = 100
     var yMax: CGFloat = 100
     var xMin: CGFloat = 0
     var yMin: CGFloat = 0
 
-    var data: [CGPoint]?
-
-    override init(frame: CGRect) {
-        super.init(frame: frame)
-        combinedInit()
-    }
-
-    required init?(coder aDecoder: NSCoder) {
-        super.init(coder: aDecoder)
-        combinedInit()
-    }
-
-    func combinedInit() {
+ 
+    func addLines() {
         layer.addSublayer(lineLayer)
         lineLayer.fillColor = UIColor.clear.cgColor
         lineLayer.strokeColor = lineColor.cgColor
@@ -79,27 +78,30 @@ class LineChart: UIView {
 
     override func layoutSubviews() {
         super.layoutSubviews()
+        addLines()
         lineLayer.frame = bounds
         circlesLayer.frame = bounds
 
-        if let d = data {
+        if !data.isEmpty {
             setTransform(minX: xMin, maxX: xMax, minY: yMin, maxY: yMax)
-            plot(d)
+            plot(data)
         }
+
     }
     
     // to setup the transform
-    func setAxisRange(forPoints points: [CGPoint]) {
-        guard !points.isEmpty else { return }
+    func setAxisRange(forData data: [(String, CGFloat)]) {
+        guard !data.isEmpty else { return }
+    
+        let xs = CGFloat(data.map() { $0.0 }.count + 1) * thickness
+        let ys = data.map() { $0.1*sum }
         
-        let xs = points.map() { $0.x }
-        let ys = points.map() { $0.y }
-        
-        xMax = ceil(xs.max()! / deltaX) * deltaX
+        xMax = ceil(xs / deltaX) * deltaX
         yMax = ceil(ys.max()! / deltaY) * deltaY
         xMin = 0
         yMin = 0
         setTransform(minX: xMin, maxX: xMax, minY: yMin, maxY: yMax)
+        vc.addValuesYAxis(yMax)
     }
     
     func setAxisRange(xMin: CGFloat, xMax: CGFloat, yMin: CGFloat, yMax: CGFloat) {
@@ -130,28 +132,28 @@ class LineChart: UIView {
     }
     
     
-    func plot(_ points: [CGPoint]) {
+    func plot(_ data: [(String, CGFloat)]) {
         lineLayer.path = nil
         circlesLayer.path = nil
-        data = nil
-
-        guard !points.isEmpty else { return }
-        
-        self.data = points
+      
         
         if self.chartTransform == nil {
-            setAxisRange(forPoints: points)
+            setAxisRange(forData: data)
         }
          
+        let pointsData: [CGPoint] = data.enumerated().map{
+              CGPoint(x: thickness * CGFloat($0), y: $1.1*sum)
+        }
+        
         // setup our line path and our circle path
         
         let linePath = CGMutablePath()
-        linePath.addLines(between: points, transform: chartTransform!)
+        linePath.addLines(between: pointsData, transform: chartTransform!)
         
         lineLayer.path = linePath
         
         if showPoints {
-            circlesLayer.path = circles(atPoints: points, withTransform: chartTransform!)
+            circlesLayer.path = circles(atPoints: pointsData, withTransform: chartTransform!)
         }
     }
     
@@ -173,6 +175,7 @@ class LineChart: UIView {
  
 
     override func draw(_ rect: CGRect) {
+   
         // draw rect comes with a drawing context, so lets grab it.
         // Also, if there is not yet a chart transform, we will bail on performing any other drawing.
         // I like guard statements for this because it's kind of like a bouncer to a bar.
