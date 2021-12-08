@@ -34,7 +34,7 @@ class HorizontalStackedChart: ChartViewArea {
             pairSums.append(sum)
         }
         let maxRatio = pairSums.max() ?? 1.0
-        let maxWidth = ((rect.width - 125) / maxRatio)
+        let maxWidth = ((rect.width - 100) / maxRatio)
 
         let maxValue = maxRatio * sum
         vc.addValuesXAxis(maxValue)
@@ -50,7 +50,7 @@ class HorizontalStackedChart: ChartViewArea {
             
             mData.forEach { groupName, value in
 
-                let sectionWidth = value * maxWidth
+                let sectionWidth = value * maxWidth * 0.95
                 // create bar views
                 let barView = BarView()
                 barView.backgroundColor = colors[j]

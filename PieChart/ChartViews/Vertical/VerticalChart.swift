@@ -34,7 +34,7 @@ class VerticalChart: ChartViewArea {
 
         data.forEach { key, value in
 
-            let sectionHeight = value * maxHeight
+            let sectionHeight = value * maxHeight * 0.95
             let distanceAmongBars = (thickness + gap)
             let xValue: CGFloat = (CGFloat(i) * distanceAmongBars) + (gap + 0.5 * thickness)
             // create bar views

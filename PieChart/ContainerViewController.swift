@@ -196,7 +196,7 @@ class ContainerViewController: UIViewController {
         let frameLayoutGuide = scrollView.frameLayoutGuide
 
         NSLayoutConstraint.activate([
-            frameLayoutGuide.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 50),
+            frameLayoutGuide.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 70),
             frameLayoutGuide.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
         ])
 
@@ -208,7 +208,7 @@ class ContainerViewController: UIViewController {
             horizontalLineView.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor),
             horizontalLineView.topAnchor.constraint(equalTo: scrollView.bottomAnchor, constant: -50),
             horizontalLineView.heightAnchor.constraint(equalToConstant: 2),
-            verticalLineView.topAnchor.constraint(equalTo: scrollView.topAnchor),
+            verticalLineView.topAnchor.constraint(equalTo: scrollView.topAnchor, constant: 25),
             verticalLineView.bottomAnchor.constraint(equalTo: horizontalLineView.bottomAnchor),
             verticalLineView.trailingAnchor.constraint(equalTo: horizontalLineView.leadingAnchor),
             verticalLineView.widthAnchor.constraint(equalToConstant: 2),
@@ -231,20 +231,20 @@ class ContainerViewController: UIViewController {
             horizontalLineView.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor, constant: -25),
             horizontalLineView.topAnchor.constraint(equalTo: scrollView.bottomAnchor),
             horizontalLineView.heightAnchor.constraint(equalToConstant: 2),
-            verticalLineView.topAnchor.constraint(equalTo: scrollView.topAnchor),
+            verticalLineView.topAnchor.constraint(equalTo: scrollView.topAnchor, constant: 25),
             verticalLineView.bottomAnchor.constraint(equalTo: horizontalLineView.bottomAnchor),
             verticalLineView.trailingAnchor.constraint(equalTo: horizontalLineView.leadingAnchor),
             verticalLineView.widthAnchor.constraint(equalToConstant: 2),
         ])
     }
 
-    func roundToNumber(_ x: Double, roundTo: Double) -> Int {
-        return Int(roundTo) * Int(round(x / roundTo))
+    func roundToDouble(_ x: Double, roundTo: Double) -> Double {
+        return Double(roundTo) * Double(round(x / roundTo))
     }
     
     func addValuesXAxis(_ maxValue: Double) {
-        let rate: Int = roundToNumber(maxValue / Double(labelCount), roundTo: 5)
-        let offSet = (scrollView.frameLayoutGuide.layoutFrame.width - 125) / CGFloat(labelCount)
+        let rate: Double = roundToDouble(maxValue, roundTo: 5) / Double(labelCount)
+        let offSet = 0.95 * (scrollView.frameLayoutGuide.layoutFrame.width - 98) / CGFloat(labelCount)
 
         for i in 1 ... labelCount {
             let seperatorView = UIView()
@@ -254,7 +254,8 @@ class ContainerViewController: UIViewController {
 
             let label = UILabel()
             label.font = label.font.withSize(12)
-            label.text = String(rate * i)
+         
+            label.text = String((rate * Double(i)*100).rounded()/100)
             label.translatesAutoresizingMaskIntoConstraints = false
             view.addSubview(label)
 
@@ -270,8 +271,8 @@ class ContainerViewController: UIViewController {
     }
 
     func addValuesYAxis(_ maxValue: Double) {
-        let rate: Int = roundToNumber(maxValue / Double(labelCount), roundTo: 5)
-        let offSet = (scrollView.frameLayoutGuide.layoutFrame.height - 75) / CGFloat(labelCount)
+        let rate: Double =  roundToDouble(maxValue, roundTo: 5) / Double(labelCount)
+        let offSet = 0.95 * (scrollView.frameLayoutGuide.layoutFrame.height - 73) / CGFloat(labelCount)
         print(offSet)
         // draw notches and add values
         for i in 1 ... labelCount {
@@ -282,7 +283,7 @@ class ContainerViewController: UIViewController {
 
             let label = UILabel()
             label.font = label.font.withSize(12)
-            label.text = String(rate * i)
+            label.text = String((rate * Double(i)*100).rounded()/100)
             label.translatesAutoresizingMaskIntoConstraints = false
             view.addSubview(label)
 

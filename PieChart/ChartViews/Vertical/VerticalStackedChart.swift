@@ -50,7 +50,7 @@ class VerticalStackedChart: ChartViewArea {
 
             mData.forEach { groupName, value in
 
-                let sectionHeight = value * maxHeight
+                let sectionHeight = value * maxHeight * 0.95
 
                 // create bar views
                 let barView = BarView()
@@ -76,7 +76,7 @@ class VerticalStackedChart: ChartViewArea {
                 barView.layer.shadowRadius = 2
 
                 barView.color = colors[j]
-                barView.seriesPoint = AxisData(index: j, label: key, value: value)
+                barView.seriesPoint = AxisData(index: j, label: key, value: value*sum)
                 barView.point = CGPoint(x: barView.bounds.midX, y: barView.bounds.minY)
 
                 
