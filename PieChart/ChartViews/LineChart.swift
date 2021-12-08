@@ -35,7 +35,7 @@ class LineChart: ChartViewArea {
         }
     }
 
-    @IBInspectable var lineWidth: CGFloat = 1
+    @IBInspectable var lineWidth: CGFloat = 2
 
     @IBInspectable var showPoints: Bool = true { // show the circles on each data point
         didSet {
@@ -68,7 +68,8 @@ class LineChart: ChartViewArea {
         layer.addSublayer(lineLayer)
         lineLayer.fillColor = UIColor.clear.cgColor
         lineLayer.strokeColor = lineColor.cgColor
-
+        lineLayer.lineWidth = lineWidth
+        
         layer.addSublayer(circlesLayer)
         circlesLayer.fillColor = circleColor.cgColor
 
@@ -101,7 +102,6 @@ class LineChart: ChartViewArea {
         xMin = 0
         yMin = 0
         setTransform(minX: xMin, maxX: xMax, minY: yMin, maxY: yMax)
-        vc.addValuesYAxis(yMax)
     }
     
     func setAxisRange(xMin: CGFloat, xMax: CGFloat, yMin: CGFloat, yMax: CGFloat) {
@@ -182,6 +182,8 @@ class LineChart: ChartViewArea {
         // If you don't have your transform yet, you can't enter drawAxes.
         guard let context = UIGraphicsGetCurrentContext(), let t = chartTransform else { return }
         drawAxes(in: context, usingTransform: t)
+        vc.addValuesYAxis(yMax)
+
     }
     
     func drawAxes(in context: CGContext, usingTransform t: CGAffineTransform) {

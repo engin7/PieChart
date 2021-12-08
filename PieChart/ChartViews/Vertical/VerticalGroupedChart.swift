@@ -32,7 +32,7 @@ class VerticalGroupedChart: ChartViewArea {
         let maxValue: Double = maxRatio * sum
         vc.addValuesYAxis(maxValue)
 
-        let maxHeight = ((rect.height - 75) / maxRatio)
+        let maxHeight = ((rect.height - 50) / maxRatio)
 
         var i: Int = 0
         var j: Int = 0

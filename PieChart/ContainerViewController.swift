@@ -43,10 +43,10 @@ class ContainerViewController: UIViewController {
         view.addSubview(chartContainerView)
         
         NSLayoutConstraint.activate([
-            chartContainerView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            chartContainerView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 50),
             chartContainerView.leadingAnchor.constraint(equalTo:  view.leadingAnchor),
             chartContainerView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            chartContainerView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
+            chartContainerView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -100)
         ])
         
         chartContainerView.addSubview(markerView)
@@ -97,7 +97,7 @@ class ContainerViewController: UIViewController {
             let distanceAmongBars = (thickness + gap * 2)
             let dynamicWidth = (CGFloat(itemCount) * distanceAmongBars) + gap
             chart.widthAnchor.constraint(equalToConstant: dynamicWidth).isActive = true
-            drawAxisesForVertical()
+             drawAxisesForVertical()
             
         case .Vertical:
             chart = VerticalChart(
@@ -196,8 +196,8 @@ class ContainerViewController: UIViewController {
         let frameLayoutGuide = scrollView.frameLayoutGuide
 
         NSLayoutConstraint.activate([
-            frameLayoutGuide.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 70),
-            frameLayoutGuide.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
+            frameLayoutGuide.leadingAnchor.constraint(equalTo: chartContainerView.leadingAnchor, constant: 70),
+            frameLayoutGuide.bottomAnchor.constraint(equalTo: chartContainerView.safeAreaLayoutGuide.bottomAnchor),
         ])
 
         view.addSubview(horizontalLineView)
@@ -208,7 +208,7 @@ class ContainerViewController: UIViewController {
             horizontalLineView.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor),
             horizontalLineView.topAnchor.constraint(equalTo: scrollView.bottomAnchor, constant: -50),
             horizontalLineView.heightAnchor.constraint(equalToConstant: 2),
-            verticalLineView.topAnchor.constraint(equalTo: scrollView.topAnchor, constant: 25),
+            verticalLineView.topAnchor.constraint(equalTo: scrollView.topAnchor),
             verticalLineView.bottomAnchor.constraint(equalTo: horizontalLineView.bottomAnchor),
             verticalLineView.trailingAnchor.constraint(equalTo: horizontalLineView.leadingAnchor),
             verticalLineView.widthAnchor.constraint(equalToConstant: 2),
@@ -219,8 +219,8 @@ class ContainerViewController: UIViewController {
         let frameLayoutGuide = scrollView.frameLayoutGuide
 
         NSLayoutConstraint.activate([
-            frameLayoutGuide.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            frameLayoutGuide.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -30),
+            frameLayoutGuide.leadingAnchor.constraint(equalTo: chartContainerView.leadingAnchor),
+            frameLayoutGuide.bottomAnchor.constraint(equalTo: chartContainerView.safeAreaLayoutGuide.bottomAnchor, constant: -30),
         ])
 
         view.addSubview(horizontalLineView)
@@ -231,7 +231,7 @@ class ContainerViewController: UIViewController {
             horizontalLineView.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor, constant: -25),
             horizontalLineView.topAnchor.constraint(equalTo: scrollView.bottomAnchor),
             horizontalLineView.heightAnchor.constraint(equalToConstant: 2),
-            verticalLineView.topAnchor.constraint(equalTo: scrollView.topAnchor, constant: 25),
+            verticalLineView.topAnchor.constraint(equalTo: scrollView.topAnchor),
             verticalLineView.bottomAnchor.constraint(equalTo: horizontalLineView.bottomAnchor),
             verticalLineView.trailingAnchor.constraint(equalTo: horizontalLineView.leadingAnchor),
             verticalLineView.widthAnchor.constraint(equalToConstant: 2),
@@ -272,7 +272,7 @@ class ContainerViewController: UIViewController {
 
     func addValuesYAxis(_ maxValue: Double) {
         let rate: Double =  roundToDouble(maxValue, roundTo: 5) / Double(labelCount)
-        let offSet = 0.95 * (scrollView.frameLayoutGuide.layoutFrame.height - 73) / CGFloat(labelCount)
+        let offSet = 0.95 * (scrollView.frameLayoutGuide.layoutFrame.height - 48) / CGFloat(labelCount)
         print(offSet)
         // draw notches and add values
         for i in 1 ... labelCount {

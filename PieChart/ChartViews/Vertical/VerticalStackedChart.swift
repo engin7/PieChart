@@ -33,7 +33,7 @@ class VerticalStackedChart: ChartViewArea {
         }
 
         let maxRatio = pairSums.max() ?? 1.0
-        let maxHeight = ((rect.height - 75) / maxRatio)
+        let maxHeight = ((rect.height - 50) / maxRatio)
         let maxValue: Double = maxRatio * sum
         vc.addValuesYAxis(maxValue)
 
