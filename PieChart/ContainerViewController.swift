@@ -15,13 +15,17 @@ class ContainerViewController: UIViewController {
 
     let sampleColors: [UIColor] = [.yellow, .red, .orange, .brown, .purple, .cyan, .lightGray, .blue, .red, .orange, .brown, .purple]
 
+    let chartContainerView: UIView = {
+       $0.translatesAutoresizingMaskIntoConstraints = false
+        return $0
+    }(UIView())
+    
     let scrollView: UIScrollView = {
         let v = UIScrollView()
         v.translatesAutoresizingMaskIntoConstraints = false
         v.bounces = false
         v.showsHorizontalScrollIndicator = false
         v.showsVerticalScrollIndicator = false
-
         return v
     }()
 
@@ -35,19 +39,29 @@ class ContainerViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         scrollView.delegate = self
-        view.addSubview(markerView)
-        view.addSubview(scrollView)
+        
+        view.addSubview(chartContainerView)
+        
+        NSLayoutConstraint.activate([
+            chartContainerView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            chartContainerView.leadingAnchor.constraint(equalTo:  view.leadingAnchor),
+            chartContainerView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            chartContainerView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
+        ])
+        
+        chartContainerView.addSubview(markerView)
+        chartContainerView.addSubview(scrollView)
 
         let frameLayoutGuide = scrollView.frameLayoutGuide
         let contentLayoutGuide = scrollView.contentLayoutGuide
 
         NSLayoutConstraint.activate([
-            frameLayoutGuide.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -25),
-            frameLayoutGuide.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 75),
-            markerView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
-            markerView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            markerView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            markerView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
+            frameLayoutGuide.trailingAnchor.constraint(equalTo: chartContainerView.trailingAnchor),
+            frameLayoutGuide.topAnchor.constraint(equalTo: chartContainerView.safeAreaLayoutGuide.topAnchor),
+            markerView.topAnchor.constraint(equalTo: chartContainerView.safeAreaLayoutGuide.topAnchor),
+            markerView.leadingAnchor.constraint(equalTo: chartContainerView.leadingAnchor),
+            markerView.trailingAnchor.constraint(equalTo: chartContainerView.trailingAnchor),
+            markerView.bottomAnchor.constraint(equalTo: chartContainerView.safeAreaLayoutGuide.bottomAnchor)
         ])
 
         let chart: ChartViewArea
@@ -65,8 +79,8 @@ class ContainerViewController: UIViewController {
             )
 
             NSLayoutConstraint.activate([
-                frameLayoutGuide.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 25),
-                frameLayoutGuide.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -25),
+                frameLayoutGuide.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+                frameLayoutGuide.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
             ])
 
         case .Line:
@@ -149,6 +163,7 @@ class ContainerViewController: UIViewController {
             let dynamicHeight = (CGFloat(itemCount) * distanceAmongBars) + gap
             chart.heightAnchor.constraint(equalToConstant: dynamicHeight).isActive = true
             drawAxisesForHorizontal()
+     
         }
         chart.bind(dataSet: chartDataSet)
         chart.markerView = markerView
@@ -182,7 +197,7 @@ class ContainerViewController: UIViewController {
 
         NSLayoutConstraint.activate([
             frameLayoutGuide.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 50),
-            frameLayoutGuide.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -25),
+            frameLayoutGuide.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
         ])
 
         view.addSubview(horizontalLineView)
@@ -205,7 +220,7 @@ class ContainerViewController: UIViewController {
 
         NSLayoutConstraint.activate([
             frameLayoutGuide.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            frameLayoutGuide.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -25),
+            frameLayoutGuide.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -30),
         ])
 
         view.addSubview(horizontalLineView)
