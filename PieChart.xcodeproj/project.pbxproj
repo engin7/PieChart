@@ -92,8 +92,8 @@
 				10A84360275FF8C8008562F0 /* ChartMarkerView.swift */,
 				28C987E7274F911000AFE662 /* PieChartView.swift */,
 				289E7F802760D21800FECB7F /* LineChart.swift */,
-				105DB426275CFCB4004A853B /* Horizontal */,
 				105DB427275CFCC2004A853B /* Vertical */,
+				105DB426275CFCB4004A853B /* Horizontal */,
 			);
 			path = ChartViews;
 			sourceTree = "<group>";

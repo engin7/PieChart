@@ -111,6 +111,7 @@ class ContainerViewController: UIViewController {
             let distanceAmongBars = (thickness + gap * 2)
             let dynamicWidth = (CGFloat(itemCount) * distanceAmongBars) + gap
             chart.widthAnchor.constraint(equalToConstant: dynamicWidth).isActive = true
+            chart.backgroundColor = .yellow
             drawAxisesForVertical()
         case .Horizontal:
             chart = HorizontalChart(self, frame: CGRect.zero,
@@ -206,7 +207,7 @@ class ContainerViewController: UIViewController {
         NSLayoutConstraint.activate([
             horizontalLineView.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor),
             horizontalLineView.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor),
-            horizontalLineView.topAnchor.constraint(equalTo: scrollView.bottomAnchor, constant: -50),
+            horizontalLineView.topAnchor.constraint(equalTo: scrollView.bottomAnchor, constant: -20),
             horizontalLineView.heightAnchor.constraint(equalToConstant: 2),
             verticalLineView.topAnchor.constraint(equalTo: scrollView.topAnchor),
             verticalLineView.bottomAnchor.constraint(equalTo: horizontalLineView.bottomAnchor),

@@ -148,7 +148,7 @@ class LineChart: ChartViewArea {
     //  construct the affine transform we use for drawing the axes and all the points.
     func setTransform(minX: CGFloat, maxX: CGFloat, minY: CGFloat, maxY: CGFloat) {
         
-        let xOffset = 50.0
+        let xOffset = 20.0
         let yScale = (bounds.height - 50)/(maxY - minY) * 0.95
         
         chartTransform = CGAffineTransform(a: 1.0, b: 0, c: 0, d: -yScale, tx: (gap + 0.5 * thickness)  , ty:   bounds.height - xOffset)

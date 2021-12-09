@@ -21,7 +21,6 @@ class VerticalChart: ChartViewArea {
     // MARK: - Aesthetics
 
     override func draw(_ rect: CGRect) {
-
         let maxRatio = data.compactMap { $0.1 }.max() ?? 1.0
         let maxHeight = ((rect.height - 50) / maxRatio)
 
@@ -43,7 +42,7 @@ class VerticalChart: ChartViewArea {
             addSubview(barView)
 
             NSLayoutConstraint.activate([
-                barView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -50),
+                barView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -20),
                 barView.centerXAnchor.constraint(equalTo: leadingAnchor, constant: xValue),
                 barView.heightAnchor.constraint(equalToConstant: sectionHeight),
                 barView.widthAnchor.constraint(equalToConstant: thickness),
