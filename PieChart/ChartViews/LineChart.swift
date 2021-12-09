@@ -102,7 +102,33 @@ class LineChart: ChartViewArea {
         xMin = 0
         yMin = 0
         setTransform(minX: xMin, maxX: xMax, minY: yMin, maxY: yMax)
+      
+        let strings = data.map() { $0.0 }
+        addLabel(strings)
     }
+    
+    func addLabel(_ strings: [String]) {
+        
+
+        for (index, str) in strings.enumerated() {
+            let label = UILabel()
+            label.font = label.font.withSize(12)
+            label.text = str
+            label.textAlignment = .center
+            label.numberOfLines = 1
+            label.translatesAutoresizingMaskIntoConstraints = false
+            addSubview(label)
+
+            let offsetPoint = CGPoint(x: (index+1) * Int(thickness)*4, y: -50) 
+                
+            label.widthAnchor.constraint(lessThanOrEqualToConstant: 50).isActive = true
+            label.centerXAnchor.constraint(equalTo: leadingAnchor, constant: offsetPoint.x).isActive = true
+            label.topAnchor.constraint(equalTo: bottomAnchor, constant: offsetPoint.y).isActive = true
+        }
+       
+        
+    }
+    
     
     func setAxisRange(xMin: CGFloat, xMax: CGFloat, yMin: CGFloat, yMax: CGFloat) {
         self.xMin = xMin
@@ -175,15 +201,7 @@ class LineChart: ChartViewArea {
  
 
     override func draw(_ rect: CGRect) {
-   
-        // draw rect comes with a drawing context, so lets grab it.
-        // Also, if there is not yet a chart transform, we will bail on performing any other drawing.
-        // I like guard statements for this because it's kind of like a bouncer to a bar.
-        // If you don't have your transform yet, you can't enter drawAxes.
-        guard let context = UIGraphicsGetCurrentContext(), let t = chartTransform else { return }
-//        drawAxes(in: context, usingTransform: t)
         vc.addValuesYAxis(yMax)
-
     }
     
     func drawAxes(in context: CGContext, usingTransform t: CGAffineTransform) {
