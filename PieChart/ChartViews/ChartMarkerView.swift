@@ -125,15 +125,7 @@ class ChartMarkerView: UIView {
     }
     
     func scrolMarkerTo(_ sv: UIScrollView) {
-       
-        let yPoint = CGPoint(x: pointerView.bounds.midX, y: pointerView.bounds.maxY)
-        // position on scrollView
-        let p0 =  pointerView.convert(yPoint, from: sv)
-        // positon on superView
-        let p1 = sv.convert(p0, to: superview)
-        pointerView.center = p1
-        
-        
+        pointerView.isHidden = true
     }
     
     private func moveContainerView(to point: CGPoint) {

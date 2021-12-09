@@ -40,6 +40,7 @@ class ContainerViewController: UIViewController {
         super.viewDidLoad()
         scrollView.delegate = self
         
+        view.addSubview(markerView)
         view.addSubview(chartContainerView)
         
         NSLayoutConstraint.activate([
@@ -49,7 +50,6 @@ class ContainerViewController: UIViewController {
             chartContainerView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -100)
         ])
         
-        chartContainerView.addSubview(markerView)
         chartContainerView.addSubview(scrollView)
 
         let frameLayoutGuide = scrollView.frameLayoutGuide
@@ -58,10 +58,10 @@ class ContainerViewController: UIViewController {
         NSLayoutConstraint.activate([
             frameLayoutGuide.trailingAnchor.constraint(equalTo: chartContainerView.trailingAnchor),
             frameLayoutGuide.topAnchor.constraint(equalTo: chartContainerView.safeAreaLayoutGuide.topAnchor),
-            markerView.topAnchor.constraint(equalTo: chartContainerView.safeAreaLayoutGuide.topAnchor),
-            markerView.leadingAnchor.constraint(equalTo: chartContainerView.leadingAnchor),
-            markerView.trailingAnchor.constraint(equalTo: chartContainerView.trailingAnchor),
-            markerView.bottomAnchor.constraint(equalTo: chartContainerView.safeAreaLayoutGuide.bottomAnchor)
+            markerView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            markerView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            markerView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            markerView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
         ])
 
         let chart: ChartViewArea

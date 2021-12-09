@@ -196,6 +196,13 @@ class LineChart: ChartViewArea {
             let rect = CGRect(x: p.x - radius, y: p.y - radius, width: radius * 2, height: radius * 2)
             path.addEllipse(in: rect)
             
+            let tapView = BarView(frame: rect)
+            let touchPoint = CGPoint(x: tapView.bounds.midX, y: tapView.bounds.minY)
+            tapView.point = touchPoint
+            tapView.seriesPoint = AxisData(index: 0, label: "key", value: 23*sum)
+            let tapGesture = UITapGestureRecognizer.init(target: self, action: #selector(viewTapped(sender:)))
+            tapView.addGestureRecognizer(tapGesture)
+            addSubview(tapView)
         }
         
         return path

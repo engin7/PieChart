@@ -46,9 +46,9 @@ class ChartClass: UIView {
         guard let unwrappedView = sender.view as? BarView else { return }
          
         guard let seriesPoint =  unwrappedView.seriesPoint else { return }
-        guard let color = unwrappedView.color else { return }
         guard let point = unwrappedView.point else { return }
-        
+        let color = unwrappedView.color ?? UIColor.lightGray
+
         // convert relative point to screen at that moment
         let p =  unwrappedView.convert(point, to: vc.view)
 
