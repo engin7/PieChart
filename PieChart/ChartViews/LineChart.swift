@@ -102,14 +102,15 @@ class LineChart: ChartViewArea {
         xMin = 0
         yMin = 0
         setTransform(minX: xMin, maxX: xMax, minY: yMin, maxY: yMax)
-      
-        let strings = data.map() { $0.0 }
-        addLabel(strings)
+        
+        addLabel()
+
     }
     
-    func addLabel(_ strings: [String]) {
+    func addLabel() {
         
-
+        let strings = data.map() { $0.0 }
+        
         for (index, str) in strings.enumerated() {
             let label = UILabel()
             label.font = label.font.withSize(12)
@@ -119,8 +120,13 @@ class LineChart: ChartViewArea {
             label.translatesAutoresizingMaskIntoConstraints = false
             addSubview(label)
 
-            let offsetPoint = CGPoint(x: (index+1) * Int(thickness)*4, y: -50) 
-                
+            setNeedsDisplay()
+            
+            let distanceAmongBars = (thickness + gap)
+            let xValue: CGFloat = (CGFloat(index) * distanceAmongBars) + (gap + 0.5 * thickness)
+             
+            let offsetPoint = CGPoint(x: xValue, y: -40.0)
+            
             label.widthAnchor.constraint(lessThanOrEqualToConstant: 50).isActive = true
             label.centerXAnchor.constraint(equalTo: leadingAnchor, constant: offsetPoint.x).isActive = true
             label.topAnchor.constraint(equalTo: bottomAnchor, constant: offsetPoint.y).isActive = true
@@ -142,19 +148,13 @@ class LineChart: ChartViewArea {
     //  construct the affine transform we use for drawing the axes and all the points.
     func setTransform(minX: CGFloat, maxX: CGFloat, minY: CGFloat, maxY: CGFloat) {
         
-        let xLabelSize = "\(Int(maxX))".size(withSystemFontSize: labelFontSize)
-        
-        let yLabelSize = "\(Int(maxY))".size(withSystemFontSize: labelFontSize)
-        
         let xOffset = 50.0
-        let yOffset = yLabelSize.width + 5
-
-        let xScale = (bounds.width - yOffset - xLabelSize.width/2 - 2)/(maxX - minX)
         let yScale = (bounds.height - 50)/(maxY - minY) * 0.95
         
-        chartTransform = CGAffineTransform(a: xScale, b: 0, c: 0, d: -yScale, tx: 20 + yOffset, ty:   bounds.height - xOffset)
-        
+        chartTransform = CGAffineTransform(a: 1.0, b: 0, c: 0, d: -yScale, tx: (gap + 0.5 * thickness)  , ty:   bounds.height - xOffset)
+   
         setNeedsDisplay()
+
     }
     
     
@@ -167,8 +167,10 @@ class LineChart: ChartViewArea {
             setAxisRange(forData: data)
         }
          
+        let distanceAmongLabels = (thickness + gap)
+
         let pointsData: [CGPoint] = data.enumerated().map{
-              CGPoint(x: thickness * CGFloat($0), y: $1.1*sum)
+              CGPoint(x: distanceAmongLabels * CGFloat($0), y: $1.1*sum)
         }
         
         // setup our line path and our circle path
@@ -177,7 +179,7 @@ class LineChart: ChartViewArea {
         linePath.addLines(between: pointsData, transform: chartTransform!)
         
         lineLayer.path = linePath
-        
+         
         if showPoints {
             circlesLayer.path = circles(atPoints: pointsData, withTransform: chartTransform!)
         }
@@ -204,88 +206,7 @@ class LineChart: ChartViewArea {
         vc.addValuesYAxis(yMax)
     }
     
-    func drawAxes(in context: CGContext, usingTransform t: CGAffineTransform) {
-        context.saveGState()
-        
-        // make two paths, one for thick lines, one for thin
-        let thickerLines = CGMutablePath()
-        let thinnerLines = CGMutablePath()
-
-        // the two line chart axes
-        let xAxisPoints = [CGPoint(x: xMin, y: 0), CGPoint(x: xMax, y: 0)]
-        let yAxisPoints = [CGPoint(x: 0, y: yMin), CGPoint(x: 0, y: yMax)]
-        
-        // add each to thicker lines but apply our transform too.
-        thickerLines.addLines(between: xAxisPoints, transform: t)
-        thickerLines.addLines(between: yAxisPoints, transform: t)
-        
-        // next we go from xMin to xMax by deltaX using stride
-        for x in stride(from: xMin, through: xMax, by: deltaX) {
-            
-            // tick points are the points for the ticks on each axis
-            // we check showInnerLines first to see if we are drawing small ticks or full lines
-            // tip for new guys: `let a = someBool ? b : c`  is called a ternary operator
-            // in english it means "let a = b if somebool is true, or c if it is false."
-            
-            let tickPoints = showInnerLines ?
-                [CGPoint(x: x, y: yMin).applying(t), CGPoint(x: x, y: yMax).applying(t)] :
-                [CGPoint(x: x, y: 0).applying(t), CGPoint(x: x, y: 0).applying(t).adding(y: -5)]
-
-            
-            thinnerLines.addLines(between: tickPoints)
-            
-            if x != xMin {  // draw the tick label (it is too buy if you draw it at the origin for both x & y
-                let label = "\(Int(x))" as NSString // Int to get rid of the decimal, NSString to draw
-                let labelSize = "\(Int(x))".size(withSystemFontSize: labelFontSize)
-                let labelDrawPoint = CGPoint(x: x, y: 0).applying(t)
-                                                        .adding(x: -labelSize.width/2)
-                                                        .adding(y: 1)
-                
-                label.draw(at: labelDrawPoint,
-                           withAttributes:
-                            [NSAttributedString.Key.font: UIFont.systemFont(ofSize: labelFontSize),
-                     NSAttributedString.Key.foregroundColor: axisColor])
-            }
-        }
-        // repeat for y
-        for y in stride(from: yMin, through: yMax, by: deltaY) {
-            
-            let tickPoints = showInnerLines ?
-                [CGPoint(x: xMin, y: y).applying(t), CGPoint(x: xMax, y: y).applying(t)] :
-                [CGPoint(x: 0, y: y).applying(t), CGPoint(x: 0, y: y).applying(t).adding(x: 5)]
-            
-            
-            thinnerLines.addLines(between: tickPoints)
-            
-            if y != yMin {
-                let label = "\(Int(y))" as NSString
-                let labelSize = "\(Int(y))".size(withSystemFontSize: labelFontSize)
-                let labelDrawPoint = CGPoint(x: 0, y: y).applying(t)
-                                                        .adding(x: -labelSize.width - 1)
-                                                        .adding(y: -labelSize.height/2)
-                
-                label.draw(at: labelDrawPoint,
-                           withAttributes:
-                            [NSAttributedString.Key.font: UIFont.systemFont(ofSize: labelFontSize),
-                             NSAttributedString.Key.foregroundColor: axisColor])
-            }
-        }
-        // finally set stroke color & line width then stroke thick lines, repeat for thin
-        context.setStrokeColor(axisColor.cgColor)
-        context.setLineWidth(axisLineWidth)
-        context.addPath(thickerLines)
-        context.strokePath()
-        
-        context.setStrokeColor(axisColor.withAlphaComponent(0.5).cgColor)
-        context.setLineWidth(axisLineWidth/2)
-        context.addPath(thinnerLines)
-        context.strokePath()
-
-        context.restoreGState()
-        // whenever you change a graphics context you should save it prior and restore it after
-        // if we were using a context other than draw(rect) we would have to also end the graphics context
-    }
-    
+ 
 }
 
 // getting the rendered size of a string and avoid the typecasting as NSString all the time
