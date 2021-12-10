@@ -51,7 +51,18 @@ class VerticalStackedChart: ChartViewArea {
             mData.forEach { groupName, value in
 
                 let sectionHeight = value * maxHeight * 0.95
+                let bgViewHeight = maxRatio * maxHeight * 0.95
 
+                
+                // charts bg view
+                let bgView = UIView()
+                bgView.backgroundColor = .lightGray.withAlphaComponent(0.2)
+                bgView.layer.cornerRadius = thickness / .pi
+                bgView.layer.maskedCorners = [.layerMaxXMinYCorner, .layerMinXMinYCorner]
+                bgView.translatesAutoresizingMaskIntoConstraints = false
+                addSubview(bgView)
+                
+                 
                 // create bar views
                 let barView = BarView()
                 barView.backgroundColor = colors[j]
@@ -59,10 +70,15 @@ class VerticalStackedChart: ChartViewArea {
                 addSubview(barView)
 
                 NSLayoutConstraint.activate([
-                    barView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -heightOffset - 50),
+                    bgView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -20),
+                    bgView.centerXAnchor.constraint(equalTo: leadingAnchor, constant: xValue),
+                    bgView.heightAnchor.constraint(equalToConstant: bgViewHeight),
+                    bgView.widthAnchor.constraint(equalToConstant: thickness),
+                    
+                    barView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -20),
                     barView.centerXAnchor.constraint(equalTo: leadingAnchor, constant: xValue),
-                    barView.heightAnchor.constraint(equalToConstant: sectionHeight),
                     barView.widthAnchor.constraint(equalToConstant: thickness),
+                    barView.heightAnchor.constraint(greaterThanOrEqualToConstant: 0)
                 ])
 
                 if j == mData.count - 1 {
@@ -74,12 +90,21 @@ class VerticalStackedChart: ChartViewArea {
                 barView.layer.shadowOpacity = 1
                 barView.layer.shadowOffset = CGSize(width: 1.0, height: -2.0)
                 barView.layer.shadowRadius = 2
-
+ 
+                // show zero height
+                layoutIfNeeded()
+              
+                // animate to section height
+                barView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -heightOffset - 20).isActive = true
+                barView.heightAnchor.constraint(equalToConstant: sectionHeight).isActive = true
+                UIView.animate(withDuration: 0.5, delay: 0.1) {
+                    self.layoutIfNeeded()
+                }
+             
                 barView.color = colors[j]
                 barView.seriesPoint = AxisData(index: j, label: key, value: value*sum)
                 barView.point = CGPoint(x: barView.bounds.midX, y: barView.bounds.minY)
-
-                
+ 
                 let tapGesture = UITapGestureRecognizer.init(target: self, action: #selector(viewTapped(sender:)))
                 barView.addGestureRecognizer(tapGesture)
                 
@@ -98,7 +123,7 @@ class VerticalStackedChart: ChartViewArea {
 
             label.widthAnchor.constraint(lessThanOrEqualToConstant: 50).isActive = true
             label.centerXAnchor.constraint(equalTo: leadingAnchor, constant: xValue).isActive = true
-            label.topAnchor.constraint(equalTo: bottomAnchor, constant: -45).isActive = true
+            label.topAnchor.constraint(equalTo: bottomAnchor, constant: -25).isActive = true
 
             i = i >= colors.count ? 0 : i + 1
         }

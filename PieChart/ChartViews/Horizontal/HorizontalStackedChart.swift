@@ -51,6 +51,17 @@ class HorizontalStackedChart: ChartViewArea {
             mData.forEach { groupName, value in
 
                 let sectionWidth = value * maxWidth * 0.95
+                let bgViewWidth = maxRatio * maxWidth * 0.95
+                
+                // charts bg view
+                let bgView = UIView()
+                bgView.backgroundColor = .lightGray.withAlphaComponent(0.2)
+                bgView.layer.cornerRadius = thickness / .pi
+                bgView.layer.maskedCorners = [.layerMaxXMinYCorner, .layerMinXMinYCorner]
+                bgView.translatesAutoresizingMaskIntoConstraints = false
+                addSubview(bgView)
+                
+                
                 // create bar views
                 let barView = BarView()
                 barView.backgroundColor = colors[j]
@@ -61,20 +72,29 @@ class HorizontalStackedChart: ChartViewArea {
                     barView.layer.cornerRadius = thickness / .pi
                     barView.layer.maskedCorners = [.layerMaxXMinYCorner, .layerMaxXMaxYCorner]
                 }
-
-                barView.layer.shadowColor = UIColor.black.cgColor
-                barView.layer.shadowOpacity = 1
-                barView.layer.shadowOffset = CGSize(width: 1.0, height: -2.0)
-                barView.layer.shadowRadius = 2
-
+ 
                 NSLayoutConstraint.activate([
-                    barView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 75 + widthOffset),
+                    bgView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 75 + widthOffset),
+                    bgView.centerYAnchor.constraint(equalTo: bottomAnchor, constant: -yValue),
+                    bgView.heightAnchor.constraint(equalToConstant: thickness),
+                    bgView.widthAnchor.constraint(equalToConstant: bgViewWidth),
+ 
+                    barView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 75),
                     barView.centerYAnchor.constraint(equalTo: bottomAnchor, constant: -yValue),
                     barView.heightAnchor.constraint(equalToConstant: thickness),
-                    barView.widthAnchor.constraint(equalToConstant: sectionWidth),
+                    barView.widthAnchor.constraint(greaterThanOrEqualToConstant: 0)
                 ])
-
-              
+ 
+                   // show zero height
+                   layoutIfNeeded()
+                 
+                   // animate to section height
+                   barView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 75 + widthOffset).isActive = true
+                   barView.widthAnchor.constraint(equalToConstant: sectionWidth).isActive = true
+                   UIView.animate(withDuration: 0.5, delay: 0.1) {
+                       self.layoutIfNeeded()
+                   }
+                 
                 barView.color = colors[j]
                 barView.seriesPoint = AxisData(index: i, label: key, value: value)
                 barView.point = CGPoint(x: barView.bounds.midX, y: barView.bounds.minY)

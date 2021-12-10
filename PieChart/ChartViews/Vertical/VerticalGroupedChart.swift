@@ -49,7 +49,18 @@ class VerticalGroupedChart: ChartViewArea {
                 let distanceAmongBars: CGFloat = (CGFloat(j) * barAndGap) + (barAndGap + 0.5 * thickness)
                 let xValue: CGFloat = distanceAmongGroups + distanceAmongBars
                 let sectionHeight = value * maxHeight * 0.95
+                let bgViewHeight = maxRatio * maxHeight * 0.95
 
+                
+                // charts bg view
+                let bgView = UIView()
+                bgView.backgroundColor = .lightGray.withAlphaComponent(0.2)
+                bgView.layer.cornerRadius = thickness / .pi
+                bgView.layer.maskedCorners = [.layerMaxXMinYCorner, .layerMinXMinYCorner]
+                bgView.translatesAutoresizingMaskIntoConstraints = false
+                addSubview(bgView)
+                
+                
                 // create bar views
                 let barView = BarView()
                 barView.backgroundColor = colors[i]
@@ -57,20 +68,29 @@ class VerticalGroupedChart: ChartViewArea {
                 addSubview(barView)
 
                 NSLayoutConstraint.activate([
-                    barView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -50),
+                    bgView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -20),
+                    bgView.centerXAnchor.constraint(equalTo: leadingAnchor, constant: xValue),
+                    bgView.heightAnchor.constraint(equalToConstant: bgViewHeight),
+                    bgView.widthAnchor.constraint(equalToConstant: thickness),
+                    
+                    barView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -20),
                     barView.centerXAnchor.constraint(equalTo: leadingAnchor, constant: xValue),
-                    barView.heightAnchor.constraint(equalToConstant: sectionHeight),
                     barView.widthAnchor.constraint(equalToConstant: thickness),
+                    barView.heightAnchor.constraint(greaterThanOrEqualToConstant: 0)
                 ])
 
                 barView.layer.cornerRadius = thickness / .pi
                 barView.layer.maskedCorners = [.layerMaxXMinYCorner, .layerMinXMinYCorner]
 
-                barView.layer.shadowColor = UIColor.black.cgColor
-                barView.layer.shadowOpacity = 1
-                barView.layer.shadowOffset = CGSize(width: 1.0, height: -2.0)
-                barView.layer.shadowRadius = 2
-
+                // show zero height
+                layoutIfNeeded()
+              
+                // animate to section height
+                barView.heightAnchor.constraint(equalToConstant: sectionHeight).isActive = true
+                UIView.animate(withDuration: 0.5, delay: 0.1) {
+                    self.layoutIfNeeded()
+                }
+            
                 barView.color = colors[j]
                 barView.seriesPoint = AxisData(index: j, label: key, value: value*sum)
                 barView.point = CGPoint(x: barView.bounds.midX, y: barView.bounds.minY)

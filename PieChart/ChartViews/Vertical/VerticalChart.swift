@@ -72,9 +72,9 @@ class VerticalChart: ChartViewArea {
           
             // animate to section height
             barView.heightAnchor.constraint(equalToConstant: sectionHeight).isActive = true
-            UIView.animate(withDuration: 0.5, delay: 0.1) {
-                self.layoutIfNeeded()
-            }
+//            UIView.animate(withDuration: 0.5, delay: 0.1) {
+//                self.layoutIfNeeded()
+//            }
          
             let label = UILabel()
             label.font = label.font.withSize(12)
