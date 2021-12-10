@@ -33,15 +33,30 @@ class VerticalChart: ChartViewArea {
 
         data.forEach { key, value in
 
+            let bgViewHeight = maxRatio * maxHeight * 0.95
             let sectionHeight = value * maxHeight * 0.95
             let distanceAmongBars = (thickness + gap)
             let xValue: CGFloat = (CGFloat(i) * distanceAmongBars) + (gap + 0.5 * thickness)
+            
+            // charts bg view
+            let bgView = UIView()
+            bgView.backgroundColor = .lightGray.withAlphaComponent(0.2)
+            bgView.layer.cornerRadius = thickness / .pi
+            bgView.layer.maskedCorners = [.layerMaxXMinYCorner, .layerMinXMinYCorner]
+            bgView.translatesAutoresizingMaskIntoConstraints = false
+            addSubview(bgView)
+            
             // create bar views
             let barView = BarView()
             barView.backgroundColor = colors[i]
             addSubview(barView)
 
             NSLayoutConstraint.activate([
+                bgView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -20),
+                bgView.centerXAnchor.constraint(equalTo: leadingAnchor, constant: xValue),
+                bgView.heightAnchor.constraint(equalToConstant: bgViewHeight),
+                bgView.widthAnchor.constraint(equalToConstant: thickness),
+                
                 barView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -20),
                 barView.centerXAnchor.constraint(equalTo: leadingAnchor, constant: xValue),
                 barView.heightAnchor.constraint(equalToConstant: sectionHeight),
