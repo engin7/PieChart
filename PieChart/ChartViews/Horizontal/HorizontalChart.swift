@@ -30,10 +30,20 @@ class HorizontalChart: ChartViewArea {
 
         data.forEach { key, value in
 
+            let bgViewWidth = maxRatio * maxWidth * 0.95
             let sectionWidth = value * maxWidth * 0.95
             let distanceAmongBars = (thickness + gap)
             let yValue: CGFloat = (CGFloat(i) * distanceAmongBars) + (gap + 0.5 * thickness)
 
+            
+            // charts bg view
+            let bgView = UIView()
+            bgView.backgroundColor = .lightGray.withAlphaComponent(0.2)
+            bgView.layer.cornerRadius = thickness / .pi
+            bgView.layer.maskedCorners = [.layerMaxXMinYCorner, .layerMinXMinYCorner]
+            bgView.translatesAutoresizingMaskIntoConstraints = false
+            addSubview(bgView)
+            
             // create bar views
             let barView = BarView()
             barView.backgroundColor = colors[i]
@@ -43,12 +53,26 @@ class HorizontalChart: ChartViewArea {
             barView.layer.maskedCorners = [.layerMaxXMinYCorner, .layerMaxXMaxYCorner]
 
             NSLayoutConstraint.activate([
+                bgView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 75),
+                bgView.centerYAnchor.constraint(equalTo: bottomAnchor, constant: -yValue),
+                bgView.heightAnchor.constraint(equalToConstant: thickness),
+                bgView.widthAnchor.constraint(equalToConstant: bgViewWidth),
+                
                 barView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 75),
                 barView.centerYAnchor.constraint(equalTo: bottomAnchor, constant: -yValue),
                 barView.heightAnchor.constraint(equalToConstant: thickness),
-                barView.widthAnchor.constraint(equalToConstant: sectionWidth),
+                barView.widthAnchor.constraint(greaterThanOrEqualToConstant: 0),
             ])
 
+            // show zero height
+            layoutIfNeeded()
+          
+            // animate to section height
+            barView.widthAnchor.constraint(equalToConstant: sectionWidth).isActive = true
+            UIView.animate(withDuration: 0.5, delay: 0.1) {
+                self.layoutIfNeeded()
+            }
+             
             // add labels
             let label = UILabel()
             label.font = label.font.withSize(12)
@@ -62,7 +86,6 @@ class HorizontalChart: ChartViewArea {
                 label.centerYAnchor.constraint(equalTo: barView.centerYAnchor),
             ])
 
-            layoutIfNeeded()
             let p = CGPoint(x: barView.bounds.maxX, y: barView.bounds.midY)
             barView.point = p
             barView.color = colors[i]

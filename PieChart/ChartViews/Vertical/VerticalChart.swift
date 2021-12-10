@@ -9,20 +9,21 @@ import UIKit
 
 class VerticalChart: ChartViewArea {
     private var data: [(String, CGFloat)] = []
- 
+    private var  maxRatio: CGFloat = 0
+    private var  maxHeight: CGFloat = 0
+    
     func bind(dataSet: ChartDataSet) {
         guard let seriesData = dataSet.data.first else { return }
         let series = seriesData.seriesPoints.sorted(by: { $0.index < $1.index })
         sum = series.compactMap { $0.value }.reduce(0, +)
         data = sum == 0 ? series.map { ($0.label, CGFloat($0.value)) } : series.map { ($0.label, CGFloat($0.value / sum)) }
     }
-
-
+ 
     // MARK: - Aesthetics
 
     override func draw(_ rect: CGRect) {
-        let maxRatio = data.compactMap { $0.1 }.max() ?? 1.0
-        let maxHeight = ((rect.height - 50) / maxRatio)
+        maxRatio = data.compactMap { $0.1 }.max() ?? 1.0
+        maxHeight = ((rect.height - 50) / maxRatio)
 
         let maxValue: Double = maxRatio * sum
         vc.addValuesYAxis(maxValue)
@@ -59,13 +60,22 @@ class VerticalChart: ChartViewArea {
                 
                 barView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -20),
                 barView.centerXAnchor.constraint(equalTo: leadingAnchor, constant: xValue),
-                barView.heightAnchor.constraint(equalToConstant: sectionHeight),
                 barView.widthAnchor.constraint(equalToConstant: thickness),
+                barView.heightAnchor.constraint(greaterThanOrEqualToConstant: 0)
             ])
-
+            
             barView.layer.cornerRadius = thickness / .pi
             barView.layer.maskedCorners = [.layerMaxXMinYCorner, .layerMinXMinYCorner]
- 
+            
+            // show zero height
+            layoutIfNeeded()
+          
+            // animate to section height
+            barView.heightAnchor.constraint(equalToConstant: sectionHeight).isActive = true
+            UIView.animate(withDuration: 0.5, delay: 0.1) {
+                self.layoutIfNeeded()
+            }
+         
             let label = UILabel()
             label.font = label.font.withSize(12)
             label.text = key
@@ -78,7 +88,6 @@ class VerticalChart: ChartViewArea {
             label.centerXAnchor.constraint(equalTo: barView.centerXAnchor).isActive = true
             label.topAnchor.constraint(equalTo: barView.bottomAnchor, constant: 5).isActive = true
 
-            layoutIfNeeded()
             let p = CGPoint(x: barView.bounds.midX, y: barView.bounds.minY)
           
             barView.point = p

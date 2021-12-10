@@ -15,10 +15,10 @@ class BarView: UIView {
     override init(frame: CGRect) {
         super.init(frame: frame)
         backgroundColor = .clear
-        layer.shadowColor = UIColor.black.cgColor
-        layer.shadowOpacity = 1
-        layer.shadowOffset = CGSize(width: 1.0, height: -2.0)
-        layer.shadowRadius = 2
+//        layer.shadowColor = UIColor.black.cgColor
+//        layer.shadowOpacity = 1
+//        layer.shadowOffset = CGSize(width: 1.0, height: -2.0)
+//        layer.shadowRadius = 2
         translatesAutoresizingMaskIntoConstraints = false
     }
     
