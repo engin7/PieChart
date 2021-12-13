@@ -8,7 +8,7 @@
 import UIKit
 
 class VerticalStackedChart: ChartViewArea {
-    typealias ChartModel = (String, [(String, Double, Int)])
+    typealias ChartModel = (String, Any)
 
     private var data: [ChartModel] = []
  
@@ -40,7 +40,8 @@ class VerticalStackedChart: ChartViewArea {
 
         var pairSums: [Double] = []
         for pair in dataPairs {
-            let sum = pair.compactMap({ $0.1 }).reduce(0, +)
+            guard let p = pair as? [(String, Double, Int)] else { return }
+            let sum = p.compactMap({ $0.1 }).reduce(0, +)
             pairSums.append(sum)
         }
 
@@ -54,11 +55,13 @@ class VerticalStackedChart: ChartViewArea {
 
         borderColor.setStroke()
 
-        data.forEach { key, mData in
+        data.forEach { key, subData in
 
             var heightOffset: CGFloat = 0
             let distanceAmongBars = (thickness + gap)
             let xValue: CGFloat = (CGFloat(i) * distanceAmongBars) + (gap + 0.5 * thickness)
+
+            guard let mData = subData as? [(String, Double, Int)] else { return }
 
             mData.forEach { groupName, value, index in
 
