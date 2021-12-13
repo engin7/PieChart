@@ -36,8 +36,8 @@ class HorizontalStackedChart: ChartViewArea {
         let maxRatio = pairSums.max() ?? 1.0
         let maxWidth = ((rect.width - 100) / maxRatio)
 
-        let maxValue = maxRatio * sum
-        vc.addValuesXAxis(maxValue)
+//        let maxValue = maxRatio * sum
+//        masterView.addValuesXAxis(maxValue)
 
         var i: Int = 0
         var j: Int = 0
@@ -47,63 +47,66 @@ class HorizontalStackedChart: ChartViewArea {
             var widthOffset: CGFloat = 0
             let distanceAmongBars = (thickness + gap)
             let yValue: CGFloat = (CGFloat(i) * distanceAmongBars) + (gap + 0.5 * thickness)
-            
-            mData.forEach { groupName, value in
+            let bgViewWidth = maxRatio * maxWidth * 0.95
+
+            // charts bg view
+            let bgView = UIView()
+            bgView.backgroundColor = .lightGray.withAlphaComponent(0.2)
+            bgView.layer.cornerRadius = thickness / .pi
+            bgView.layer.maskedCorners = [.layerMaxXMinYCorner, .layerMaxXMaxYCorner]
+            bgView.translatesAutoresizingMaskIntoConstraints = false
+            addSubview(bgView)
+             
+            NSLayoutConstraint.activate([
+                bgView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 75),
+                bgView.centerYAnchor.constraint(equalTo: bottomAnchor, constant: -yValue),
+                bgView.heightAnchor.constraint(equalToConstant: thickness),
+                bgView.widthAnchor.constraint(equalToConstant: bgViewWidth),
+            ])
+             
+            mData.forEach { groupName, value  in
 
                 let sectionWidth = value * maxWidth * 0.95
-                let bgViewWidth = maxRatio * maxWidth * 0.95
-                
-                // charts bg view
-                let bgView = UIView()
-                bgView.backgroundColor = .lightGray.withAlphaComponent(0.2)
-                bgView.layer.cornerRadius = thickness / .pi
-                bgView.layer.maskedCorners = [.layerMaxXMinYCorner, .layerMinXMinYCorner]
-                bgView.translatesAutoresizingMaskIntoConstraints = false
-                addSubview(bgView)
-                
-                
+ 
                 // create bar views
                 let barView = BarView()
                 barView.backgroundColor = colors[j]
                 barView.translatesAutoresizingMaskIntoConstraints = false
                 addSubview(barView)
-
-                if j == mData.count - 1 {
-                    barView.layer.cornerRadius = thickness / .pi
-                    barView.layer.maskedCorners = [.layerMaxXMinYCorner, .layerMaxXMaxYCorner]
-                }
  
+                let barLeadingAnchor =  barView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 75)
+                
                 NSLayoutConstraint.activate([
-                    bgView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 75 + widthOffset),
-                    bgView.centerYAnchor.constraint(equalTo: bottomAnchor, constant: -yValue),
-                    bgView.heightAnchor.constraint(equalToConstant: thickness),
-                    bgView.widthAnchor.constraint(equalToConstant: bgViewWidth),
- 
-                    barView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 75),
+                    barLeadingAnchor,
                     barView.centerYAnchor.constraint(equalTo: bottomAnchor, constant: -yValue),
                     barView.heightAnchor.constraint(equalToConstant: thickness),
                     barView.widthAnchor.constraint(greaterThanOrEqualToConstant: 0)
                 ])
- 
-                   // show zero height
-                   layoutIfNeeded()
-                 
-                   // animate to section height
-                   barView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 75 + widthOffset).isActive = true
-                   barView.widthAnchor.constraint(equalToConstant: sectionWidth).isActive = true
-                   UIView.animate(withDuration: 0.5, delay: 0.1) {
-                       self.layoutIfNeeded()
-                   }
+                  
+                if j == mData.count - 1 {
+                    barView.layer.cornerRadius = thickness / .pi
+                    barView.layer.maskedCorners = [.layerMaxXMinYCorner, .layerMaxXMaxYCorner]
+                }
+                
+                  // show zero height
+                  layoutIfNeeded()
+                
+                  // animate to section height
+                  barLeadingAnchor.constant = 75 + widthOffset
+                  barView.widthAnchor.constraint(equalToConstant: sectionWidth).isActive = true
+                  UIView.animate(withDuration: 0.5, delay: 0.1) {
+                      self.layoutIfNeeded()
+                  }
                  
                 barView.color = colors[j]
-                barView.seriesPoint = AxisData(index: i, label: key, value: value)
-                barView.point = CGPoint(x: barView.bounds.midX, y: barView.bounds.minY)
-                
+                let labelName = key + " / " + groupName
+                barView.seriesPoint = AxisData(index: 0, label: labelName, value: value * sum)
+
                 let tapGesture = UITapGestureRecognizer.init(target: self, action: #selector(viewTapped(sender:)))
                 barView.addGestureRecognizer(tapGesture)
                 
-                j += 1
                 widthOffset += sectionWidth
+                j += 1
             }
             j = 0
 
@@ -112,11 +115,13 @@ class HorizontalStackedChart: ChartViewArea {
             label.font = label.font.withSize(12)
             label.text = key
             label.translatesAutoresizingMaskIntoConstraints = false
+            label.numberOfLines = 2
             addSubview(label)
 
             NSLayoutConstraint.activate([
-                label.trailingAnchor.constraint(equalTo: leadingAnchor, constant: 70),
-                label.leadingAnchor.constraint(greaterThanOrEqualTo: leadingAnchor, constant: 8),
+                label.heightAnchor.constraint(lessThanOrEqualToConstant: gap*2),
+                label.trailingAnchor.constraint(equalTo: leadingAnchor, constant: 71),
+                label.leadingAnchor.constraint(greaterThanOrEqualTo: leadingAnchor, constant: 4),
                 label.centerYAnchor.constraint(equalTo: bottomAnchor, constant: -yValue),
             ])
 

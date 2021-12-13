@@ -144,16 +144,10 @@ class DonutChartView: ChartViewArea {
                   label.translatesAutoresizingMaskIntoConstraints = false
 
                   NSLayoutConstraint.activate([
-                      label.leadingAnchor.constraint(greaterThanOrEqualTo: leadingAnchor, constant: 5),
-                      label.trailingAnchor.constraint(lessThanOrEqualTo: trailingAnchor, constant: -5),
-                      label.centerYAnchor.constraint(equalTo: topAnchor, constant: midPoint.y),
+                    label.centerXAnchor.constraint(equalTo: centerXAnchor),
+                    label.centerYAnchor.constraint(equalTo: centerYAnchor),
                   ])
-                  print((midPointAngle).degrees )
-                  if midPointAngle < CGFloat.pi {
-                      label.trailingAnchor.constraint(greaterThanOrEqualTo: leadingAnchor, constant: midPoint.x).isActive = true
-                  } else {
-                      label.leadingAnchor.constraint(lessThanOrEqualTo: leadingAnchor, constant: midPoint.x).isActive = true
-                  }
+                  
                   
               } else {
                   context.setLineWidth(strokeWidth)
