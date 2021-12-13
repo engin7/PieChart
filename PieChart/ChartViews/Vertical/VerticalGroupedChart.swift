@@ -8,7 +8,7 @@
 import UIKit
 
 class VerticalGroupedChart: ChartViewArea {
-    typealias ChartModel = (String, [(String, Double)])
+    typealias ChartModel = (String, [(String, Double, Int)])
     private var data: [ChartModel] = []
 
     func bind(dataSet: ChartDataSet) {
@@ -16,7 +16,7 @@ class VerticalGroupedChart: ChartViewArea {
         sum = chartData.compactMap({ $0.seriesPoints.compactMap({ $0.value }).reduce(0, +) }).reduce(0, +)
 
         for j in 0 ... chartData[0].seriesPoints.count - 1 {
-            let points: ChartModel = (chartData[0].seriesPoints.map({ ($0.label) })[j], chartData.map({ ($0.seriesName, $0.seriesPoints.map({ ($0.value / sum) })[j]) }))
+            let points: ChartModel = (chartData[0].seriesPoints.map({ ($0.label) })[j], chartData.map({ ($0.seriesName, $0.seriesPoints.map({ ($0.value / sum) })[j], $0.seriesPoints.map({ ($0.index) })[j]) }))
             print(points)
             data.append(points)
         }
@@ -44,7 +44,7 @@ class VerticalGroupedChart: ChartViewArea {
             let barAndGap = (thickness + gap)
             let distanceAmongGroups: CGFloat = (CGFloat(i) * (barAndGap + 0.5 * thickness) * CGFloat(mData.count))
 
-            mData.forEach { groupName, value in
+            mData.forEach { groupName, value, index in
 
                 let distanceAmongBars: CGFloat = (CGFloat(j) * barAndGap) + (barAndGap + 0.5 * thickness)
                 let xValue: CGFloat = distanceAmongGroups + distanceAmongBars

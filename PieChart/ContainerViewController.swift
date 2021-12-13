@@ -206,7 +206,7 @@ class ContainerViewController: UIViewController {
         NSLayoutConstraint.activate([
             horizontalLineView.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor),
             horizontalLineView.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor),
-            horizontalLineView.topAnchor.constraint(equalTo: scrollView.bottomAnchor, constant: -20),
+            horizontalLineView.topAnchor.constraint(equalTo: scrollView.bottomAnchor, constant: -32),
             horizontalLineView.heightAnchor.constraint(equalToConstant: 2),
             verticalLineView.topAnchor.constraint(equalTo: scrollView.topAnchor),
             verticalLineView.bottomAnchor.constraint(equalTo: horizontalLineView.bottomAnchor),

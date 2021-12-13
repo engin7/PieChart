@@ -19,6 +19,7 @@
 		28B0281E27568B90001AC958 /* HorizontalGroupedChart.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28B0281D27568B90001AC958 /* HorizontalGroupedChart.swift */; };
 		28B02820275693DF001AC958 /* VerticalStackedChart.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28B0281F275693DF001AC958 /* VerticalStackedChart.swift */; };
 		28B2640F2754BEB900ABEC74 /* VerticalGroupedChart.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28B2640E2754BEB900ABEC74 /* VerticalGroupedChart.swift */; };
+		28C5DF702767586A00CD42A3 /* DonutChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28C5DF6F2767586A00CD42A3 /* DonutChartView.swift */; };
 		28C987D4274F906100AFE662 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28C987D3274F906100AFE662 /* AppDelegate.swift */; };
 		28C987D6274F906100AFE662 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28C987D5274F906100AFE662 /* SceneDelegate.swift */; };
 		28C987D8274F906100AFE662 /* ChartsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28C987D7274F906100AFE662 /* ChartsVC.swift */; };
@@ -26,6 +27,7 @@
 		28C987DD274F906600AFE662 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 28C987DC274F906600AFE662 /* Assets.xcassets */; };
 		28C987E0274F906600AFE662 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 28C987DE274F906600AFE662 /* LaunchScreen.storyboard */; };
 		28C987E8274F911000AFE662 /* PieChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28C987E7274F911000AFE662 /* PieChartView.swift */; };
+		28E319B627638CF10029D1D1 /* TODO.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 28E319B527638CF10029D1D1 /* TODO.rtf */; };
 		28F505F12751185C004F9637 /* HorizontalChart.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28F505F02751185C004F9637 /* HorizontalChart.swift */; };
 /* End PBXBuildFile section */
 
@@ -42,6 +44,7 @@
 		28B0281D27568B90001AC958 /* HorizontalGroupedChart.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HorizontalGroupedChart.swift; sourceTree = "<group>"; };
 		28B0281F275693DF001AC958 /* VerticalStackedChart.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerticalStackedChart.swift; sourceTree = "<group>"; };
 		28B2640E2754BEB900ABEC74 /* VerticalGroupedChart.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerticalGroupedChart.swift; sourceTree = "<group>"; };
+		28C5DF6F2767586A00CD42A3 /* DonutChartView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DonutChartView.swift; sourceTree = "<group>"; };
 		28C987D0274F906100AFE662 /* PieChart.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PieChart.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		28C987D3274F906100AFE662 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		28C987D5274F906100AFE662 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -51,6 +54,7 @@
 		28C987DF274F906600AFE662 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		28C987E1274F906600AFE662 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		28C987E7274F911000AFE662 /* PieChartView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PieChartView.swift; sourceTree = "<group>"; };
+		28E319B527638CF10029D1D1 /* TODO.rtf */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; path = TODO.rtf; sourceTree = "<group>"; };
 		28F505F02751185C004F9637 /* HorizontalChart.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HorizontalChart.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -91,6 +95,7 @@
 				105DB428275D56F7004A853B /* ChartViewArea.swift */,
 				10A84360275FF8C8008562F0 /* ChartMarkerView.swift */,
 				28C987E7274F911000AFE662 /* PieChartView.swift */,
+				28C5DF6F2767586A00CD42A3 /* DonutChartView.swift */,
 				289E7F802760D21800FECB7F /* LineChart.swift */,
 				105DB427275CFCC2004A853B /* Vertical */,
 				105DB426275CFCB4004A853B /* Horizontal */,
@@ -117,6 +122,7 @@
 		28C987D2274F906100AFE662 /* PieChart */ = {
 			isa = PBXGroup;
 			children = (
+				28E319B527638CF10029D1D1 /* TODO.rtf */,
 				28C987D3274F906100AFE662 /* AppDelegate.swift */,
 				28C987D5274F906100AFE662 /* SceneDelegate.swift */,
 				28C987D7274F906100AFE662 /* ChartsVC.swift */,
@@ -191,6 +197,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				28E319B627638CF10029D1D1 /* TODO.rtf in Resources */,
 				28C987E0274F906600AFE662 /* LaunchScreen.storyboard in Resources */,
 				28C987DD274F906600AFE662 /* Assets.xcassets in Resources */,
 				28C987DB274F906100AFE662 /* Main.storyboard in Resources */,
@@ -220,6 +227,7 @@
 				28C987D6274F906100AFE662 /* SceneDelegate.swift in Sources */,
 				28B0281E27568B90001AC958 /* HorizontalGroupedChart.swift in Sources */,
 				105DB429275D56F7004A853B /* ChartViewArea.swift in Sources */,
+				28C5DF702767586A00CD42A3 /* DonutChartView.swift in Sources */,
 				10A84361275FF8C8008562F0 /* ChartMarkerView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

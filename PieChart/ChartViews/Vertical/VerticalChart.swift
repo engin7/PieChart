@@ -53,12 +53,12 @@ class VerticalChart: ChartViewArea {
             addSubview(barView)
 
             NSLayoutConstraint.activate([
-                bgView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -20),
+                bgView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -32),
                 bgView.centerXAnchor.constraint(equalTo: leadingAnchor, constant: xValue),
                 bgView.heightAnchor.constraint(equalToConstant: bgViewHeight),
                 bgView.widthAnchor.constraint(equalToConstant: thickness),
                 
-                barView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -20),
+                barView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -32),
                 barView.centerXAnchor.constraint(equalTo: leadingAnchor, constant: xValue),
                 barView.widthAnchor.constraint(equalToConstant: thickness),
                 barView.heightAnchor.constraint(greaterThanOrEqualToConstant: 0)
@@ -79,8 +79,8 @@ class VerticalChart: ChartViewArea {
             let label = UILabel()
             label.font = label.font.withSize(12)
             label.text = key
-            label.textAlignment = .center
-            label.numberOfLines = 1
+//            label.textAlignment = .center
+            label.numberOfLines = 2
             label.translatesAutoresizingMaskIntoConstraints = false
             addSubview(label)
 
