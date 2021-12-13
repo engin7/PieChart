@@ -71,7 +71,7 @@ class ContainerViewController: UIViewController {
 
         switch chartDataSet.ChartType {
         case .Pie:
-            chart = PieChartView(
+            chart = DonutChartView(
                 self,
                 frame: CGRect.zero,
                 colors: sampleColors,

@@ -1,10 +1,5 @@
-//
-//  PieChartView.swift
-//  PieChart
-//
-//  Created by Engin KUK on 25.11.2021.
-//
- 
+
+
 import UIKit
 
 class DonutChartView: ChartViewArea {
@@ -29,14 +24,17 @@ class DonutChartView: ChartViewArea {
             
             let touchDistanceToCenter = distanceToCenter(location)
             guard touchDistanceToCenter <= radius else  { return } // outside the chart
-                        
+            
+            // if donut
+            guard touchDistanceToCenter >= radius * 0.25 else  { return }
+            
             touchPoint = location
             setNeedsDisplay()
         }
     }
     
     func distanceToCenter(_ location: CGPoint) -> CGFloat {
-        let c = CGPoint(x: 0.5*frame.width, y: 0.5*frame.height)
+        let c = CGPoint(x: 0.5*bounds.width, y: 0.5*bounds.height)
 
         let x = location.x
         let y = location.y
@@ -77,9 +75,8 @@ class DonutChartView: ChartViewArea {
     
     override func draw(_ rect: CGRect) {
         guard let context = UIGraphicsGetCurrentContext() else { return }
-         
-        
         let center = CGPoint(x: rect.midX, y: rect.midY)
+         
         var accumulatedAngle: CGFloat = -0.5 * CGFloat.pi
         var i: Int = 0
         
@@ -170,6 +167,7 @@ class DonutChartView: ChartViewArea {
                 radius: radius,
                 startAngle: 0,
                 delta: angle)
+         
             path.closeSubpath()
             
             context.saveGState()
@@ -192,69 +190,31 @@ class DonutChartView: ChartViewArea {
 
             context.strokePath()
                
-        
- 
-            
+              
             context.restoreGState()
- 
+            addOverlayView()
             accumulatedAngle += angle
             i = i >= colors.count ? 0 : i + 1
         }
+        addOverlayView()
         let _tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(tapGestureRecognized(_:)))
         self.addGestureRecognizer(_tapGestureRecognizer)
     }
- 
-}
- 
-
-extension CGFloat {
-    var degrees: CGFloat {
-        var d =  self * CGFloat(180) / .pi
-        while d < 0 {
-            d += 360
-        }
-
-        return d
-    }
-}
- 
-@IBDesignable
-class PaddedLabel: UILabel {
-
-    @IBInspectable var inset:CGSize = CGSize(width: 5, height: 5)
-
-    var padding: UIEdgeInsets {
-        var hasText:Bool = false
-        if let t = self.text?.count, t > 0 {
-            hasText = true
-        }
-        else if let t = attributedText?.length, t > 0 {
-            hasText = true
-        }
-
-        return hasText ? UIEdgeInsets(top: inset.height, left: inset.width, bottom: inset.height, right: inset.width) : UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
-    }
-
-    override func drawText(in rect: CGRect) {
-        super.drawText(in: rect.inset(by: padding))
-    }
-
-    override var intrinsicContentSize: CGSize {
-        let superContentSize = super.intrinsicContentSize
-        let p = padding
-        let width = superContentSize.width + p.left + p.right
-        let heigth = superContentSize.height + p.top + p.bottom
-        return CGSize(width: width, height: heigth)
-    }
-
-    override func sizeThatFits(_ size: CGSize) -> CGSize {
-        let superSizeThatFits = super.sizeThatFits(size)
-        let p = padding
-        let width = superSizeThatFits.width + p.left + p.right
-        let heigth = superSizeThatFits.height + p.top + p.bottom
-        return CGSize(width: width, height: heigth)
+    
+    func addOverlayView() {
+        // add overlay
+        let radii = min(0.3*bounds.width, 0.3*bounds.height)
+        let point = CGPoint(x: bounds.midX - radii/2, y: bounds.midY - radii/2)
+        let size  = CGSize(width: radii, height: radii)
+        let frame = CGRect(origin: point, size: size)
+        
+        let overlayView = UIView(frame: frame)
+        overlayView.layer.cornerRadius = radii/2
+        overlayView.backgroundColor = .white
+        addSubview(overlayView)
+        sendSubviewToBack(overlayView)
     }
  
 }
-
-
+ 
+ 
