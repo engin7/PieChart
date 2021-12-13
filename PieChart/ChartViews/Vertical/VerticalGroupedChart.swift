@@ -13,10 +13,20 @@ class VerticalGroupedChart: ChartViewArea {
 
     func bind(dataSet: ChartDataSet) {
         let chartData = dataSet.data
-        sum = chartData.compactMap({ $0.seriesPoints.compactMap({ $0.value }).reduce(0, +) }).reduce(0, +)
+        var sortedData: [SeriesDataSet] = []
+        
+        chartData.forEach { seriesData in
+            let sortedPoints = seriesData.seriesPoints.sorted(by: { $0.label > $1.label })
+            
+            let sortedSet = SeriesDataSet(seriesName: seriesData.seriesName, seriesPoints: sortedPoints)
+            sortedData.append(sortedSet)
+        }
+        
+        
+        sum = sortedData.compactMap({ $0.seriesPoints.compactMap({ $0.value }).reduce(0, +) }).reduce(0, +)
 
-        for j in 0 ... chartData[0].seriesPoints.count - 1 {
-            let points: ChartModel = (chartData[0].seriesPoints.map({ ($0.label) })[j], chartData.map({ ($0.seriesName, $0.seriesPoints.map({ ($0.value / sum) })[j], $0.seriesPoints.map({ ($0.index) })[j]) }))
+        for j in 0 ... sortedData[0].seriesPoints.count - 1 {
+            let points: ChartModel = (sortedData[0].seriesPoints.map({ ($0.label) })[j], sortedData.map({ ($0.seriesName, $0.seriesPoints.map({ ($0.value / sum) })[j], $0.seriesPoints.map({ ($0.index) })[j]) }))
             print(points)
             data.append(points)
         }
