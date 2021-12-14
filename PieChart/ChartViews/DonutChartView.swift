@@ -139,22 +139,19 @@ class DonutChartView: ChartViewArea {
                   
                   shadowView.addSubview(label)
                   label.translatesAutoresizingMaskIntoConstraints = false
-
-                  let leadingConstraint = label.leadingAnchor.constraint(greaterThanOrEqualTo: leadingAnchor, constant: midPoint.x)
-                  let trailingConstraint =  label.trailingAnchor.constraint(lessThanOrEqualTo: trailingAnchor, constant: -5)
-                  
+ 
                   NSLayoutConstraint.activate([
-                      leadingConstraint,
-                      trailingConstraint,
-                      label.centerYAnchor.constraint(equalTo: topAnchor, constant: midPoint.y),
+                    label.leadingAnchor.constraint(greaterThanOrEqualTo: leadingAnchor, constant: 5),
+                    label.trailingAnchor.constraint(lessThanOrEqualTo: trailingAnchor, constant: -5),
+                    label.widthAnchor.constraint(lessThanOrEqualToConstant: rect.width - 50),
+                    label.centerYAnchor.constraint(equalTo: topAnchor, constant: midPoint.y),
                   ])
 
-                  if midPointAngle < CGFloat.pi {
-                      leadingConstraint.priority = .defaultLow
-                      trailingConstraint.priority = .defaultHigh
-                  } else {
-                      leadingConstraint.priority = .defaultHigh
+                  let labelWidth = label.intrinsicContentSize.width
+                  if midPoint.x + labelWidth < rect.width {
+                      label.leadingAnchor.constraint(equalTo: leadingAnchor, constant: midPoint.x).isActive = true
                   }
+                   
                   layoutIfNeeded()
                   labelFrame = label.frame
                   
