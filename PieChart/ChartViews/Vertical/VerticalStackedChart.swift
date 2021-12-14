@@ -56,13 +56,25 @@ class VerticalStackedChart: ChartViewArea {
                     bgView.layer.maskedCorners = [.layerMaxXMinYCorner, .layerMinXMinYCorner]
                     bgView.translatesAutoresizingMaskIntoConstraints = false
                     addSubview(bgView)
+ 
+                    let label = UILabel()
+                    label.font = label.font.withSize(12)
+                    label.text = sp.label
+                    label.textAlignment = .center
+                    label.numberOfLines = 2
+                    label.translatesAutoresizingMaskIntoConstraints = false
+                    addSubview(label)
 
                     NSLayoutConstraint.activate([
                         bgView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -32),
                         bgView.centerXAnchor.constraint(equalTo: leadingAnchor, constant: xValue),
                         bgView.heightAnchor.constraint(equalToConstant: bgViewHeight),
                         bgView.widthAnchor.constraint(equalToConstant: thickness),
+                        label.widthAnchor.constraint(lessThanOrEqualToConstant: 1.4 * gap),
+                        label.centerXAnchor.constraint(equalTo: leadingAnchor, constant: xValue),
+                        label.topAnchor.constraint(equalTo: vc.horizontalLineView.bottomAnchor, constant: 4),
                     ])
+                    
                 }
 
                 let color = colors[i]
@@ -102,20 +114,7 @@ class VerticalStackedChart: ChartViewArea {
                 barView.addGestureRecognizer(tapGesture)
 
                 heightOffset[j] += sectionHeight
-                
-                let label = UILabel()
-                label.font = label.font.withSize(12)
-                label.text = sp.label
-                label.textAlignment = .center
-                label.numberOfLines = 2
-                label.translatesAutoresizingMaskIntoConstraints = false
-                addSubview(label)
-
-                NSLayoutConstraint.activate([
-                    label.widthAnchor.constraint(lessThanOrEqualToConstant: 1.4 * gap),
-                    label.centerXAnchor.constraint(equalTo: leadingAnchor, constant: xValue),
-                    label.topAnchor.constraint(equalTo: vc.horizontalLineView.bottomAnchor, constant: 4),
-                ])
+              
             }
         }
     }
