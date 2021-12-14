@@ -79,7 +79,6 @@ class DonutChartView: ChartViewArea {
     var labelFrame = CGRect.zero
     
     override func draw(_ rect: CGRect) {
-        guard let context = UIGraphicsGetCurrentContext() else { return }
         let center = CGPoint(x: rect.midX, y: rect.midY)
          
         var accumulatedAngle: CGFloat = -0.5 * CGFloat.pi
@@ -94,10 +93,7 @@ class DonutChartView: ChartViewArea {
             let convertedStartAngle =  (accumulatedAngle + 0.5 * CGFloat.pi).degrees
             let convertedEndAngle = (0.5 * CGFloat.pi + accumulatedAngle + angle).degrees
  
-            // create path
-            let path = CGMutablePath()
-            path.move(to: CGPoint())
-             
+           
             var inBeetween: Bool = false
             let touchAngle =  atan2(center.y - touchPoint.y, touchPoint.x - center.x)
             
@@ -110,18 +106,14 @@ class DonutChartView: ChartViewArea {
                 }
             }
           
-       
-            let shadowBlurRadius: CGFloat
-             
+        
              self.subviews.forEach {
                  if $0.tag == i { $0.removeFromSuperview() }
             }
             
               if inBeetween {
-                  context.setLineWidth(0.0)
                   radius = min(0.45*rect.width, 0.45*rect.height)
-                  shadowBlurRadius = 10
-                  
+          
                   // Add label
                   let startAngle = -accumulatedAngle
                   let endAngle =  startAngle - angle
@@ -148,57 +140,32 @@ class DonutChartView: ChartViewArea {
                   shadowView.addSubview(label)
                   label.translatesAutoresizingMaskIntoConstraints = false
 
+                  let leadingConstraint = label.leadingAnchor.constraint(greaterThanOrEqualTo: leadingAnchor, constant: midPoint.x)
+                  let trailingConstraint =  label.trailingAnchor.constraint(lessThanOrEqualTo: trailingAnchor, constant: -5)
+                  
                   NSLayoutConstraint.activate([
-                      label.leadingAnchor.constraint(greaterThanOrEqualTo: leadingAnchor, constant: 5),
-                      label.trailingAnchor.constraint(lessThanOrEqualTo: trailingAnchor, constant: -5),
+                      leadingConstraint,
+                      trailingConstraint,
                       label.centerYAnchor.constraint(equalTo: topAnchor, constant: midPoint.y),
                   ])
 
                   if midPointAngle < CGFloat.pi {
-                      label.trailingAnchor.constraint(greaterThanOrEqualTo: leadingAnchor, constant: midPoint.x).isActive = true
+                      leadingConstraint.priority = .defaultLow
+                      trailingConstraint.priority = .defaultHigh
                   } else {
-                      label.leadingAnchor.constraint(lessThanOrEqualTo: leadingAnchor, constant: midPoint.x).isActive = true
+                      leadingConstraint.priority = .defaultHigh
                   }
                   layoutIfNeeded()
                   labelFrame = label.frame
                   
+                  let param = SliceParameters(radius: radius, angle: angle, accumulatedAngle: accumulatedAngle, shadowBlurRadius: 10, color: colors[i])
+                  drawSlices(param)
               } else {
-                  context.setLineWidth(strokeWidth)
                   radius = min(0.4*rect.width, 0.4*rect.height)
-                  shadowBlurRadius = 0
+                  let param = SliceParameters(radius: radius, angle: angle, accumulatedAngle: accumulatedAngle, shadowBlurRadius: 0, color: colors[i])
+                  drawSlices(param)
               }
-            
-            path.addLine(to: CGPoint(x: radius, y: 0))
-            path.addRelativeArc(
-                center: CGPoint(),
-                radius: radius,
-                startAngle: 0,
-                delta: angle)
-         
-            path.closeSubpath()
-            
-            context.saveGState()
-            
-            context.translateBy(x: center.x, y: center.y)
-            context.rotate(by: accumulatedAngle)
-            // draw
 
-            context.addPath(path)
-            colors[i].setFill()
-            
-            /// Shadow Declarations
-            let shadowOffset = CGSize(width: 0, height: 0)
-             
-            context.setShadow(offset: shadowOffset, blur: shadowBlurRadius,  color: UIColor.black.cgColor)
- 
-            
-            context.fillPath()
-            context.addPath(path)
-
-            context.strokePath()
-               
-              
-            context.restoreGState()
             accumulatedAngle += angle
             i = i >= colors.count ? 0 : i + 1
         }
@@ -221,6 +188,56 @@ class DonutChartView: ChartViewArea {
         sendSubviewToBack(overlayView)
     }
  
+    struct SliceParameters {
+        let radius: CGFloat
+        let angle: CGFloat
+        let accumulatedAngle: CGFloat
+        let shadowBlurRadius: CGFloat
+        let color: UIColor
+    }
+    
+    
+    func drawSlices(_ param: SliceParameters) {
+        guard let context = UIGraphicsGetCurrentContext() else { return }
+
+        // create path
+        let path = CGMutablePath()
+        path.move(to: CGPoint())
+         
+        path.addLine(to: CGPoint(x: radius, y: 0))
+        path.addRelativeArc(
+            center: CGPoint(),
+            radius: radius,
+            startAngle: 0,
+            delta: param.angle)
+     
+        path.closeSubpath()
+        
+        context.saveGState()
+        
+        context.translateBy(x: center.x, y: center.y)
+        context.rotate(by: param.accumulatedAngle)
+        // draw
+
+        context.addPath(path)
+        param.color.setFill()
+        
+        /// Shadow Declarations
+        let shadowOffset = CGSize(width: 0, height: 0)
+         
+        context.setShadow(offset: shadowOffset, blur: param.shadowBlurRadius,  color: UIColor.black.cgColor)
+
+        
+        context.fillPath()
+        context.addPath(path)
+
+        context.strokePath()
+           
+        context.restoreGState()
+    }
+    
+    
+    
 }
  
  
