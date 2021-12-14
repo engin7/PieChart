@@ -21,7 +21,7 @@ class DonutChartView: ChartViewArea {
         if recognizer.state == UIGestureRecognizer.State.ended {
             
             let location = recognizer.location(in: self)
-            
+             
             let touchDistanceToCenter = distanceToCenter(location)
             guard touchDistanceToCenter <= radius else  { return } // outside the chart
             
@@ -144,9 +144,16 @@ class DonutChartView: ChartViewArea {
                   label.translatesAutoresizingMaskIntoConstraints = false
 
                   NSLayoutConstraint.activate([
-                    label.centerXAnchor.constraint(equalTo: centerXAnchor),
-                    label.centerYAnchor.constraint(equalTo: centerYAnchor),
+                      label.leadingAnchor.constraint(greaterThanOrEqualTo: leadingAnchor, constant: 5),
+                      label.trailingAnchor.constraint(lessThanOrEqualTo: trailingAnchor, constant: -5),
+                      label.centerYAnchor.constraint(equalTo: topAnchor, constant: midPoint.y),
                   ])
+
+                  if midPointAngle < CGFloat.pi {
+                      label.trailingAnchor.constraint(greaterThanOrEqualTo: leadingAnchor, constant: midPoint.x).isActive = true
+                  } else {
+                      label.leadingAnchor.constraint(lessThanOrEqualTo: leadingAnchor, constant: midPoint.x).isActive = true
+                  }
                   
                   
               } else {
@@ -186,7 +193,6 @@ class DonutChartView: ChartViewArea {
                
               
             context.restoreGState()
-            addOverlayView()
             accumulatedAngle += angle
             i = i >= colors.count ? 0 : i + 1
         }
