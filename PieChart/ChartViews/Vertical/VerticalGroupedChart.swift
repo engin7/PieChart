@@ -78,12 +78,12 @@ class VerticalGroupedChart: ChartViewArea {
                 addSubview(barView)
 
                 NSLayoutConstraint.activate([
-                    bgView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -20),
+                    bgView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -32),
                     bgView.centerXAnchor.constraint(equalTo: leadingAnchor, constant: xValue),
                     bgView.heightAnchor.constraint(equalToConstant: bgViewHeight),
                     bgView.widthAnchor.constraint(equalToConstant: thickness),
                     
-                    barView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -20),
+                    barView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -32),
                     barView.centerXAnchor.constraint(equalTo: leadingAnchor, constant: xValue),
                     barView.widthAnchor.constraint(equalToConstant: thickness),
                     barView.heightAnchor.constraint(greaterThanOrEqualToConstant: 0)
@@ -113,7 +113,6 @@ class VerticalGroupedChart: ChartViewArea {
             }
             j = 0
 
-   
             let label = UILabel()
             label.font = label.font.withSize(12)
             label.text = key
@@ -127,19 +126,23 @@ class VerticalGroupedChart: ChartViewArea {
             label.centerXAnchor.constraint(equalTo: leadingAnchor, constant: labelX).isActive = true
             label.topAnchor.constraint(equalTo: bottomAnchor, constant: -45).isActive = true
 
+            if i != data.count-1 {
+                let notchView = UIView()
+                notchView.backgroundColor = .lightGray
+                notchView.translatesAutoresizingMaskIntoConstraints = false
+                addSubview(notchView)
+
+                NSLayoutConstraint.activate([
+                    notchView.centerXAnchor.constraint(equalTo: label.centerXAnchor, constant: ( 1.5*gap +  2.25*thickness)),
+                    notchView.bottomAnchor.constraint(equalTo: vc.horizontalLineView.bottomAnchor, constant: -2),
+                    notchView.heightAnchor.constraint(equalToConstant: 12),
+                    notchView.widthAnchor.constraint(equalToConstant: 2),
+                ])
+            }
+          
+            
             i = i >= colors.count ? 0 : i + 1
         }
     }
-
-    func addLabel(_ leftPoint: CGPoint, _ title: String) {
-        let label = UILabel()
-        label.font = label.font.withSize(12)
-        label.text = title
-        label.translatesAutoresizingMaskIntoConstraints = false
-        addSubview(label)
-
-        label.widthAnchor.constraint(lessThanOrEqualToConstant: 80).isActive = true
-        label.centerXAnchor.constraint(equalTo: leadingAnchor, constant: leftPoint.x).isActive = true
-        label.topAnchor.constraint(equalTo: topAnchor, constant: leftPoint.y + 30).isActive = true
-    }
+ 
 }

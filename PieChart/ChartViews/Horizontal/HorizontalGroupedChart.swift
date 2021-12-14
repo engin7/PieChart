@@ -102,7 +102,21 @@ class HorizontalGroupedChart: ChartViewArea {
                 label.leadingAnchor.constraint(greaterThanOrEqualTo: leadingAnchor, constant: 8),
                 label.centerYAnchor.constraint(equalTo: bottomAnchor, constant: -labelY),
             ])
+ 
+            if i != 0 {
+                let notchView = UIView()
+                notchView.backgroundColor = .lightGray
+                notchView.translatesAutoresizingMaskIntoConstraints = false
+                addSubview(notchView)
 
+                NSLayoutConstraint.activate([
+                    notchView.centerYAnchor.constraint(equalTo: label.centerYAnchor, constant: ( 1.5*gap +  2.25*thickness)),
+                    notchView.leadingAnchor.constraint(equalTo: vc.verticalLineView.leadingAnchor, constant: 2),
+                    notchView.heightAnchor.constraint(equalToConstant: 2),
+                    notchView.widthAnchor.constraint(equalToConstant: 12),
+                ])
+            }
+            
             i = i >= colors.count ? 0 : i + 1
         }
     }
