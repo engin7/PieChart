@@ -20,6 +20,7 @@ class DonutChartView: ChartViewArea {
     {
         if recognizer.state == UIGestureRecognizer.State.ended {
             
+            
             let location = recognizer.location(in: self)
              
             let touchDistanceToCenter = distanceToCenter(location)
@@ -29,6 +30,9 @@ class DonutChartView: ChartViewArea {
             guard touchDistanceToCenter >= radius * 0.25 else  { return }
             
             touchPoint = location
+            
+            guard !labelFrame.contains(touchPoint) else { return }
+
             setNeedsDisplay()
         }
     }
@@ -72,6 +76,7 @@ class DonutChartView: ChartViewArea {
  
     var radius: CGFloat = 0
     var touchPoint: CGPoint = CGPoint.zero
+    var labelFrame = CGRect.zero
     
     override func draw(_ rect: CGRect) {
         guard let context = UIGraphicsGetCurrentContext() else { return }
@@ -154,7 +159,8 @@ class DonutChartView: ChartViewArea {
                   } else {
                       label.leadingAnchor.constraint(lessThanOrEqualTo: leadingAnchor, constant: midPoint.x).isActive = true
                   }
-                  
+                  layoutIfNeeded()
+                  labelFrame = label.frame
                   
               } else {
                   context.setLineWidth(strokeWidth)
