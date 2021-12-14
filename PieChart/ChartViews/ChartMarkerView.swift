@@ -20,7 +20,6 @@ class ChartMarkerView: UIView {
         let lbl = UILabel()
         lbl.translatesAutoresizingMaskIntoConstraints = false
         lbl.textAlignment = .left
-        lbl.backgroundColor = .white
         return lbl
     }()
     
@@ -28,7 +27,6 @@ class ChartMarkerView: UIView {
         let lbl = UILabel()
         lbl.translatesAutoresizingMaskIntoConstraints = false
         lbl.textAlignment = .center
-        lbl.backgroundColor = .white
         return lbl
     }()
     
@@ -105,12 +103,20 @@ class ChartMarkerView: UIView {
     }
     
     func show(bundle: ShowChartMarkerBundle) {
+       
         self.seriesPoint = bundle.seriesPoint
         self.color = bundle.color
+        
+        let visibleTextColor =  self.color?.getVisibleTextColor()
+        legendLabel.textColor = visibleTextColor
+        valueLabel.textColor =  visibleTextColor
         legendLabel.text = self.seriesPoint?.label
         valueLabel.text = self.seriesPoint?.value.fractionDigits()
+        legendLabel.backgroundColor = self.color
+        valueLabel.backgroundColor = self.color
         containerView.layer.borderColor = self.color?.cgColor
         seperatorView.backgroundColor = self.color
+        containerView.backgroundColor = self.color
         pointerView.backgroundColor = self.color
         moveContainerView(to: bundle.point)
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.15) { [self] in
@@ -173,4 +179,25 @@ struct ShowChartMarkerBundle {
     let seriesPoint: AxisData
     let color: UIColor
     let point: CGPoint
+}
+
+// this method taken from UIColor extensions file
+extension UIColor {
+ 
+    var isDarkColor: Bool {
+           var r, g, b, a: CGFloat
+           (r, g, b, a) = (0, 0, 0, 0)
+           self.getRed(&r, green: &g, blue: &b, alpha: &a)
+           let lum = 0.2126 * r + 0.7152 * g + 0.0722 * b
+           return  lum < 0.50
+       }
+    
+    func getVisibleTextColor()-> UIColor {
+        
+        if isDarkColor {
+            return  .white
+         } else {
+            return  .black
+        }
+    }
 }
