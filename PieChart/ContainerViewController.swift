@@ -167,17 +167,29 @@ class ContainerViewController: UIViewController {
         }
         chart.bind(dataSet: chartDataSet)
         chart.markerView = markerView
-        
-        scrollView.addSubview(chart)
         chart.translatesAutoresizingMaskIntoConstraints = false
-        chart.leadingAnchor.constraint(equalTo: contentLayoutGuide.leadingAnchor).isActive = true
-        chart.trailingAnchor.constraint(equalTo: contentLayoutGuide.trailingAnchor).isActive = true
-        chart.topAnchor.constraint(equalTo: contentLayoutGuide.topAnchor).isActive = true
-        chart.bottomAnchor.constraint(equalTo: contentLayoutGuide.bottomAnchor).isActive = true
 
-        // we want min sizes to as big as frame layout
-        chart.heightAnchor.constraint(greaterThanOrEqualTo: frameLayoutGuide.heightAnchor, constant: 0.0).isActive = true
-        chart.widthAnchor.constraint(greaterThanOrEqualTo: frameLayoutGuide.widthAnchor, constant: 0.0).isActive = true
+        if chartDataSet.ChartType == .Pie {
+            view.addSubview(chart)
+            chart.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
+            chart.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
+            chart.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
+            chart.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
+            
+        } else {
+            scrollView.addSubview(chart)
+            chart.leadingAnchor.constraint(equalTo: contentLayoutGuide.leadingAnchor).isActive = true
+            chart.trailingAnchor.constraint(equalTo: contentLayoutGuide.trailingAnchor).isActive = true
+            chart.topAnchor.constraint(equalTo: contentLayoutGuide.topAnchor).isActive = true
+            chart.bottomAnchor.constraint(equalTo: contentLayoutGuide.bottomAnchor).isActive = true
+
+            // we want min sizes to as big as frame layout
+            chart.heightAnchor.constraint(greaterThanOrEqualTo: frameLayoutGuide.heightAnchor, constant: 0.0).isActive = true
+            chart.widthAnchor.constraint(greaterThanOrEqualTo: frameLayoutGuide.widthAnchor, constant: 0.0).isActive = true
+        }
+        
+        
+       
     }
 
     lazy var horizontalLineView: UIView = {

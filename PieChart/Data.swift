@@ -53,12 +53,12 @@ let seriesPoints2: [AxisData] = [
    AxisData(index: 2, label: "oranges", value: 20),
    AxisData(index: 3, label: "peaches", value: 55),
    AxisData(index: 4, label: "pears", value: 50),
-   AxisData(index: 5, label: "banana", value: 30),
+   AxisData(index: 5, label: "banana", value: 0),
    AxisData(index: 6, label: "nuts", value: 40),
    AxisData(index: 7, label: "pumpkin", value: 45),
    AxisData(index: 8, label: "rose", value: 35),
    AxisData(index: 9, label: "bread", value: 25),
-   AxisData(index: 10, label: "cheese", value: 30),
+   AxisData(index: 10, label: "cheese", value: 0),
 ]
 
 let dataSet0: SeriesDataSet = SeriesDataSet(seriesName: "Farm I", seriesPoints: seriesPoints0)
