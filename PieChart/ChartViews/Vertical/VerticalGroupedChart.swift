@@ -52,7 +52,8 @@ class VerticalGroupedChart: ChartViewArea {
         data.forEach { key, mData in
 
             let barAndGap = (thickness + gap)
-            let distanceAmongGroups: CGFloat = (CGFloat(i) * (barAndGap + 0.5 * thickness) * CGFloat(mData.count))
+            let groupDistanceMultiplier = (barAndGap + 0.5 * thickness) * CGFloat(mData.count)
+            let distanceAmongGroups: CGFloat = (CGFloat(i) * groupDistanceMultiplier)
 
             mData.forEach { groupName, value, index in
 
@@ -133,7 +134,7 @@ class VerticalGroupedChart: ChartViewArea {
                 addSubview(notchView)
 
                 NSLayoutConstraint.activate([
-                    notchView.centerXAnchor.constraint(equalTo: label.centerXAnchor, constant: ( 1.5*gap +  2.25*thickness)),
+                    notchView.centerXAnchor.constraint(equalTo: label.centerXAnchor, constant: groupDistanceMultiplier * 0.5),
                     notchView.bottomAnchor.constraint(equalTo: vc.horizontalLineView.bottomAnchor, constant: -2),
                     notchView.heightAnchor.constraint(equalToConstant: 12),
                     notchView.widthAnchor.constraint(equalToConstant: 2),
