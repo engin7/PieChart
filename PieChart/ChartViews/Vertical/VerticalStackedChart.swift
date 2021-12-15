@@ -92,10 +92,9 @@ class VerticalStackedChart: ChartViewArea {
                     barView.heightAnchor.constraint(greaterThanOrEqualToConstant: 0),
                 ])
 
-                if i == sortedData.count - 1 {
-                    barView.layer.cornerRadius = thickness / .pi
-                    barView.layer.maskedCorners = [.layerMaxXMinYCorner, .layerMinXMinYCorner]
-                }
+                barView.layer.cornerRadius = thickness / .pi
+                barView.layer.maskedCorners = [.layerMaxXMinYCorner, .layerMinXMinYCorner]
+                 
 
                 // show zero height
                 layoutIfNeeded()

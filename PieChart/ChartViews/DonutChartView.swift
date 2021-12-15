@@ -140,16 +140,28 @@ class DonutChartView: ChartViewArea {
                   shadowView.addSubview(label)
                   label.translatesAutoresizingMaskIntoConstraints = false
  
+                  let labelWidth = label.intrinsicContentSize.width
+
                   NSLayoutConstraint.activate([
-                    label.leadingAnchor.constraint(greaterThanOrEqualTo: leadingAnchor, constant: 5),
-                    label.trailingAnchor.constraint(lessThanOrEqualTo: trailingAnchor, constant: -5),
-                    label.widthAnchor.constraint(lessThanOrEqualToConstant: rect.width - 50),
-                    label.centerYAnchor.constraint(equalTo: topAnchor, constant: midPoint.y),
+                      shadowView.widthAnchor.constraint(equalToConstant: labelWidth),
+                      shadowView.heightAnchor.constraint(equalToConstant: 35),
+                      shadowView.centerYAnchor.constraint(equalTo: self.topAnchor, constant: midPoint.y),
+                      label.leadingAnchor.constraint(equalTo: shadowView.leadingAnchor),
+                      label.trailingAnchor.constraint(equalTo: shadowView.trailingAnchor),
+                      label.topAnchor.constraint(equalTo: shadowView.topAnchor),
+                      label.bottomAnchor.constraint(equalTo: shadowView.bottomAnchor),
                   ])
 
-                  let labelWidth = label.intrinsicContentSize.width
                   if midPoint.x + labelWidth < rect.width {
-                      label.leadingAnchor.constraint(equalTo: leadingAnchor, constant: midPoint.x).isActive = true
+                      NSLayoutConstraint.activate([
+                          shadowView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: midPoint.x),
+                          shadowView.trailingAnchor.constraint(lessThanOrEqualTo: self.trailingAnchor, constant: -5),
+                      ])
+                  } else {
+                      NSLayoutConstraint.activate([
+                          shadowView.leadingAnchor.constraint(greaterThanOrEqualTo: leadingAnchor, constant: 5),
+                          shadowView.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -5),
+                      ])
                   }
                    
                   layoutIfNeeded()

@@ -141,22 +141,37 @@ class PieChartView: ChartViewArea {
                   shadowView.layer.shadowRadius = 2.0
                   shadowView.layer.shadowOffset = CGSize(width: 2.0, height: 2.0)
                   shadowView.layer.shadowOpacity = 1.0
+                  shadowView.translatesAutoresizingMaskIntoConstraints = false
+
                   addSubview(shadowView)
                   
                   shadowView.addSubview(label)
                   label.translatesAutoresizingMaskIntoConstraints = false
 
+                  let labelWidth = label.intrinsicContentSize.width
+
                   NSLayoutConstraint.activate([
-                      label.leadingAnchor.constraint(greaterThanOrEqualTo: leadingAnchor, constant: 5),
-                      label.trailingAnchor.constraint(lessThanOrEqualTo: trailingAnchor, constant: -5),
-                      label.centerYAnchor.constraint(equalTo: topAnchor, constant: midPoint.y),
+                      shadowView.heightAnchor.constraint(equalToConstant: 36),
+                      shadowView.centerYAnchor.constraint(equalTo: self.topAnchor, constant: midPoint.y),
+                      label.widthAnchor.constraint(lessThanOrEqualToConstant: rect.width - 20),
+                      label.leadingAnchor.constraint(equalTo: shadowView.leadingAnchor),
+                      label.trailingAnchor.constraint(equalTo: shadowView.trailingAnchor),
+                      label.topAnchor.constraint(equalTo: shadowView.topAnchor),
+                      label.bottomAnchor.constraint(equalTo: shadowView.bottomAnchor),
                   ])
-                  print((midPointAngle).degrees )
-                  if midPointAngle < CGFloat.pi {
-                      label.trailingAnchor.constraint(greaterThanOrEqualTo: leadingAnchor, constant: midPoint.x).isActive = true
+
+                  if midPoint.x + labelWidth < rect.width {
+                      NSLayoutConstraint.activate([
+                          shadowView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: midPoint.x),
+                          shadowView.trailingAnchor.constraint(lessThanOrEqualTo: self.trailingAnchor, constant: -8),
+                      ])
                   } else {
-                      label.leadingAnchor.constraint(lessThanOrEqualTo: leadingAnchor, constant: midPoint.x).isActive = true
+                      NSLayoutConstraint.activate([
+                          shadowView.leadingAnchor.constraint(greaterThanOrEqualTo: leadingAnchor, constant: 8),
+                          shadowView.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -8),
+                      ])
                   }
+
                   
               } else {
                   context.setLineWidth(strokeWidth)

@@ -14,7 +14,7 @@ let seriesPoints0: [AxisData] = [
 //    AxisData(index: 0, label: "SAN", value: 1),
 //    AxisData(index: 0, label: "Hüseyin", value: 0),
 
-   AxisData(index: 0, label: "", value: 50),
+   AxisData(index: 0, label: "apple", value: 50),
    AxisData(index: 1, label: "cherries", value: 40),
    AxisData(index: 2, label: "oranges and oranges oranges and oranges oranges and oranges oranges and oranges", value: 90),
    AxisData(index: 3, label: "peaches", value: 0),
@@ -32,8 +32,8 @@ let seriesPoints1: [AxisData] = [
 //    AxisData(index: 0, label: "SAN", value: 0),
     
    AxisData(index: 0, label: "apples", value: 50),
-   AxisData(index: 1, label: "cherries", value: 35),
-   AxisData(index: 2, label: "oranges", value: 20),
+   AxisData(index: 1, label: "cherries", value: 0),
+   AxisData(index: 2, label: "oranges", value: 0),
    AxisData(index: 3, label: "peaches", value: 55),
    AxisData(index: 4, label: "pears", value: 50),
    AxisData(index: 5, label: "banana", value: 30),
@@ -65,7 +65,7 @@ let dataSet0: SeriesDataSet = SeriesDataSet(seriesName: "Farm I", seriesPoints: 
 let dataSet1: SeriesDataSet = SeriesDataSet(seriesName: "Farm II", seriesPoints: seriesPoints1)
 let dataSet2: SeriesDataSet = SeriesDataSet(seriesName: "Farm III", seriesPoints: seriesPoints2)
 
-let globaChartData = [dataSet0, dataSet1 ]
+let globaChartData = [dataSet0, dataSet1, dataSet2]
 /// Data Models
  
 
