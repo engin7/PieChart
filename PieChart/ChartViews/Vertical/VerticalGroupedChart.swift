@@ -11,13 +11,7 @@ class VerticalGroupedChart: ChartViewArea {
     typealias ChartModel = (String, [(String, Double, Int)])
 
     private var sortedData: [SeriesDataSet] = []
-
-//    struct SeriesDataSet {
-//    let seriesName: String
-//    let seriesPoints: [AxisData]
-//    }
-//
-    
+ 
     func bind(dataSet: ChartDataSet) {
         let chartData = dataSet.data
         sum = chartData.compactMap({ $0.seriesPoints.compactMap({ $0.value }).reduce(0, +) }).reduce(0, +)

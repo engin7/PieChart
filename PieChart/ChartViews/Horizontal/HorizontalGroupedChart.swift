@@ -8,102 +8,112 @@
 import UIKit
 
 class HorizontalGroupedChart: ChartViewArea {
-    typealias ChartModel = (String, [(String, Double, Int)])
 
-    private var data: [ChartModel] = []
-
+    
+    private var sortedData: [SeriesDataSet] = []
+ 
     func bind(dataSet: ChartDataSet) {
         let chartData = dataSet.data
-        var sortedData: [SeriesDataSet] = []
-        
+        sum = chartData.compactMap({ $0.seriesPoints.compactMap({ $0.value }).reduce(0, +) }).reduce(0, +)
+
         chartData.forEach { seriesData in
             let sortedPoints = seriesData.seriesPoints.sorted(by: { $0.label > $1.label })
-            
             let sortedSet = SeriesDataSet(seriesName: seriesData.seriesName, seriesPoints: sortedPoints)
             sortedData.append(sortedSet)
         }
-        
-        
-        sum = sortedData.compactMap({ $0.seriesPoints.compactMap({ $0.value }).reduce(0, +) }).reduce(0, +)
 
-        for j in 0 ... sortedData[0].seriesPoints.count - 1 {
-            let points: ChartModel = (sortedData[0].seriesPoints.map({ ($0.label) })[j], sortedData.map({ ($0.seriesName, $0.seriesPoints.map({ ($0.value / sum) })[j], $0.seriesPoints.map({ ($0.index) })[j]) }))
-            print(points)
-            data.append(points)
-        }
     }
-
+    
     // MARK: - Aesthetics
 
     override func draw(_ rect: CGRect) {
-
-        let multiData = data.flatMap({ $0.1 })
-        let maxRatio = multiData.compactMap { $0.1 }.max() ?? 1.0
-        let maxWidth = ((rect.width - 100) / maxRatio)
-
-        let maxValue = maxRatio * sum
+        
+        let multiData = sortedData.flatMap({ $0.seriesPoints })
+        let maxRatio = multiData.compactMap { $0.value }.max() ?? 1.0
+        let maxWidth = (rect.width - 100) / maxRatio
+        let maxValue: Double = maxRatio * sum
         vc.addValuesXAxis(maxValue)
-
-        var i: Int = 0
-        var j: Int = 0
-
-        borderColor.setStroke()
-
-        data.forEach { key, mData in
-
+ 
+        sortedData.enumerated().forEach { i, mData in
+             
             let barAndGap = (thickness + gap)
-            let groupDistanceMultiplier = (barAndGap + 0.5 * thickness) * CGFloat(mData.count)
+            let groupDistanceMultiplier = (barAndGap + 0.5 * thickness) * CGFloat( mData.seriesPoints.count)
             let distanceAmongGroups: CGFloat = (CGFloat(i) * groupDistanceMultiplier)
-
-            mData.forEach { groupName, value, index in
+            
+            mData.seriesPoints.enumerated().forEach { j, sp in
+        
 
                 let distanceAmongBars: CGFloat = (CGFloat(j) * barAndGap) + (barAndGap + 0.5 * thickness)
                 let yValue: CGFloat = distanceAmongGroups + distanceAmongBars
-                let sectionWidth = value * maxWidth * 0.95
+                let sectionWidth = sp.value * maxWidth * 0.95
+                let bgViewWidth = maxRatio * maxWidth * 0.95
 
+                
+                // charts bg view
+                let bgView = UIView()
+                bgView.backgroundColor = .lightGray.withAlphaComponent(0.2)
+                bgView.layer.cornerRadius = thickness / .pi
+                bgView.layer.maskedCorners = [.layerMaxXMinYCorner, .layerMinXMinYCorner]
+                bgView.translatesAutoresizingMaskIntoConstraints = false
+                addSubview(bgView)
+                
+                let color = colors[j]
                 // create bar views
                 let barView = BarView()
-                barView.backgroundColor = colors[j]
+                barView.backgroundColor = color
                 barView.translatesAutoresizingMaskIntoConstraints = false
                 addSubview(barView)
 
                 NSLayoutConstraint.activate([
+                    bgView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 75),
+                    bgView.centerYAnchor.constraint(equalTo: bottomAnchor, constant: -yValue),
+                    bgView.heightAnchor.constraint(equalToConstant: thickness),
+                    bgView.widthAnchor.constraint(equalToConstant: bgViewWidth),
+                    
                     barView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 75),
                     barView.centerYAnchor.constraint(equalTo: bottomAnchor, constant: -yValue),
-                    barView.widthAnchor.constraint(equalToConstant: sectionWidth),
                     barView.heightAnchor.constraint(equalToConstant: thickness),
+                    barView.widthAnchor.constraint(greaterThanOrEqualToConstant: 0),
                 ])
 
                 barView.layer.cornerRadius = thickness / .pi
                 barView.layer.maskedCorners = [.layerMaxXMinYCorner, .layerMaxXMaxYCorner]
-
-                barView.color = colors[j]
-                barView.seriesPoint = AxisData(index: i, label: key, value: value)
+  
+                // show zero height
+                layoutIfNeeded()
+              
+                // animate to section height
+                barView.widthAnchor.constraint(equalToConstant: sectionWidth).isActive = true
+                UIView.animate(withDuration: 0.5, delay: 0.5) {
+                    self.layoutIfNeeded()
+                }
+            
+                barView.color = color
+                barView.seriesPoint = AxisData(index: sp.index, label: sp.label, value: sp.value)
                 barView.point = CGPoint(x: barView.bounds.midX, y: barView.bounds.minY)
-                
+
                 let tapGesture = UITapGestureRecognizer.init(target: self, action: #selector(viewTapped(sender:)))
                 barView.addGestureRecognizer(tapGesture)
                 
-                j += 1
             }
-            j = 0
-
+             
             let label = UILabel()
             label.font = label.font.withSize(12)
-            label.text = key
+            label.text = mData.seriesName
             label.textAlignment = .center
             label.numberOfLines = 1
             label.translatesAutoresizingMaskIntoConstraints = false
             addSubview(label)
 
-            let labelY = distanceAmongGroups + (barAndGap + 0.5 * thickness) + CGFloat(mData.count - 1) * barAndGap * 0.5
+            let labelY = distanceAmongGroups + (barAndGap + 0.5 * thickness) + CGFloat(mData.seriesName.count - 1) * barAndGap * 0.5
 
             NSLayoutConstraint.activate([
-                label.trailingAnchor.constraint(equalTo: leadingAnchor, constant: 70),
-                label.leadingAnchor.constraint(greaterThanOrEqualTo: leadingAnchor, constant: 8),
+                label.heightAnchor.constraint(lessThanOrEqualToConstant: groupDistanceMultiplier * 0.8),
+                label.trailingAnchor.constraint(equalTo: vc.verticalLineView.leadingAnchor, constant: -4),
+                label.leadingAnchor.constraint(greaterThanOrEqualTo: leadingAnchor, constant: 4),
                 label.centerYAnchor.constraint(equalTo: bottomAnchor, constant: -labelY),
             ])
- 
+            
             if i != 0 {
                 let notchView = UIView()
                 notchView.backgroundColor = .lightGray
@@ -111,26 +121,14 @@ class HorizontalGroupedChart: ChartViewArea {
                 addSubview(notchView)
 
                 NSLayoutConstraint.activate([
-                    notchView.centerYAnchor.constraint(equalTo: label.centerYAnchor, constant: groupDistanceMultiplier * 0.5),
+                    notchView.centerYAnchor.constraint(equalTo: label.centerYAnchor, constant: 0.5 * groupDistanceMultiplier),
                     notchView.leadingAnchor.constraint(equalTo: vc.verticalLineView.leadingAnchor, constant: 2),
                     notchView.heightAnchor.constraint(equalToConstant: 2),
                     notchView.widthAnchor.constraint(equalToConstant: 12),
                 ])
             }
             
-            i = i >= colors.count ? 0 : i + 1
         }
     }
 
-    func addLabel(_ leftPoint: CGPoint, _ title: String) {
-        let label = UILabel()
-        label.font = label.font.withSize(12)
-        label.text = title
-        label.translatesAutoresizingMaskIntoConstraints = false
-        addSubview(label)
-
-        label.trailingAnchor.constraint(equalTo: leadingAnchor, constant: leftPoint.x).isActive = true
-        label.leadingAnchor.constraint(greaterThanOrEqualTo: leadingAnchor, constant: 8).isActive = true
-        label.centerYAnchor.constraint(equalTo: topAnchor, constant: leftPoint.y).isActive = true
-    }
 }
