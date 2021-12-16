@@ -9,57 +9,51 @@ import UIKit
 
 class VerticalGroupedChart: ChartViewArea {
     typealias ChartModel = (String, [(String, Double, Int)])
-    private var data: [ChartModel] = []
 
+    private var sortedData: [SeriesDataSet] = []
+
+//    struct SeriesDataSet {
+//    let seriesName: String
+//    let seriesPoints: [AxisData]
+//    }
+//
+    
     func bind(dataSet: ChartDataSet) {
         let chartData = dataSet.data
-        var sortedData: [SeriesDataSet] = []
-        
+        sum = chartData.compactMap({ $0.seriesPoints.compactMap({ $0.value }).reduce(0, +) }).reduce(0, +)
+
         chartData.forEach { seriesData in
             let sortedPoints = seriesData.seriesPoints.sorted(by: { $0.label > $1.label })
-            
             let sortedSet = SeriesDataSet(seriesName: seriesData.seriesName, seriesPoints: sortedPoints)
             sortedData.append(sortedSet)
         }
-        
-        
-        sum = sortedData.compactMap({ $0.seriesPoints.compactMap({ $0.value }).reduce(0, +) }).reduce(0, +)
 
-        for j in 0 ... sortedData[0].seriesPoints.count - 1 {
-            let points: ChartModel = (sortedData[0].seriesPoints.map({ ($0.label) })[j], sortedData.map({ ($0.seriesName, $0.seriesPoints.map({ ($0.value / sum) })[j], $0.seriesPoints.map({ ($0.index) })[j]) }))
-            print(points)
-            data.append(points)
-        }
     }
-
+    
     // MARK: - Aesthetics
 
     override func draw(_ rect: CGRect) {
 
-        let multiData = data.flatMap({ $0.1 })
-        let maxRatio = multiData.compactMap { $0.1 }.max() ?? 1.0
+        let multiData = sortedData.flatMap({ $0.seriesPoints })
+        let maxRatio = multiData.compactMap { $0.value }.max() ?? 1.0
 
         let maxValue: Double = maxRatio * sum
         vc.addValuesYAxis(maxValue)
 
         let maxHeight = ((rect.height - 50) / maxRatio)
-
-        var i: Int = 0
-        var j: Int = 0
-
-        borderColor.setStroke()
-
-        data.forEach { key, mData in
-
+ 
+        sortedData.enumerated().forEach { i, mData in
+             
             let barAndGap = (thickness + gap)
-            let groupDistanceMultiplier = (barAndGap + 0.5 * thickness) * CGFloat(mData.count)
+            let groupDistanceMultiplier = (barAndGap + 0.5 * thickness) * CGFloat( mData.seriesPoints.count)
             let distanceAmongGroups: CGFloat = (CGFloat(i) * groupDistanceMultiplier)
-
-            mData.forEach { groupName, value, index in
+            
+            mData.seriesPoints.enumerated().forEach { j, sp in
+        
 
                 let distanceAmongBars: CGFloat = (CGFloat(j) * barAndGap) + (barAndGap + 0.5 * thickness)
                 let xValue: CGFloat = distanceAmongGroups + distanceAmongBars
-                let sectionHeight = value * maxHeight * 0.95
+                let sectionHeight = sp.value * maxHeight * 0.95
                 let bgViewHeight = maxRatio * maxHeight * 0.95
 
                 
@@ -71,10 +65,10 @@ class VerticalGroupedChart: ChartViewArea {
                 bgView.translatesAutoresizingMaskIntoConstraints = false
                 addSubview(bgView)
                 
-                
+                let color = colors[j]
                 // create bar views
                 let barView = BarView()
-                barView.backgroundColor = colors[i]
+                barView.backgroundColor = color
                 barView.translatesAutoresizingMaskIntoConstraints = false
                 addSubview(barView)
 
@@ -102,32 +96,29 @@ class VerticalGroupedChart: ChartViewArea {
                     self.layoutIfNeeded()
                 }
             
-                barView.color = colors[j]
-                barView.seriesPoint = AxisData(index: j, label: key, value: value*sum)
+                barView.color = color
+                barView.seriesPoint = AxisData(index: sp.index, label: sp.label, value: sp.value)
                 barView.point = CGPoint(x: barView.bounds.midX, y: barView.bounds.minY)
 
-                
                 let tapGesture = UITapGestureRecognizer.init(target: self, action: #selector(viewTapped(sender:)))
                 barView.addGestureRecognizer(tapGesture)
                 
-                j += 1
             }
-            j = 0
-
+             
             let label = UILabel()
             label.font = label.font.withSize(12)
-            label.text = key
+            label.text = mData.seriesName
             label.textAlignment = .center
             label.numberOfLines = 1
             label.translatesAutoresizingMaskIntoConstraints = false
             addSubview(label)
 
-            let labelX = distanceAmongGroups + (barAndGap + 0.5 * thickness) + CGFloat(mData.count - 1) * barAndGap * 0.5
+            let labelX = distanceAmongGroups + CGFloat(mData.seriesPoints.count) * barAndGap * 0.5
             label.widthAnchor.constraint(lessThanOrEqualToConstant: 50).isActive = true
             label.centerXAnchor.constraint(equalTo: leadingAnchor, constant: labelX).isActive = true
             label.topAnchor.constraint(equalTo: bottomAnchor, constant: -45).isActive = true
 
-            if i != data.count-1 {
+            if i != sortedData.count-1 {
                 let notchView = UIView()
                 notchView.backgroundColor = .lightGray
                 notchView.translatesAutoresizingMaskIntoConstraints = false
@@ -140,9 +131,7 @@ class VerticalGroupedChart: ChartViewArea {
                     notchView.widthAnchor.constraint(equalToConstant: 2),
                 ])
             }
-          
-            
-            i = i >= colors.count ? 0 : i + 1
+           
         }
     }
  
