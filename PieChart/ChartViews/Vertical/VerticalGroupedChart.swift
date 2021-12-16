@@ -113,7 +113,7 @@ class VerticalGroupedChart: ChartViewArea {
             label.translatesAutoresizingMaskIntoConstraints = false
             addSubview(label)
 
-            let labelX = distanceAmongGroups +  (barAndGap + 0.5 * thickness) + CGFloat(mData.seriesPoints.count - 1) * barAndGap * 0.5
+            let labelX = distanceAmongGroups +  0.5 * (barAndGap + thickness) + CGFloat(mData.seriesPoints.count) * barAndGap * 0.5
             label.widthAnchor.constraint(lessThanOrEqualToConstant: groupDistanceMultiplier * 0.8).isActive = true
             label.centerXAnchor.constraint(equalTo: leadingAnchor, constant: labelX).isActive = true
             label.topAnchor.constraint(equalTo: bottomAnchor, constant: -45).isActive = true
